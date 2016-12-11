@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/movie_poster_card"
+        android:layout_gravity="left"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        card_view:cardCornerRadius="4dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:ems="10"
+            android:id="@+id/searchField"
+            android:textAlignment="center"
+            android:background="@android:color/transparent"
+            android:inputType="text"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            card_view:srcCompat="?android:attr/actionModeWebSearchDrawable"
+            android:id="@+id/search_button"
+            android:layout_gravity="right"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="20dp"
+            android:onClick="searchMovies" />
+
+    </android.support.v7.widget.CardView>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/search_result_1"
+            android:layout_gravity="left"
+            android:layout_width="100dp"
+            android:layout_height="150dp"
+            card_view:cardCornerRadius="4dp"
+            android:layout_marginTop="75dp"
+            android:layout_marginLeft="30dp"
+            android:visibility="invisible">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                card_view:srcCompat="@mipmap/ic_launcher"
+                android:id="@+id/search_result_1_poster"
+                android:scaleType="fitXY"/>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/search_result_2"
+            android:layout_gravity="center"
+            android:layout_width="100dp"
+            android:layout_height="150dp"
+            card_view:cardCornerRadius="4dp"
+            android:layout_marginTop="-150dp"
+            android:visibility="invisible">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                card_view:srcCompat="@mipmap/ic_launcher"
+                android:id="@+id/search_result_2_poster"
+                android:scaleType="fitXY"/>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/search_result_3"
+            android:layout_gravity="right"
+            android:layout_width="100dp"
+            android:layout_height="150dp"
+            card_view:cardCornerRadius="4dp"
+            android:layout_marginTop="-150dp"
+            android:layout_marginRight="30dp"
+            android:visibility="invisible">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                card_view:srcCompat="@mipmap/ic_launcher"
+                android:id="@+id/search_result_3_poster"
+                android:scaleType="fitXY"/>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/search_result_4"
+            android:layout_gravity="left"
+            android:layout_width="100dp"
+            android:layout_height="150dp"
+            card_view:cardCornerRadius="4dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="30dp"
+            android:visibility="invisible">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                card_view:srcCompat="@mipmap/ic_launcher"
+                android:id="@+id/search_result_4_poster"
+                android:scaleType="fitXY"/>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/search_result_5"
+            android:layout_gravity="center"
+            android:layout_width="100dp"
+            android:layout_height="150dp"
+            card_view:cardCornerRadius="4dp"
+            android:layout_marginTop="-150dp"
+            android:visibility="invisible">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                card_view:srcCompat="@mipmap/ic_launcher"
+                android:id="@+id/search_result_5_poster"
+                android:scaleType="fitXY"/>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/search_result_6"
+            android:layout_gravity="right"
+            android:layout_width="100dp"
+            android:layout_height="150dp"
+            card_view:cardCornerRadius="4dp"
+            android:layout_marginTop="-150dp"
+            android:layout_marginRight="30dp"
+            android:visibility="invisible">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                card_view:srcCompat="@mipmap/ic_launcher"
+                android:id="@+id/search_result_6_poster"
+                android:scaleType="fitXY"/>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/search_result_7"
+            android:layout_gravity="left"
+            android:layout_width="100dp"
+            android:layout_height="150dp"
+            card_view:cardCornerRadius="4dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="30dp"
+            android:visibility="invisible">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                card_view:srcCompat="@mipmap/ic_launcher"
+                android:id="@+id/search_result_7_poster"
+                android:scaleType="fitXY"/>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/search_result_8"
+            android:layout_gravity="center"
+            android:layout_width="100dp"
+            android:layout_height="150dp"
+            card_view:cardCornerRadius="4dp"
+            android:layout_marginTop="-150dp"
+            android:visibility="invisible">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                card_view:srcCompat="@mipmap/ic_launcher"
+                android:id="@+id/search_result_8_poster"
+                android:scaleType="fitXY"/>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/search_result_9"
+            android:layout_gravity="right"
+            android:layout_width="100dp"
+            android:layout_height="150dp"
+            card_view:cardCornerRadius="4dp"
+            android:layout_marginTop="-150dp"
+            android:layout_marginRight="30dp"
+            android:visibility="invisible">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                card_view:srcCompat="@mipmap/ic_launcher"
+                android:id="@+id/search_result_9_poster"
+                android:scaleType="fitXY"/>
+        </android.support.v7.widget.CardView>
+
+    </LinearLayout>
+    </ScrollView>
+</FrameLayout>

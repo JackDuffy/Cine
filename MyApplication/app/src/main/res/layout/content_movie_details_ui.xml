@@ -1,0 +1,1228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@android:color/white">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="231dp"
+                card_view:srcCompat="@drawable/side_nav_bar"
+                android:layout_alignParentStart="true"
+                android:id="@+id/movie_backdrop"
+                android:layout_alignParentEnd="true"
+                android:adjustViewBounds="true" />
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/movie_poster_card"
+            android:layout_gravity="left"
+            android:layout_width="100dp"
+            android:layout_height="150dp"
+            card_view:cardCornerRadius="4dp"
+            android:layout_marginTop="-75dp"
+            android:layout_marginLeft="20dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                card_view:srcCompat="@mipmap/ic_launcher"
+                android:id="@+id/movie_poster"
+                android:scaleType="fitXY"/>
+        </android.support.v7.widget.CardView>
+
+        <TextView
+            android:text="TextView"
+            android:layout_gravity="left"
+            android:layout_width="276dp"
+            android:layout_height="43dp"
+            android:id="@+id/movie_name"
+            android:layout_marginTop="-70dp"
+            android:layout_marginLeft="135dp"
+            android:textSize="30sp"
+            android:singleLine="true" />
+
+        <TextView
+            android:text="TextView"
+            android:layout_gravity="left"
+            android:layout_width="276dp"
+            android:layout_height="43dp"
+            android:id="@+id/movie_release_date"
+            android:layout_marginTop="-5dp"
+            android:layout_marginLeft="135dp"
+            android:textSize="15sp" />
+
+        <TextView
+            android:text="TextView"
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/movie_tagline"
+            android:layout_margin="20dp"
+            android:textSize="15sp"
+            android:textStyle="normal|italic" />
+
+        <TextView
+            android:text="TextView"
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/movie_overview"
+            android:layout_marginTop="-10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:textSize="15sp" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            card_view:srcCompat="@drawable/side_nav_bar"
+            android:layout_alignParentStart="true"
+            android:id="@+id/movie_rating_backdrop"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="75dp"
+            android:adjustViewBounds="true"/>
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            card_view:srcCompat="@mipmap/ic_launcher"
+            android:layout_alignParentStart="true"
+            android:id="@+id/movie_rating"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="-160dp"
+            android:adjustViewBounds="true"
+            android:layout_gravity="center"/>
+
+        <TextView
+            android:text="Cast"
+            android:layout_gravity="center"
+            android:textAlignment="inherit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/cast_title"
+            android:layout_marginTop="75dp"
+            android:layout_marginLeft="20dp"
+            android:textSize="20sp" />
+
+        <HorizontalScrollView
+            android:scrollbars="none"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="100dp"
+            android:layout_height="200dp"
+            android:orientation="horizontal" >
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/cast_actor_1"
+                android:layout_gravity="top|center"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                card_view:cardCornerRadius="50dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginLeft="20dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    card_view:srcCompat="@mipmap/ic_launcher"
+                    android:id="@+id/cast_actor_1_img"
+                    android:scaleType="fitXY"
+                    android:onClick="cast1" />
+            </android.support.v7.widget.CardView>
+
+            <TextView
+                android:text="Actor"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/cast_actor_1_name"
+                android:paddingTop="0dp"
+                android:textSize="20sp"
+                android:layout_marginLeft="-100dp"
+                android:layout_marginBottom="-20dp"
+                android:lineSpacingExtra="-5dp"/>
+
+            <TextView
+                android:text="Character"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/cast_actor_1_character"
+                android:paddingTop="0dp"
+                android:textSize="15sp"
+                android:layout_marginLeft="-100dp"
+                android:layout_marginBottom="-60dp"
+                android:lineSpacingExtra="-5dp"
+                android:textStyle="italic"/>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/cast_actor_2"
+                android:layout_gravity="top|center"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                card_view:cardCornerRadius="50dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginLeft="20dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    card_view:srcCompat="@mipmap/ic_launcher"
+                    android:id="@+id/cast_actor_2_img"
+                    android:scaleType="fitXY"
+                    android:onClick="cast2" />
+            </android.support.v7.widget.CardView>
+
+            <TextView
+                android:text="Actor"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/cast_actor_2_name"
+                android:paddingTop="0dp"
+                android:textSize="20sp"
+                android:layout_marginLeft="-100dp"
+                android:layout_marginBottom="-20dp"
+                android:lineSpacingExtra="-5dp"/>
+
+            <TextView
+                android:text="Character"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/cast_actor_2_character"
+                android:paddingTop="0dp"
+                android:textSize="15sp"
+                android:layout_marginLeft="-100dp"
+                android:layout_marginBottom="-60dp"
+                android:lineSpacingExtra="-5dp"
+                android:textStyle="italic"/>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/cast_actor_3"
+                android:layout_gravity="top|center"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                card_view:cardCornerRadius="50dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginLeft="20dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    card_view:srcCompat="@mipmap/ic_launcher"
+                    android:id="@+id/cast_actor_3_img"
+                    android:scaleType="fitXY"
+                    android:onClick="cast3" />
+            </android.support.v7.widget.CardView>
+
+            <TextView
+                android:text="Actor"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/cast_actor_3_name"
+                android:paddingTop="0dp"
+                android:textSize="20sp"
+                android:layout_marginLeft="-100dp"
+                android:layout_marginBottom="-20dp"
+                android:lineSpacingExtra="-5dp"/>
+
+            <TextView
+                android:text="Character"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/cast_actor_3_character"
+                android:paddingTop="0dp"
+                android:textSize="15sp"
+                android:layout_marginLeft="-100dp"
+                android:layout_marginBottom="-60dp"
+                android:lineSpacingExtra="-5dp"
+                android:textStyle="italic"/>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/cast_actor_4"
+                android:layout_gravity="top|center"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                card_view:cardCornerRadius="50dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginLeft="20dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    card_view:srcCompat="@mipmap/ic_launcher"
+                    android:id="@+id/cast_actor_4_img"
+                    android:scaleType="fitXY"
+                    android:onClick="cast4" />
+            </android.support.v7.widget.CardView>
+
+            <TextView
+                android:text="Actor"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/cast_actor_4_name"
+                android:paddingTop="0dp"
+                android:textSize="20sp"
+                android:layout_marginLeft="-100dp"
+                android:layout_marginBottom="-20dp"
+                android:lineSpacingExtra="-5dp"/>
+
+            <TextView
+                android:text="Character"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/cast_actor_4_character"
+                android:paddingTop="0dp"
+                android:textSize="15sp"
+                android:layout_marginLeft="-100dp"
+                android:layout_marginBottom="-60dp"
+                android:lineSpacingExtra="-5dp"
+                android:textStyle="italic"/>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/cast_actor_5"
+                android:layout_gravity="top|center"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                card_view:cardCornerRadius="50dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginLeft="20dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    card_view:srcCompat="@mipmap/ic_launcher"
+                    android:id="@+id/cast_actor_5_img"
+                    android:scaleType="fitXY"
+                    android:onClick="cast5" />
+            </android.support.v7.widget.CardView>
+
+            <TextView
+                android:text="Actor"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/cast_actor_5_name"
+                android:paddingTop="0dp"
+                android:textSize="20sp"
+                android:layout_marginLeft="-100dp"
+                android:layout_marginBottom="-20dp"
+                android:lineSpacingExtra="-5dp"/>
+
+            <TextView
+                android:text="Character"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/cast_actor_5_character"
+                android:paddingTop="0dp"
+                android:textSize="15sp"
+                android:layout_marginLeft="-100dp"
+                android:layout_marginBottom="-60dp"
+                android:lineSpacingExtra="-5dp"
+                android:textStyle="italic"/>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/cast_actor_6"
+                android:layout_gravity="top|center"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                card_view:cardCornerRadius="50dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginLeft="20dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    card_view:srcCompat="@mipmap/ic_launcher"
+                    android:id="@+id/cast_actor_6_img"
+                    android:scaleType="fitXY"
+                    android:onClick="cast6" />
+            </android.support.v7.widget.CardView>
+
+            <TextView
+                android:text="Actor"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/cast_actor_6_name"
+                android:paddingTop="0dp"
+                android:textSize="20sp"
+                android:layout_marginLeft="-100dp"
+                android:layout_marginBottom="-20dp"
+                android:lineSpacingExtra="-5dp"/>
+
+            <TextView
+                android:text="Character"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/cast_actor_6_character"
+                android:paddingTop="0dp"
+                android:textSize="15sp"
+                android:layout_marginLeft="-100dp"
+                android:layout_marginBottom="-60dp"
+                android:lineSpacingExtra="-5dp"
+                android:textStyle="italic"/>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/cast_actor_7"
+                android:layout_gravity="top|center"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                card_view:cardCornerRadius="50dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginLeft="20dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    card_view:srcCompat="@mipmap/ic_launcher"
+                    android:id="@+id/cast_actor_7_img"
+                    android:scaleType="fitXY"
+                    android:onClick="cast7" />
+            </android.support.v7.widget.CardView>
+
+            <TextView
+                android:text="Actor"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/cast_actor_7_name"
+                android:paddingTop="0dp"
+                android:textSize="20sp"
+                android:layout_marginLeft="-100dp"
+                android:layout_marginBottom="-20dp"
+                android:lineSpacingExtra="-5dp"/>
+
+            <TextView
+                android:text="Character"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/cast_actor_7_character"
+                android:paddingTop="0dp"
+                android:textSize="15sp"
+                android:layout_marginLeft="-100dp"
+                android:layout_marginBottom="-60dp"
+                android:lineSpacingExtra="-5dp"
+                android:textStyle="italic"/>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/cast_actor_8"
+                android:layout_gravity="top|center"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                card_view:cardCornerRadius="50dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginLeft="20dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    card_view:srcCompat="@mipmap/ic_launcher"
+                    android:id="@+id/cast_actor_8_img"
+                    android:scaleType="fitXY"
+                    android:onClick="cast8" />
+            </android.support.v7.widget.CardView>
+
+            <TextView
+                android:text="Actor"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/cast_actor_8_name"
+                android:paddingTop="0dp"
+                android:textSize="20sp"
+                android:layout_marginLeft="-100dp"
+                android:layout_marginBottom="-20dp"
+                android:lineSpacingExtra="-5dp"/>
+
+            <TextView
+                android:text="Character"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/cast_actor_8_character"
+                android:paddingTop="0dp"
+                android:textSize="15sp"
+                android:layout_marginLeft="-100dp"
+                android:layout_marginBottom="-60dp"
+                android:lineSpacingExtra="-5dp"
+                android:textStyle="italic"/>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/cast_actor_9"
+                android:layout_gravity="top|center"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                card_view:cardCornerRadius="50dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginLeft="20dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    card_view:srcCompat="@mipmap/ic_launcher"
+                    android:id="@+id/cast_actor_9_img"
+                    android:scaleType="fitXY"
+                    android:onClick="cast9" />
+            </android.support.v7.widget.CardView>
+
+            <TextView
+                android:text="Actor"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/cast_actor_9_name"
+                android:paddingTop="0dp"
+                android:textSize="20sp"
+                android:layout_marginLeft="-100dp"
+                android:layout_marginBottom="-20dp"
+                android:lineSpacingExtra="-5dp"/>
+
+            <TextView
+                android:text="Character"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/cast_actor_9_character"
+                android:paddingTop="0dp"
+                android:textSize="15sp"
+                android:layout_marginLeft="-100dp"
+                android:layout_marginBottom="-60dp"
+                android:lineSpacingExtra="-5dp"
+                android:textStyle="italic"/>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/cast_actor_10"
+                android:layout_gravity="top|center"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                card_view:cardCornerRadius="50dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginLeft="20dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    card_view:srcCompat="@mipmap/ic_launcher"
+                    android:id="@+id/cast_actor_10_img"
+                    android:scaleType="fitXY"
+                    android:onClick="cast10" />
+            </android.support.v7.widget.CardView>
+
+            <TextView
+                android:text="Actor"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/cast_actor_10_name"
+                android:paddingTop="0dp"
+                android:textSize="20sp"
+                android:layout_marginLeft="-100dp"
+                android:layout_marginBottom="-20dp"
+                android:lineSpacingExtra="-5dp"/>
+
+            <TextView
+                android:text="Character"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/cast_actor_10_character"
+                android:paddingTop="0dp"
+                android:textSize="15sp"
+                android:layout_marginLeft="-100dp"
+                android:layout_marginBottom="-60dp"
+                android:lineSpacingExtra="-5dp"
+                android:textStyle="italic"/>
+            </LinearLayout>
+        </HorizontalScrollView>
+
+        <TextView
+            android:text="Crew"
+            android:layout_gravity="center"
+            android:textAlignment="inherit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/crew_title"
+            android:layout_marginTop="0dp"
+            android:layout_marginLeft="20dp"
+            android:textSize="20sp" />
+
+        <HorizontalScrollView
+            android:scrollbars="none"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="0dp">
+
+        <LinearLayout
+            android:layout_width="100dp"
+            android:layout_height="200dp"
+            android:orientation="horizontal" >
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/cast_1"
+                android:layout_gravity="top|center"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                card_view:cardCornerRadius="50dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginLeft="20dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    card_view:srcCompat="@mipmap/ic_launcher"
+                    android:id="@+id/crew_1_img"
+                    android:scaleType="fitXY"
+                    android:onClick="crew1" />
+            </android.support.v7.widget.CardView>
+
+            <TextView
+                android:text="Name"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/crew_1_name"
+                android:paddingTop="0dp"
+                android:textSize="20sp"
+                android:layout_marginLeft="-100dp"
+                android:layout_marginBottom="-20dp"
+                android:lineSpacingExtra="-5dp"/>
+
+            <TextView
+                android:text="Job"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/crew_1_job"
+                android:paddingTop="0dp"
+                android:textSize="15sp"
+                android:layout_marginLeft="-100dp"
+                android:layout_marginBottom="-60dp"
+                android:lineSpacingExtra="-5dp"
+                android:textStyle="italic"/>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/cast_2"
+                android:layout_gravity="top|center"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                card_view:cardCornerRadius="50dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginLeft="20dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    card_view:srcCompat="@mipmap/ic_launcher"
+                    android:id="@+id/crew_2_img"
+                    android:scaleType="fitXY"
+                    android:onClick="crew1" />
+            </android.support.v7.widget.CardView>
+
+            <TextView
+                android:text="Name"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/crew_2_name"
+                android:paddingTop="0dp"
+                android:textSize="20sp"
+                android:layout_marginLeft="-100dp"
+                android:layout_marginBottom="-20dp"
+                android:lineSpacingExtra="-5dp"/>
+
+            <TextView
+                android:text="Job"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/crew_2_job"
+                android:paddingTop="0dp"
+                android:textSize="15sp"
+                android:layout_marginLeft="-100dp"
+                android:layout_marginBottom="-60dp"
+                android:lineSpacingExtra="-5dp"
+                android:textStyle="italic"/>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/cast_3"
+                android:layout_gravity="top|center"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                card_view:cardCornerRadius="50dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginLeft="20dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    card_view:srcCompat="@mipmap/ic_launcher"
+                    android:id="@+id/crew_3_img"
+                    android:scaleType="fitXY"
+                    android:onClick="crew1" />
+            </android.support.v7.widget.CardView>
+
+            <TextView
+                android:text="Name"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/crew_3_name"
+                android:paddingTop="0dp"
+                android:textSize="20sp"
+                android:layout_marginLeft="-100dp"
+                android:layout_marginBottom="-20dp"
+                android:lineSpacingExtra="-5dp"/>
+
+            <TextView
+                android:text="Job"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/crew_3_job"
+                android:paddingTop="0dp"
+                android:textSize="15sp"
+                android:layout_marginLeft="-100dp"
+                android:layout_marginBottom="-60dp"
+                android:lineSpacingExtra="-5dp"
+                android:textStyle="italic"/>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/cast_4"
+                android:layout_gravity="top|center"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                card_view:cardCornerRadius="50dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginLeft="20dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    card_view:srcCompat="@mipmap/ic_launcher"
+                    android:id="@+id/crew_4_img"
+                    android:scaleType="fitXY"
+                    android:onClick="crew1" />
+            </android.support.v7.widget.CardView>
+
+            <TextView
+                android:text="Name"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/crew_4_name"
+                android:paddingTop="0dp"
+                android:textSize="20sp"
+                android:layout_marginLeft="-100dp"
+                android:layout_marginBottom="-20dp"
+                android:lineSpacingExtra="-5dp"/>
+
+            <TextView
+                android:text="Job"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/crew_4_job"
+                android:paddingTop="0dp"
+                android:textSize="15sp"
+                android:layout_marginLeft="-100dp"
+                android:layout_marginBottom="-60dp"
+                android:lineSpacingExtra="-5dp"
+                android:textStyle="italic"/>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/cast_5"
+                android:layout_gravity="top|center"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                card_view:cardCornerRadius="50dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginLeft="20dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    card_view:srcCompat="@mipmap/ic_launcher"
+                    android:id="@+id/crew_5_img"
+                    android:scaleType="fitXY"
+                    android:onClick="crew1" />
+            </android.support.v7.widget.CardView>
+
+            <TextView
+                android:text="Name"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/crew_5_name"
+                android:paddingTop="0dp"
+                android:textSize="20sp"
+                android:layout_marginLeft="-100dp"
+                android:layout_marginBottom="-20dp"
+                android:lineSpacingExtra="-5dp"/>
+
+            <TextView
+                android:text="Job"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/crew_5_job"
+                android:paddingTop="0dp"
+                android:textSize="15sp"
+                android:layout_marginLeft="-100dp"
+                android:layout_marginBottom="-60dp"
+                android:lineSpacingExtra="-5dp"
+                android:textStyle="italic"/>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/cast_6"
+                android:layout_gravity="top|center"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                card_view:cardCornerRadius="50dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginLeft="20dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    card_view:srcCompat="@mipmap/ic_launcher"
+                    android:id="@+id/crew_6_img"
+                    android:scaleType="fitXY"
+                    android:onClick="crew1" />
+            </android.support.v7.widget.CardView>
+
+            <TextView
+                android:text="Name"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/crew_6_name"
+                android:paddingTop="0dp"
+                android:textSize="20sp"
+                android:layout_marginLeft="-100dp"
+                android:layout_marginBottom="-20dp"
+                android:lineSpacingExtra="-5dp"/>
+
+            <TextView
+                android:text="Job"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/crew_6_job"
+                android:paddingTop="0dp"
+                android:textSize="15sp"
+                android:layout_marginLeft="-100dp"
+                android:layout_marginBottom="-60dp"
+                android:lineSpacingExtra="-5dp"
+                android:textStyle="italic"/>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/cast_7"
+                android:layout_gravity="top|center"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                card_view:cardCornerRadius="50dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginLeft="20dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    card_view:srcCompat="@mipmap/ic_launcher"
+                    android:id="@+id/crew_7_img"
+                    android:scaleType="fitXY"
+                    android:onClick="crew1" />
+            </android.support.v7.widget.CardView>
+
+            <TextView
+                android:text="Name"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/crew_7_name"
+                android:paddingTop="0dp"
+                android:textSize="20sp"
+                android:layout_marginLeft="-100dp"
+                android:layout_marginBottom="-20dp"
+                android:lineSpacingExtra="-5dp"/>
+
+            <TextView
+                android:text="Job"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/crew_7_job"
+                android:paddingTop="0dp"
+                android:textSize="15sp"
+                android:layout_marginLeft="-100dp"
+                android:layout_marginBottom="-60dp"
+                android:lineSpacingExtra="-5dp"
+                android:textStyle="italic"/>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/cast_8"
+                android:layout_gravity="top|center"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                card_view:cardCornerRadius="50dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginLeft="20dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    card_view:srcCompat="@mipmap/ic_launcher"
+                    android:id="@+id/crew_8_img"
+                    android:scaleType="fitXY"
+                    android:onClick="crew1" />
+            </android.support.v7.widget.CardView>
+
+            <TextView
+                android:text="Name"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/crew_8_name"
+                android:paddingTop="0dp"
+                android:textSize="20sp"
+                android:layout_marginLeft="-100dp"
+                android:layout_marginBottom="-20dp"
+                android:lineSpacingExtra="-5dp"/>
+
+            <TextView
+                android:text="Job"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/crew_8_job"
+                android:paddingTop="0dp"
+                android:textSize="15sp"
+                android:layout_marginLeft="-100dp"
+                android:layout_marginBottom="-60dp"
+                android:lineSpacingExtra="-5dp"
+                android:textStyle="italic"/>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/cast_9"
+                android:layout_gravity="top|center"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                card_view:cardCornerRadius="50dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginLeft="20dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    card_view:srcCompat="@mipmap/ic_launcher"
+                    android:id="@+id/crew_9_img"
+                    android:scaleType="fitXY"
+                    android:onClick="crew1" />
+            </android.support.v7.widget.CardView>
+
+            <TextView
+                android:text="Name"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/crew_9_name"
+                android:paddingTop="0dp"
+                android:textSize="20sp"
+                android:layout_marginLeft="-100dp"
+                android:layout_marginBottom="-20dp"
+                android:lineSpacingExtra="-5dp"/>
+
+            <TextView
+                android:text="Job"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/crew_9_job"
+                android:paddingTop="0dp"
+                android:textSize="15sp"
+                android:layout_marginLeft="-100dp"
+                android:layout_marginBottom="-60dp"
+                android:lineSpacingExtra="-5dp"
+                android:textStyle="italic"/>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/cast_10"
+                android:layout_gravity="top|center"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                card_view:cardCornerRadius="50dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginLeft="20dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    card_view:srcCompat="@mipmap/ic_launcher"
+                    android:id="@+id/crew_10_img"
+                    android:scaleType="fitXY"
+                    android:onClick="crew1" />
+            </android.support.v7.widget.CardView>
+
+            <TextView
+                android:text="Name"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/crew_10_name"
+                android:paddingTop="0dp"
+                android:textSize="20sp"
+                android:layout_marginLeft="-100dp"
+                android:layout_marginBottom="-20dp"
+                android:lineSpacingExtra="-5dp"/>
+
+            <TextView
+                android:text="Job"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/crew_10_job"
+                android:paddingTop="0dp"
+                android:textSize="15sp"
+                android:layout_marginLeft="-100dp"
+                android:layout_marginBottom="-60dp"
+                android:lineSpacingExtra="-5dp"
+                android:textStyle="italic"/>
+
+
+
+
+
+            </LinearLayout>
+        </HorizontalScrollView>
+
+
+
+
+
+
+        <TextView
+            android:text="Technical Specifications"
+            android:layout_gravity="center"
+            android:textAlignment="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/technical_specs_title"
+            android:layout_marginTop="75dp"
+            android:textSize="15sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="match_parent"
+                card_view:srcCompat="@drawable/details_runtime"
+                android:layout_alignParentStart="true"
+                android:id="@+id/movie_runtime_icon"
+                android:layout_alignParentEnd="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:adjustViewBounds="true"
+                android:layout_gravity="left"/>
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                card_view:srcCompat="@drawable/details_language"
+                android:layout_alignParentStart="true"
+                android:id="@+id/movie_language_icon"
+                android:layout_alignParentEnd="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:adjustViewBounds="true"
+                android:layout_gravity="left"/>
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                card_view:srcCompat="@drawable/details_budget"
+                android:layout_alignParentStart="true"
+                android:id="@+id/movie_budget_icon"
+                android:layout_alignParentEnd="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:adjustViewBounds="true"
+                android:layout_gravity="left"/>
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                card_view:srcCompat="@drawable/details_revenue"
+                android:layout_alignParentStart="true"
+                android:id="@+id/movie_revenue_icon"
+                android:layout_alignParentEnd="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:adjustViewBounds="true"
+                android:layout_gravity="left"/>
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                card_view:srcCompat="@drawable/details_voters"
+                android:layout_alignParentStart="true"
+                android:id="@+id/movie_voters_icon"
+                android:layout_alignParentEnd="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:adjustViewBounds="true"
+                android:layout_gravity="left"/>
+
+            </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <TextView
+                android:text="000m"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:id="@+id/movie_runtime"
+                android:textSize="15sp" />
+
+            <TextView
+                android:text="000m"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:id="@+id/movie_language"
+                android:textSize="15sp" />
+
+            <TextView
+                android:text="000m"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:id="@+id/movie_budget"
+                android:textSize="15sp" />
+
+            <TextView
+                android:text="000m"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:id="@+id/movie_revenue"
+                android:textSize="15sp" />
+
+            <TextView
+                android:text="000m"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:id="@+id/movie_voters"
+                android:textSize="15sp" />
+            </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+                <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:name="com.google.android.gms.maps.MapFragment"
+                    android:id="@+id/map"
+                    android:layout_width="match_parent"
+                    android:layout_height="400dp"/>
+
+            </LinearLayout>
+
+    </LinearLayout>
+    </ScrollView>
+
+
+
+</FrameLayout>
