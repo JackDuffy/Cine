@@ -59,39 +59,139 @@ public class SearchUI extends AppCompatActivity {
     String ID;
 
     //region Generate all potential ImageView elements
-    ImageView iv1;
-    ImageView iv2;
-    ImageView iv3;
-    ImageView iv4;
-    ImageView iv5;
-    ImageView iv6;
-    ImageView iv7;
-    ImageView iv8;
-    ImageView iv9;
+    ImageView searchPoster1;
+    ImageView searchPoster2;
+    ImageView searchPoster3;
+    ImageView searchPoster4;
+    ImageView searchPoster5;
+    ImageView searchPoster6;
+    ImageView searchPoster7;
+    ImageView searchPoster8;
+    ImageView searchPoster9;
+    ImageView searchPoster10;
+    ImageView searchPoster11;
+    ImageView searchPoster12;
+    ImageView searchPoster13;
+    ImageView searchPoster14;
+    ImageView searchPoster15;
+    ImageView searchPoster16;
+    ImageView searchPoster17;
+    ImageView searchPoster18;
+    ImageView searchPoster19;
+    ImageView searchPoster20;
+    ImageView searchPoster21;
+    ImageView searchPoster22;
+    ImageView searchPoster23;
+    ImageView searchPoster24;
+    ImageView searchPoster25;
     //endregion
 
+    TextView searchNameLabel1;
+    TextView searchNameLabel2;
+    TextView searchNameLabel3;
+    TextView searchNameLabel4;
+    TextView searchNameLabel5;
+    TextView searchNameLabel6;
+    TextView searchNameLabel7;
+    TextView searchNameLabel8;
+    TextView searchNameLabel9;
+    TextView searchNameLabel10;
+    TextView searchNameLabel11;
+    TextView searchNameLabel12;
+    TextView searchNameLabel13;
+    TextView searchNameLabel14;
+    TextView searchNameLabel15;
+    TextView searchNameLabel16;
+    TextView searchNameLabel17;
+    TextView searchNameLabel18;
+    TextView searchNameLabel19;
+    TextView searchNameLabel20;
+    TextView searchNameLabel21;
+    TextView searchNameLabel22;
+    TextView searchNameLabel23;
+    TextView searchNameLabel24;
+    TextView searchNameLabel25;
+
     //region Generate all potential Bitmap items
-    Bitmap bitmap1;
-    Bitmap bitmap2;
-    Bitmap bitmap3;
-    Bitmap bitmap4;
-    Bitmap bitmap5;
-    Bitmap bitmap6;
-    Bitmap bitmap7;
-    Bitmap bitmap8;
-    Bitmap bitmap9;
+    Bitmap searchPosterBitmap1;
+    Bitmap searchPosterBitmap2;
+    Bitmap searchPosterBitmap3;
+    Bitmap searchPosterBitmap4;
+    Bitmap searchPosterBitmap5;
+    Bitmap searchPosterBitmap6;
+    Bitmap searchPosterBitmap7;
+    Bitmap searchPosterBitmap8;
+    Bitmap searchPosterBitmap9;
+    Bitmap searchPosterBitmap10;
+    Bitmap searchPosterBitmap11;
+    Bitmap searchPosterBitmap12;
+    Bitmap searchPosterBitmap13;
+    Bitmap searchPosterBitmap14;
+    Bitmap searchPosterBitmap15;
+    Bitmap searchPosterBitmap16;
+    Bitmap searchPosterBitmap17;
+    Bitmap searchPosterBitmap18;
+    Bitmap searchPosterBitmap19;
+    Bitmap searchPosterBitmap20;
+    Bitmap searchPosterBitmap21;
+    Bitmap searchPosterBitmap22;
+    Bitmap searchPosterBitmap23;
+    Bitmap searchPosterBitmap24;
+    Bitmap searchPosterBitmap25;
     //endregion
 
     //region Generate all potential String items
-    String mID1;
-    String mID2;
-    String mID3;
-    String mID4;
-    String mID5;
-    String mID6;
-    String mID7;
-    String mID8;
-    String mID9;
+    String searchID1;
+    String searchID2;
+    String searchID3;
+    String searchID4;
+    String searchID5;
+    String searchID6;
+    String searchID7;
+    String searchID8;
+    String searchID9;
+    String searchID10;
+    String searchID11;
+    String searchID12;
+    String searchID13;
+    String searchID14;
+    String searchID15;
+    String searchID16;
+    String searchID17;
+    String searchID18;
+    String searchID19;
+    String searchID20;
+    String searchID21;
+    String searchID22;
+    String searchID23;
+    String searchID24;
+    String searchID25;
+
+    String searchName1;
+    String searchName2;
+    String searchName3;
+    String searchName4;
+    String searchName5;
+    String searchName6;
+    String searchName7;
+    String searchName8;
+    String searchName9;
+    String searchName10;
+    String searchName11;
+    String searchName12;
+    String searchName13;
+    String searchName14;
+    String searchName15;
+    String searchName16;
+    String searchName17;
+    String searchName18;
+    String searchName19;
+    String searchName20;
+    String searchName21;
+    String searchName22;
+    String searchName23;
+    String searchName24;
+    String searchName25;
     //endregion
 
     @Override
@@ -101,115 +201,6 @@ public class SearchUI extends AppCompatActivity {
         TextView name = (TextView)findViewById(R.id.searchField);
         SharedPreferences userInfo = getSharedPreferences("searchQueries", Context.MODE_PRIVATE);
         name.setText(userInfo.getString("searchQuery", ""));
-
-        ImageView PM1 = (ImageView) findViewById(R.id.search_result_1_poster);
-        PM1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mID1 != null) {
-                    Intent intent = new Intent(getApplicationContext(), MovieDetailsUI.class);
-                    intent.putExtra("movieID", mID1);
-                    startActivity(intent);
-                }
-            }
-        });
-
-        ImageView PM2 = (ImageView) findViewById(R.id.search_result_2_poster);
-        PM2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mID2 != null) {
-                    Intent intent = new Intent(getApplicationContext(), MovieDetailsUI.class);
-                    intent.putExtra("movieID", mID2);
-                    startActivity(intent);
-                }
-            }
-        });
-
-        ImageView PM3 = (ImageView) findViewById(R.id.search_result_3_poster);
-        PM3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mID3 != null) {
-                    Intent intent = new Intent(getApplicationContext(), MovieDetailsUI.class);
-                    intent.putExtra("movieID", mID3);
-                    startActivity(intent);
-                }
-            }
-        });
-
-        ImageView PM4 = (ImageView) findViewById(R.id.search_result_4_poster);
-        PM4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mID4 != null) {
-                    Intent intent = new Intent(getApplicationContext(), MovieDetailsUI.class);
-                    intent.putExtra("movieID", mID4);
-                    startActivity(intent);
-                }
-            }
-        });
-
-        ImageView PM5 = (ImageView) findViewById(R.id.search_result_5_poster);
-        PM5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mID5 != null) {
-                    Intent intent = new Intent(getApplicationContext(), MovieDetailsUI.class);
-                    intent.putExtra("movieID", mID5);
-                    startActivity(intent);
-                }
-            }
-        });
-
-        ImageView PM6 = (ImageView) findViewById(R.id.search_result_6_poster);
-        PM6.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mID6 != null) {
-                    Intent intent = new Intent(getApplicationContext(), MovieDetailsUI.class);
-                    intent.putExtra("movieID", mID6);
-                    startActivity(intent);
-                }
-            }
-        });
-
-        ImageView PM7 = (ImageView) findViewById(R.id.search_result_7_poster);
-        PM7.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mID7 != null) {
-                    Intent intent = new Intent(getApplicationContext(), MovieDetailsUI.class);
-                    intent.putExtra("movieID", mID7);
-                    startActivity(intent);
-                }
-            }
-        });
-
-        ImageView PM8 = (ImageView) findViewById(R.id.search_result_8_poster);
-        PM8.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mID8 != null) {
-                    Intent intent = new Intent(getApplicationContext(), MovieDetailsUI.class);
-                    intent.putExtra("movieID", mID8);
-                    startActivity(intent);
-                }
-            }
-        });
-
-        ImageView PM9 = (ImageView) findViewById(R.id.search_result_9_poster);
-        PM9.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mID9 != null) {
-                    Intent intent = new Intent(getApplicationContext(), MovieDetailsUI.class);
-                    intent.putExtra("movieID", mID9);
-                    startActivity(intent);
-                }
-            }
-        });
-        //endregion
     }
 
     public class search extends AsyncTask<String, String, String> {
@@ -227,20 +218,22 @@ public class SearchUI extends AppCompatActivity {
                 JSONArray json2arr = json2obj.getJSONArray("results");
                 List<String> movieIDs = new ArrayList<String>(json2arr.length());
                 List<String> posterPaths = new ArrayList<String>(json2arr.length());
+                List<String> movieNames = new ArrayList<String>(json2arr.length());
 
                 for (int i = 0; i < json2arr.length(); i++) {
                     JSONObject ithObject = json2arr.getJSONObject(i);
-                    if (ithObject.has("poster_path") && (ithObject.has("id"))) {
+                    if (ithObject.has("poster_path") && (ithObject.has("id")) && (ithObject.has("title"))) {
                         movieIDs.add(ithObject.getString("id"));
                         posterPaths.add(ithObject.getString("poster_path"));
+                        movieNames.add(ithObject.getString("title"));
                     }
                 }
 
                 numberOfResults = movieIDs.size();
                 System.out.println(numberOfResults + " results found");
                 //TEMPORARY - REMOVE WHEN FULLY OPERATIONAL
-                if (numberOfResults > 9) {
-                    numberOfResults = 9;
+                if (numberOfResults > 20) {
+                    numberOfResults = 20;
                 }
 
                 int movie_ID_number = 1;
@@ -254,39 +247,83 @@ public class SearchUI extends AppCompatActivity {
                         //region Apply the correct ID to each ID string
                         switch (movie_ID_number) {
                             case 1:
-                                mID1 = ID;
+                                searchID1 = ID;
                                 movie_ID_number++;
                                 break;
                             case 2:
-                                mID2 = ID;
+                                searchID2 = ID;
                                 movie_ID_number++;
                                 break;
                             case 3:
-                                mID3 = ID;
+                                searchID3 = ID;
                                 movie_ID_number++;
                                 break;
                             case 4:
-                                mID4 = ID;
+                                searchID4 = ID;
                                 movie_ID_number++;
                                 break;
                             case 5:
-                                mID5 = ID;
+                                searchID5 = ID;
                                 movie_ID_number++;
                                 break;
                             case 6:
-                                mID6 = ID;
+                                searchID6 = ID;
                                 movie_ID_number++;
                                 break;
                             case 7:
-                                mID7 = ID;
+                                searchID7 = ID;
                                 movie_ID_number++;
                                 break;
                             case 8:
-                                mID8 = ID;
+                                searchID8 = ID;
                                 movie_ID_number++;
                                 break;
                             case 9:
-                                mID9 = ID;
+                                searchID9 = ID;
+                                movie_ID_number++;
+                                break;
+                            case 10:
+                                searchID10 = ID;
+                                movie_ID_number++;
+                                break;
+                            case 11:
+                                searchID11 = ID;
+                                movie_ID_number++;
+                                break;
+                            case 12:
+                                searchID12 = ID;
+                                movie_ID_number++;
+                                break;
+                            case 13:
+                                searchID13 = ID;
+                                movie_ID_number++;
+                                break;
+                            case 14:
+                                searchID14 = ID;
+                                movie_ID_number++;
+                                break;
+                            case 15:
+                                searchID15 = ID;
+                                movie_ID_number++;
+                                break;
+                            case 16:
+                                searchID16 = ID;
+                                movie_ID_number++;
+                                break;
+                            case 17:
+                                searchID17 = ID;
+                                movie_ID_number++;
+                                break;
+                            case 18:
+                                searchID18 = ID;
+                                movie_ID_number++;
+                                break;
+                            case 19:
+                                searchID19 = ID;
+                                movie_ID_number++;
+                                break;
+                            case 20:
+                                searchID20 = ID;
                                 movie_ID_number++;
                                 break;
                         }
@@ -317,64 +354,225 @@ public class SearchUI extends AppCompatActivity {
                         //region Locate the card element in the activity and apply the correct poster URL's to each corrosponding bitmap
                         switch (poster_number) {
                             case 1:
-                                iv1 = (ImageView) findViewById(R.id.search_result_1_poster);
-                                bitmap1 = BitmapFactory.decodeStream((InputStream) new URL(poster_path).getContent());
+                                searchPoster1 = (ImageView) findViewById(R.id.search_result_1_poster);
+                                searchPosterBitmap1 = BitmapFactory.decodeStream((InputStream) new URL(poster_path).getContent());
                                 poster_number++;
                                 break;
                             case 2:
-                                iv2 = (ImageView) findViewById(R.id.search_result_2_poster);
-                                bitmap2 = BitmapFactory.decodeStream((InputStream) new URL(poster_path).getContent());
+                                searchPoster2 = (ImageView) findViewById(R.id.search_result_2_poster);
+                                searchPosterBitmap2 = BitmapFactory.decodeStream((InputStream) new URL(poster_path).getContent());
                                 poster_number++;
                                 break;
                             case 3:
-                                iv3 = (ImageView) findViewById(R.id.search_result_3_poster);
-                                bitmap3 = BitmapFactory.decodeStream((InputStream) new URL(poster_path).getContent());
+                                searchPoster3 = (ImageView) findViewById(R.id.search_result_3_poster);
+                                searchPosterBitmap3 = BitmapFactory.decodeStream((InputStream) new URL(poster_path).getContent());
                                 poster_number++;
                                 break;
                             case 4:
-                                iv4 = (ImageView) findViewById(R.id.search_result_4_poster);
-                                bitmap4 = BitmapFactory.decodeStream((InputStream) new URL(poster_path).getContent());
+                                searchPoster4 = (ImageView) findViewById(R.id.search_result_4_poster);
+                                searchPosterBitmap4 = BitmapFactory.decodeStream((InputStream) new URL(poster_path).getContent());
                                 poster_number++;
                                 break;
                             case 5:
-                                iv5 = (ImageView) findViewById(R.id.search_result_5_poster);
-                                bitmap5 = BitmapFactory.decodeStream((InputStream) new URL(poster_path).getContent());
+                                searchPoster5 = (ImageView) findViewById(R.id.search_result_5_poster);
+                                searchPosterBitmap5 = BitmapFactory.decodeStream((InputStream) new URL(poster_path).getContent());
                                 poster_number++;
                                 break;
                             case 6:
-                                iv6 = (ImageView) findViewById(R.id.search_result_6_poster);
-                                bitmap6 = BitmapFactory.decodeStream((InputStream) new URL(poster_path).getContent());
+                                searchPoster6 = (ImageView) findViewById(R.id.search_result_6_poster);
+                                searchPosterBitmap6 = BitmapFactory.decodeStream((InputStream) new URL(poster_path).getContent());
                                 poster_number++;
                                 break;
                             case 7:
-                                iv7 = (ImageView) findViewById(R.id.search_result_7_poster);
-                                bitmap7 = BitmapFactory.decodeStream((InputStream) new URL(poster_path).getContent());
+                                searchPoster7 = (ImageView) findViewById(R.id.search_result_7_poster);
+                                searchPosterBitmap7 = BitmapFactory.decodeStream((InputStream) new URL(poster_path).getContent());
                                 poster_number++;
                                 break;
                             case 8:
-                                iv8 = (ImageView) findViewById(R.id.search_result_8_poster);
-                                bitmap8 = BitmapFactory.decodeStream((InputStream) new URL(poster_path).getContent());
+                                searchPoster8 = (ImageView) findViewById(R.id.search_result_8_poster);
+                                searchPosterBitmap8 = BitmapFactory.decodeStream((InputStream) new URL(poster_path).getContent());
                                 poster_number++;
                                 break;
                             case 9:
-                                iv9 = (ImageView) findViewById(R.id.search_result_9_poster);
-                                bitmap9 = BitmapFactory.decodeStream((InputStream) new URL(poster_path).getContent());
+                                searchPoster9 = (ImageView) findViewById(R.id.search_result_9_poster);
+                                searchPosterBitmap9 = BitmapFactory.decodeStream((InputStream) new URL(poster_path).getContent());
+                                poster_number++;
+                                break;
+                            case 10:
+                                searchPoster10 = (ImageView) findViewById(R.id.search_result_10_poster);
+                                searchPosterBitmap10 = BitmapFactory.decodeStream((InputStream) new URL(poster_path).getContent());
+                                poster_number++;
+                                break;
+                            case 11:
+                                searchPoster11 = (ImageView) findViewById(R.id.search_result_11_poster);
+                                searchPosterBitmap11 = BitmapFactory.decodeStream((InputStream) new URL(poster_path).getContent());
+                                poster_number++;
+                                break;
+                            case 12:
+                                searchPoster12 = (ImageView) findViewById(R.id.search_result_12_poster);
+                                searchPosterBitmap12 = BitmapFactory.decodeStream((InputStream) new URL(poster_path).getContent());
+                                poster_number++;
+                                break;
+                            case 13:
+                                searchPoster13 = (ImageView) findViewById(R.id.search_result_13_poster);
+                                searchPosterBitmap13 = BitmapFactory.decodeStream((InputStream) new URL(poster_path).getContent());
+                                poster_number++;
+                                break;
+                            case 14:
+                                searchPoster14 = (ImageView) findViewById(R.id.search_result_14_poster);
+                                searchPosterBitmap14 = BitmapFactory.decodeStream((InputStream) new URL(poster_path).getContent());
+                                poster_number++;
+                                break;
+                            case 15:
+                                searchPoster15 = (ImageView) findViewById(R.id.search_result_15_poster);
+                                searchPosterBitmap15 = BitmapFactory.decodeStream((InputStream) new URL(poster_path).getContent());
+                                poster_number++;
+                                break;
+                            case 16:
+                                searchPoster16 = (ImageView) findViewById(R.id.search_result_16_poster);
+                                searchPosterBitmap16 = BitmapFactory.decodeStream((InputStream) new URL(poster_path).getContent());
+                                poster_number++;
+                                break;
+                            case 17:
+                                searchPoster17 = (ImageView) findViewById(R.id.search_result_17_poster);
+                                searchPosterBitmap17 = BitmapFactory.decodeStream((InputStream) new URL(poster_path).getContent());
+                                poster_number++;
+                                break;
+                            case 18:
+                                searchPoster18 = (ImageView) findViewById(R.id.search_result_18_poster);
+                                searchPosterBitmap18 = BitmapFactory.decodeStream((InputStream) new URL(poster_path).getContent());
+                                poster_number++;
+                                break;
+                            case 19:
+                                searchPoster19 = (ImageView) findViewById(R.id.search_result_19_poster);
+                                searchPosterBitmap19 = BitmapFactory.decodeStream((InputStream) new URL(poster_path).getContent());
+                                poster_number++;
+                                break;
+                            case 20:
+                                searchPoster20 = (ImageView) findViewById(R.id.search_result_20_poster);
+                                searchPosterBitmap20 = BitmapFactory.decodeStream((InputStream) new URL(poster_path).getContent());
                                 poster_number++;
                                 break;
                         }
                     }
                 }
-            } catch (Exception e) {
+
+                int movieNo = 1;
+                for (String movieName : movieNames)
+                {
+                    if (numberOfResults == 0) {
+                        break;
+                    }
+
+                    if (movieNo <= numberOfResults) {
+                        String Name = movieName;
+                        System.out.println("Movie: " + Name);
+
+                        //region Locate the card element in the activity and apply the correct poster URL's to each corrosponding bitmap
+                        switch (movieNo) {
+                            case 1:
+                                searchName1 = Name;
+                                movieNo++;
+                                break;
+                            case 2:
+                                searchName2 = Name;
+                                movieNo++;
+                                break;
+                            case 3:
+                                searchName3 = Name;
+                                movieNo++;
+                                break;
+                            case 4:
+                                searchName4 = Name;
+                                movieNo++;
+                                break;
+                            case 5:
+                                searchName5 = Name;
+                                movieNo++;
+                                break;
+                            case 6:
+                                searchName6 = Name;
+                                movieNo++;
+                                break;
+                            case 7:
+                                searchName7 = Name;
+                                movieNo++;
+                                break;
+                            case 8:
+                                searchName8 = Name;
+                                movieNo++;
+                                break;
+                            case 9:
+                                searchName9 = Name;
+                                movieNo++;
+                                break;
+                            case 10:
+                                searchName10 = Name;
+                                movieNo++;
+                                break;
+                            case 11:
+                                searchName11 = Name;
+                                movieNo++;
+                                break;
+                            case 12:
+                                searchName12 = Name;
+                                movieNo++;
+                                break;
+                            case 13:
+                                searchName13 = Name;
+                                movieNo++;
+                                break;
+                            case 14:
+                                searchName14 = Name;
+                                movieNo++;
+                                break;
+                            case 15:
+                                searchName15 = Name;
+                                movieNo++;
+                                break;
+                            case 16:
+                                searchName16 = Name;
+                                movieNo++;
+                                break;
+                            case 17:
+                                searchName17 = Name;
+                                movieNo++;
+                                break;
+                            case 18:
+                                searchName18 = Name;
+                                movieNo++;
+                                break;
+                            case 19:
+                                searchName19 = Name;
+                                movieNo++;
+                                break;
+                            case 20:
+                                searchName20 = Name;
+                                movieNo++;
+                                break;
+                        }
+                    }
+                }
+
 
             }
+
+            catch (Exception e)
+            {
+
+            }
+
             return null;
+
         }
+
 
         @Override
         // below method will run when service HTTP request is complete,
         protected void onPostExecute(String strFromDoInBg)
         {
             CardView card;
+            TextView text;
             if(numberOfResults != 0)
             {
                 for (int posterToApply = 1; posterToApply <= numberOfResults; posterToApply++)
@@ -382,48 +580,183 @@ public class SearchUI extends AppCompatActivity {
                     switch (posterToApply) {
                         case 1:
                             card = (CardView) findViewById(R.id.search_result_1);
-                            iv1.setImageBitmap(bitmap1);
+                            searchPoster1.setImageBitmap(searchPosterBitmap1);
+                            searchNameLabel1 = (TextView) findViewById(R.id.search_result_1_name);
+                            searchNameLabel1.setText(searchName1);
                             card.setVisibility(View.VISIBLE);
+                            text = (TextView) findViewById(R.id.search_result_1_name);
+                            text.setVisibility(View.VISIBLE);
                             break;
                         case 2:
                             card = (CardView) findViewById(R.id.search_result_2);
-                            iv2.setImageBitmap(bitmap2);
+                            searchPoster2.setImageBitmap(searchPosterBitmap2);
+                            searchNameLabel2 = (TextView) findViewById(R.id.search_result_2_name);
+                            searchNameLabel2.setText(searchName2);
                             card.setVisibility(View.VISIBLE);
+                            text = (TextView) findViewById(R.id.search_result_2_name);
+                            text.setVisibility(View.VISIBLE);
                             break;
                         case 3:
                             card = (CardView) findViewById(R.id.search_result_3);
-                            iv3.setImageBitmap(bitmap3);
+                            searchPoster3.setImageBitmap(searchPosterBitmap3);
+                            searchNameLabel3 = (TextView) findViewById(R.id.search_result_3_name);
+                            searchNameLabel3.setText(searchName3);
                             card.setVisibility(View.VISIBLE);
+                            text = (TextView) findViewById(R.id.search_result_3_name);
+                            text.setVisibility(View.VISIBLE);
                             break;
                         case 4:
                             card = (CardView) findViewById(R.id.search_result_4);
-                            iv4.setImageBitmap(bitmap4);
+                            searchPoster4.setImageBitmap(searchPosterBitmap4);
+                            searchNameLabel4 = (TextView) findViewById(R.id.search_result_4_name);
+                            searchNameLabel4.setText(searchName4);
                             card.setVisibility(View.VISIBLE);
+                            text = (TextView) findViewById(R.id.search_result_4_name);
+                            text.setVisibility(View.VISIBLE);
                             break;
                         case 5:
                             card = (CardView) findViewById(R.id.search_result_5);
-                            iv5.setImageBitmap(bitmap5);
+                            searchPoster5.setImageBitmap(searchPosterBitmap5);
+                            searchNameLabel5 = (TextView) findViewById(R.id.search_result_5_name);
+                            searchNameLabel5.setText(searchName5);
                             card.setVisibility(View.VISIBLE);
+                            text = (TextView) findViewById(R.id.search_result_5_name);
+                            text.setVisibility(View.VISIBLE);
                             break;
                         case 6:
                             card = (CardView) findViewById(R.id.search_result_6);
-                            iv6.setImageBitmap(bitmap6);
+                            searchPoster6.setImageBitmap(searchPosterBitmap6);
+                            searchNameLabel6 = (TextView) findViewById(R.id.search_result_6_name);
+                            searchNameLabel6.setText(searchName6);
                             card.setVisibility(View.VISIBLE);
+                            text = (TextView) findViewById(R.id.search_result_6_name);
+                            text.setVisibility(View.VISIBLE);
                             break;
                         case 7:
                             card = (CardView) findViewById(R.id.search_result_7);
-                            iv7.setImageBitmap(bitmap7);
+                            searchPoster7.setImageBitmap(searchPosterBitmap7);
+                            searchNameLabel7 = (TextView) findViewById(R.id.search_result_7_name);
+                            searchNameLabel7.setText(searchName7);
                             card.setVisibility(View.VISIBLE);
+                            text = (TextView) findViewById(R.id.search_result_7_name);
+                            text.setVisibility(View.VISIBLE);
                             break;
                         case 8:
                             card = (CardView) findViewById(R.id.search_result_8);
-                            iv8.setImageBitmap(bitmap8);
+                            searchPoster8.setImageBitmap(searchPosterBitmap8);
+                            searchNameLabel8 = (TextView) findViewById(R.id.search_result_8_name);
+                            searchNameLabel8.setText(searchName8);
                             card.setVisibility(View.VISIBLE);
+                            text = (TextView) findViewById(R.id.search_result_8_name);
+                            text.setVisibility(View.VISIBLE);
                             break;
                         case 9:
                             card = (CardView) findViewById(R.id.search_result_9);
-                            iv9.setImageBitmap(bitmap9);
+                            searchPoster9.setImageBitmap(searchPosterBitmap9);
+                            searchNameLabel9 = (TextView) findViewById(R.id.search_result_9_name);
+                            searchNameLabel9.setText(searchName9);
                             card.setVisibility(View.VISIBLE);
+                            text = (TextView) findViewById(R.id.search_result_9_name);
+                            text.setVisibility(View.VISIBLE);
+                            break;
+                        case 10:
+                            card = (CardView) findViewById(R.id.search_result_10);
+                            searchPoster10.setImageBitmap(searchPosterBitmap10);
+                            searchNameLabel10 = (TextView) findViewById(R.id.search_result_10_name);
+                            searchNameLabel10.setText(searchName10);
+                            card.setVisibility(View.VISIBLE);
+                            text = (TextView) findViewById(R.id.search_result_10_name);
+                            text.setVisibility(View.VISIBLE);
+                            break;
+                        case 11:
+                            card = (CardView) findViewById(R.id.search_result_11);
+                            searchPoster11.setImageBitmap(searchPosterBitmap11);
+                            searchNameLabel11 = (TextView) findViewById(R.id.search_result_11_name);
+                            searchNameLabel11.setText(searchName11);
+                            card.setVisibility(View.VISIBLE);
+                            text = (TextView) findViewById(R.id.search_result_11_name);
+                            text.setVisibility(View.VISIBLE);
+                            break;
+                        case 12:
+                            card = (CardView) findViewById(R.id.search_result_12);
+                            searchPoster12.setImageBitmap(searchPosterBitmap12);
+                            searchNameLabel12 = (TextView) findViewById(R.id.search_result_12_name);
+                            searchNameLabel12.setText(searchName12);
+                            card.setVisibility(View.VISIBLE);
+                            text = (TextView) findViewById(R.id.search_result_12_name);
+                            text.setVisibility(View.VISIBLE);
+                            break;
+                        case 13:
+                            card = (CardView) findViewById(R.id.search_result_13);
+                            searchPoster13.setImageBitmap(searchPosterBitmap13);
+                            searchNameLabel13 = (TextView) findViewById(R.id.search_result_13_name);
+                            searchNameLabel13.setText(searchName13);
+                            card.setVisibility(View.VISIBLE);
+                            text = (TextView) findViewById(R.id.search_result_13_name);
+                            text.setVisibility(View.VISIBLE);
+                            break;
+                        case 14:
+                            card = (CardView) findViewById(R.id.search_result_14);
+                            searchPoster14.setImageBitmap(searchPosterBitmap14);
+                            searchNameLabel14 = (TextView) findViewById(R.id.search_result_14_name);
+                            searchNameLabel14.setText(searchName14);
+                            card.setVisibility(View.VISIBLE);
+                            text = (TextView) findViewById(R.id.search_result_14_name);
+                            text.setVisibility(View.VISIBLE);
+                            break;
+                        case 15:
+                            card = (CardView) findViewById(R.id.search_result_15);
+                            searchPoster15.setImageBitmap(searchPosterBitmap15);
+                            searchNameLabel15 = (TextView) findViewById(R.id.search_result_15_name);
+                            searchNameLabel15.setText(searchName15);
+                            card.setVisibility(View.VISIBLE);
+                            text = (TextView) findViewById(R.id.search_result_15_name);
+                            text.setVisibility(View.VISIBLE);
+                            break;
+                        case 16:
+                            card = (CardView) findViewById(R.id.search_result_16);
+                            searchPoster16.setImageBitmap(searchPosterBitmap16);
+                            searchNameLabel16 = (TextView) findViewById(R.id.search_result_16_name);
+                            searchNameLabel16.setText(searchName16);
+                            card.setVisibility(View.VISIBLE);
+                            text = (TextView) findViewById(R.id.search_result_16_name);
+                            text.setVisibility(View.VISIBLE);
+                            break;
+                        case 17:
+                            card = (CardView) findViewById(R.id.search_result_17);
+                            searchPoster17.setImageBitmap(searchPosterBitmap17);
+                            searchNameLabel17 = (TextView) findViewById(R.id.search_result_17_name);
+                            searchNameLabel17.setText(searchName17);
+                            card.setVisibility(View.VISIBLE);
+                            text = (TextView) findViewById(R.id.search_result_17_name);
+                            text.setVisibility(View.VISIBLE);
+                            break;
+                        case 18:
+                            card = (CardView) findViewById(R.id.search_result_18);
+                            searchPoster18.setImageBitmap(searchPosterBitmap18);
+                            searchNameLabel18 = (TextView) findViewById(R.id.search_result_18_name);
+                            searchNameLabel18.setText(searchName18);
+                            card.setVisibility(View.VISIBLE);
+                            text = (TextView) findViewById(R.id.search_result_18_name);
+                            text.setVisibility(View.VISIBLE);
+                            break;
+                        case 19:
+                            card = (CardView) findViewById(R.id.search_result_19);
+                            searchPoster19.setImageBitmap(searchPosterBitmap19);
+                            searchNameLabel19 = (TextView) findViewById(R.id.search_result_19_name);
+                            searchNameLabel19.setText(searchName19);
+                            card.setVisibility(View.VISIBLE);
+                            text = (TextView) findViewById(R.id.search_result_19_name);
+                            text.setVisibility(View.VISIBLE);
+                            break;
+                        case 20:
+                            card = (CardView) findViewById(R.id.search_result_20);
+                            searchPoster20.setImageBitmap(searchPosterBitmap20);
+                            searchNameLabel20 = (TextView) findViewById(R.id.search_result_20_name);
+                            searchNameLabel20.setText(searchName20);
+                            card.setVisibility(View.VISIBLE);
+                            text = (TextView) findViewById(R.id.search_result_20_name);
+                            text.setVisibility(View.VISIBLE);
                             break;
                     }
                 }
@@ -438,13 +771,10 @@ public class SearchUI extends AppCompatActivity {
         }
     }
 
-    public void searchMovies (View view) {
-
-        // get string values of user name and email EditText widgets
+    public void searchMovies (View view)
+    {
         EditText searchFieldQuery = (EditText)findViewById(R.id.searchField);
 
-        // create a new shared preferences file by name
-        // if it already exists it will use existing file
         try
         {
             final EditText edit =  (EditText) findViewById(R.id.searchField);
@@ -464,6 +794,186 @@ public class SearchUI extends AppCompatActivity {
             int duration = Toast.LENGTH_LONG;
             Toast toast = Toast.makeText(context, text, duration);
             toast.show();
+        }
+    }
+
+    public void searchResult1 (View view)
+    {
+        if (searchID1 != null) {
+            Intent intent = new Intent(getApplicationContext(), MovieDetailsUI.class);
+            intent.putExtra("movieID", searchID1);
+            startActivity(intent);
+        }
+    }
+
+    public void searchResult2 (View view)
+    {
+        if (searchID2 != null) {
+            Intent intent = new Intent(getApplicationContext(), MovieDetailsUI.class);
+            intent.putExtra("movieID", searchID2);
+            startActivity(intent);
+        }
+    }
+
+    public void searchResult3 (View view)
+    {
+        if (searchID3 != null) {
+            Intent intent = new Intent(getApplicationContext(), MovieDetailsUI.class);
+            intent.putExtra("movieID", searchID3);
+            startActivity(intent);
+        }
+    }
+
+    public void searchResult4 (View view)
+    {
+        if (searchID4 != null) {
+            Intent intent = new Intent(getApplicationContext(), MovieDetailsUI.class);
+            intent.putExtra("movieID", searchID4);
+            startActivity(intent);
+        }
+    }
+
+    public void searchResult5 (View view)
+    {
+        if (searchID5 != null) {
+            Intent intent = new Intent(getApplicationContext(), MovieDetailsUI.class);
+            intent.putExtra("movieID", searchID5);
+            startActivity(intent);
+        }
+    }
+
+    public void searchResult6 (View view)
+    {
+        if (searchID6 != null) {
+            Intent intent = new Intent(getApplicationContext(), MovieDetailsUI.class);
+            intent.putExtra("movieID", searchID6);
+            startActivity(intent);
+        }
+    }
+
+    public void searchResult7 (View view)
+    {
+        if (searchID7 != null) {
+            Intent intent = new Intent(getApplicationContext(), MovieDetailsUI.class);
+            intent.putExtra("movieID", searchID7);
+            startActivity(intent);
+        }
+    }
+
+    public void searchResult8 (View view)
+    {
+        if (searchID8 != null) {
+            Intent intent = new Intent(getApplicationContext(), MovieDetailsUI.class);
+            intent.putExtra("movieID", searchID8);
+            startActivity(intent);
+        }
+    }
+
+    public void searchResult9 (View view)
+    {
+        if (searchID9 != null) {
+            Intent intent = new Intent(getApplicationContext(), MovieDetailsUI.class);
+            intent.putExtra("movieID", searchID9);
+            startActivity(intent);
+        }
+    }
+
+    public void searchResult10 (View view)
+    {
+        if (searchID10 != null) {
+            Intent intent = new Intent(getApplicationContext(), MovieDetailsUI.class);
+            intent.putExtra("movieID", searchID10);
+            startActivity(intent);
+        }
+    }
+
+    public void searchResult11 (View view)
+    {
+        if (searchID11 != null) {
+            Intent intent = new Intent(getApplicationContext(), MovieDetailsUI.class);
+            intent.putExtra("movieID", searchID11);
+            startActivity(intent);
+        }
+    }
+
+    public void searchResult12 (View view)
+    {
+        if (searchID12 != null) {
+            Intent intent = new Intent(getApplicationContext(), MovieDetailsUI.class);
+            intent.putExtra("movieID", searchID12);
+            startActivity(intent);
+        }
+    }
+
+    public void searchResult13 (View view)
+    {
+        if (searchID13 != null) {
+            Intent intent = new Intent(getApplicationContext(), MovieDetailsUI.class);
+            intent.putExtra("movieID", searchID13);
+            startActivity(intent);
+        }
+    }
+
+    public void searchResult14 (View view)
+    {
+        if (searchID14 != null) {
+            Intent intent = new Intent(getApplicationContext(), MovieDetailsUI.class);
+            intent.putExtra("movieID", searchID14);
+            startActivity(intent);
+        }
+    }
+
+    public void searchResult15 (View view)
+    {
+        if (searchID15 != null) {
+            Intent intent = new Intent(getApplicationContext(), MovieDetailsUI.class);
+            intent.putExtra("movieID", searchID15);
+            startActivity(intent);
+        }
+    }
+
+    public void searchResult16 (View view)
+    {
+        if (searchID16 != null) {
+            Intent intent = new Intent(getApplicationContext(), MovieDetailsUI.class);
+            intent.putExtra("movieID", searchID16);
+            startActivity(intent);
+        }
+    }
+
+    public void searchResult17 (View view)
+    {
+        if (searchID17 != null) {
+            Intent intent = new Intent(getApplicationContext(), MovieDetailsUI.class);
+            intent.putExtra("movieID", searchID17);
+            startActivity(intent);
+        }
+    }
+
+    public void searchResult18 (View view)
+    {
+        if (searchID18 != null) {
+            Intent intent = new Intent(getApplicationContext(), MovieDetailsUI.class);
+            intent.putExtra("movieID", searchID18);
+            startActivity(intent);
+        }
+    }
+
+    public void searchResult19 (View view)
+    {
+        if (searchID19 != null) {
+            Intent intent = new Intent(getApplicationContext(), MovieDetailsUI.class);
+            intent.putExtra("movieID", searchID19);
+            startActivity(intent);
+        }
+    }
+
+    public void searchResult20 (View view)
+    {
+        if (searchID20 != null) {
+            Intent intent = new Intent(getApplicationContext(), MovieDetailsUI.class);
+            intent.putExtra("movieID", searchID20);
+            startActivity(intent);
         }
     }
 }

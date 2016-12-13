@@ -13,13 +13,14 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.CardView;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+//import android.support.v7.app.ActionBarDrawerToggle;
+//import android.support.v7.app.AppCompatActivity;
+//import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.content.Intent;
@@ -36,29 +37,15 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+
+import android.view.ViewGroup;
 import android.widget.*;
 import java.util.Date;
 import java.util.List;
 
 import android.util.Log;
 
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-
-//location stuff
-import android.content.Context;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-
-public class MovieDetailsUI extends FragmentActivity implements OnMapReadyCallback
-{
+public class MovieDetailsUI extends FragmentActivity {
     String apiKey = "?api_key=822b6a3af922b0c70d5455e2d2e0f782";
     String ID; //holds the url of the movie
     String inCinemas;
@@ -70,13 +57,13 @@ public class MovieDetailsUI extends FragmentActivity implements OnMapReadyCallba
     String movie_overview;
     String movie_rating;
 
+    Integer CastCrew_Error_No = 0;
+
     String movie_runtime;
     String movie_language;
     String movie_budget;
     String movie_revenue;
     String movie_voters;
-
-    private GoogleMap mMap;
 
     //region Generate strings, views & bitmaps
     //region Generate castmember strings
@@ -268,8 +255,10 @@ public class MovieDetailsUI extends FragmentActivity implements OnMapReadyCallba
     //endregion
 
     //region Generate ImageViews & TextViews
-    ImageView poster; Bitmap poster_bitmap;
-    ImageView backdrop; Bitmap backdrop_bitmap;
+    ImageView poster;
+    Bitmap poster_bitmap;
+    ImageView backdrop;
+    Bitmap backdrop_bitmap;
 
     TextView name;
     TextView release_date;
@@ -284,11 +273,6 @@ public class MovieDetailsUI extends FragmentActivity implements OnMapReadyCallba
     TextView voters;
     //endregion
 
-    private static final int MY_PERMISSION_ACCESS_COARSE_LOCATION = 11;
-    GoogleApiClient mGoogleApiClient;
-    String longa;
-    String lata;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -300,109 +284,31 @@ public class MovieDetailsUI extends FragmentActivity implements OnMapReadyCallba
         ID = extras.getString("movieID");
         inCinemas = extras.getString("inCinemas");
 
-        if(inCinemas == null)
-        {
+        if (inCinemas == null) {
             inCinemas = "false";
-        }
-
-        else
-        {
-            // Create an instance of GoogleAPIClient.
-            if (mGoogleApiClient == null) {
-                mGoogleApiClient = new GoogleApiClient.Builder(this)
-                        .addConnectionCallbacks(this)
-                        .addOnConnectionFailedListener(this)
-                        .addApi(LocationServices.API)
-                        .build();
-            }
-
-
-
-
-
-
-
-
-//            if ( ContextCompat.checkSelfPermission( this, android.Manifest.permission.ACCESS_COARSE_LOCATION ) != PackageManager.PERMISSION_GRANTED )
-//            {
-//                ActivityCompat.requestPermissions( this, new String[] {  android.Manifest.permission.ACCESS_COARSE_LOCATION  }, MY_PERMISSION_ACCESS_COARSE_LOCATION );
-//
-//                System.out.println("Attempting to get location");
-//                LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-//                String locationProvider = LocationManager.GPS_PROVIDER;
-//                Location lastKnownLocation = locationManager.getLastKnownLocation(locationProvider);
-//                double lat = lastKnownLocation.getLatitude();
-//                double longi = lastKnownLocation.getLongitude();
-//                System.out.println("Success");
-//            }
-//
-//            else
-//            {
-//                System.out.println("No permissions");
-//            }
-
+        } else {
 
         }
 
         System.out.println("Is movie in cinemas? - " + inCinemas);
-
         new get_movie_data().execute();
-
-//        MapFragment mapFragment = (MapFragment) getFragmentManager()
-//                .findFragmentById(R.id.map);
-//        mapFragment.getMapAsync((OnMapReadyCallback) this);
-
-
     }
 
-    protected void onStart() {
-        mGoogleApiClient.connect();
-        super.onStart();
-    }
-
-    protected void onStop() {
-        mGoogleApiClient.disconnect();
-        super.onStop();
-    }
-
-    @Override
-    public void onConnected(Bundle connectionHint)
-    {
-        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
-                mGoogleApiClient);
-        if (mLastLocation != null) {
-            lata = String.valueOf(mLastLocation.getLatitude());
-            longa = String.valueOf(mLastLocation.getLongitude());
+    public class get_movie_data extends AsyncTask<String, String, String> {
+        @Override
+        protected void onPreExecute() {
         }
-    }
-
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-
-        // Add a marker in Sydney, Australia, and move the camera.
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-    }
-
-    public class get_movie_data extends AsyncTask<String, String, String>
-    {
-        @Override
-        protected void onPreExecute() {}
 
         @Override
-        protected String doInBackground(String... arg0)
-        {
-            try
-            {
-                String url = "https://api.themoviedb.org/3/movie/" +  ID + apiKey + "&language=en-US";
+        protected String doInBackground(String... arg0) {
+            try {
+                String url = "https://api.themoviedb.org/3/movie/" + ID + apiKey + "&language=en-US";
                 System.out.println(url);
                 httpConnect jParser = new httpConnect();
                 String json = jParser.getJSONFromUrl(url);
                 JSONObject jsonObject = new JSONObject(json);
 
-                url = "https://api.themoviedb.org/3/movie/" +  ID + "/credits" +  apiKey;
+                url = "https://api.themoviedb.org/3/movie/" + ID + "/credits" + apiKey;
                 System.out.println(url);
                 jParser = new httpConnect();
                 JSONObject creditsRetrieval = new JSONObject(jParser.getJSONFromUrl(url));
@@ -420,29 +326,22 @@ public class MovieDetailsUI extends FragmentActivity implements OnMapReadyCallba
                 Integer counter = 0;
 
                 //region Retrieve cast list
-                for (int i = 0 ; i < castArray.length(); i++)
-                {
-                    if(counter > limit)
-                    {
+                for (int i = 0; i < castArray.length(); i++) {
+                    if (counter > limit) {
                         counter = 1;
                         break;
                     }
 
                     JSONObject ithObject = castArray.getJSONObject(i);
 
-                    try
-                    {
+                    try {
 
-                        if (ithObject.has("character") && (ithObject.has("id")) && (ithObject.has("name")) && (ithObject.has("profile_path")))
-                        {
+                        if (ithObject.has("character") && (ithObject.has("id")) && (ithObject.has("name")) && (ithObject.has("profile_path"))) {
                             castCharacters.add(ithObject.getString("character"));
                             castIDs.add(ithObject.getString("id"));
                             castNames.add(ithObject.getString("name"));
                             castProfiles.add(ithObject.getString("profile_path"));
-                        }
-
-                        else
-                        {
+                        } else {
                             castCharacters.add("Mystery");
                             castIDs.add("Mystery");
                             castNames.add("Mystery");
@@ -450,214 +349,192 @@ public class MovieDetailsUI extends FragmentActivity implements OnMapReadyCallba
                         }
 
                         counter++;
-                    }
-
-                    catch(Exception dataError)
-                    {
+                    } catch (Exception dataError) {
                         System.out.println("Error! Something went wrong here!");
                     }
 
                 }
 
-                for (String castProfile : castProfiles)
-                {
-                    if(counter > limit)
-                    {
+                for (String castProfile : castProfiles) {
+                    if (counter > limit) {
                         counter = 1;
                         break;
                     }
 
-                    if(castProfile == "null")
-                    {
+                    if (castProfile == "null") {
                         castmember_img = "https://www.themoviedb.org/assets/e2dd052f141e33392eb749aab2414ec0/images/no-poster-w300_and_h450_bestv2-v2.png";
-                    }
-
-                    else
-                    {
+                    } else {
                         castmember_img = "https://image.tmdb.org/t/p/w132_and_h132_bestv2" + castProfile;
                     }
 
 
-                    switch(counter)
-                    {
+                    switch (counter) {
                         case 1:
-                            castmember1Img = (ImageView)findViewById(R.id.cast_actor_1_img);
-                            castmember1ImgBitmap = BitmapFactory.decodeStream((InputStream)new URL(castmember_img).getContent());
+                            castmember1Img = (ImageView) findViewById(R.id.cast_actor_1_img);
+                            castmember1ImgBitmap = BitmapFactory.decodeStream((InputStream) new URL(castmember_img).getContent());
                             break;
                         case 2:
-                            castmember2Img = (ImageView)findViewById(R.id.cast_actor_2_img);
-                            castmember2ImgBitmap = BitmapFactory.decodeStream((InputStream)new URL(castmember_img).getContent());
+                            castmember2Img = (ImageView) findViewById(R.id.cast_actor_2_img);
+                            castmember2ImgBitmap = BitmapFactory.decodeStream((InputStream) new URL(castmember_img).getContent());
                             break;
                         case 3:
-                            castmember3Img = (ImageView)findViewById(R.id.cast_actor_3_img);
-                            castmember3ImgBitmap = BitmapFactory.decodeStream((InputStream)new URL(castmember_img).getContent());
+                            castmember3Img = (ImageView) findViewById(R.id.cast_actor_3_img);
+                            castmember3ImgBitmap = BitmapFactory.decodeStream((InputStream) new URL(castmember_img).getContent());
                             break;
                         case 4:
-                            castmember4Img = (ImageView)findViewById(R.id.cast_actor_4_img);
-                            castmember4ImgBitmap = BitmapFactory.decodeStream((InputStream)new URL(castmember_img).getContent());
+                            castmember4Img = (ImageView) findViewById(R.id.cast_actor_4_img);
+                            castmember4ImgBitmap = BitmapFactory.decodeStream((InputStream) new URL(castmember_img).getContent());
                             break;
                         case 5:
-                            castmember5Img = (ImageView)findViewById(R.id.cast_actor_5_img);
-                            castmember5ImgBitmap = BitmapFactory.decodeStream((InputStream)new URL(castmember_img).getContent());
+                            castmember5Img = (ImageView) findViewById(R.id.cast_actor_5_img);
+                            castmember5ImgBitmap = BitmapFactory.decodeStream((InputStream) new URL(castmember_img).getContent());
                             break;
                         case 6:
-                            castmember6Img = (ImageView)findViewById(R.id.cast_actor_6_img);
-                            castmember6ImgBitmap = BitmapFactory.decodeStream((InputStream)new URL(castmember_img).getContent());
+                            castmember6Img = (ImageView) findViewById(R.id.cast_actor_6_img);
+                            castmember6ImgBitmap = BitmapFactory.decodeStream((InputStream) new URL(castmember_img).getContent());
                             break;
                         case 7:
-                            castmember7Img = (ImageView)findViewById(R.id.cast_actor_7_img);
-                            castmember7ImgBitmap = BitmapFactory.decodeStream((InputStream)new URL(castmember_img).getContent());
+                            castmember7Img = (ImageView) findViewById(R.id.cast_actor_7_img);
+                            castmember7ImgBitmap = BitmapFactory.decodeStream((InputStream) new URL(castmember_img).getContent());
                             break;
                         case 8:
-                            castmember8Img = (ImageView)findViewById(R.id.cast_actor_8_img);
-                            castmember8ImgBitmap = BitmapFactory.decodeStream((InputStream)new URL(castmember_img).getContent());
+                            castmember8Img = (ImageView) findViewById(R.id.cast_actor_8_img);
+                            castmember8ImgBitmap = BitmapFactory.decodeStream((InputStream) new URL(castmember_img).getContent());
                             break;
                         case 9:
-                            castmember9Img = (ImageView)findViewById(R.id.cast_actor_9_img);
-                            castmember9ImgBitmap = BitmapFactory.decodeStream((InputStream)new URL(castmember_img).getContent());
+                            castmember9Img = (ImageView) findViewById(R.id.cast_actor_9_img);
+                            castmember9ImgBitmap = BitmapFactory.decodeStream((InputStream) new URL(castmember_img).getContent());
                             break;
                         case 10:
-                            castmember10Img = (ImageView)findViewById(R.id.cast_actor_10_img);
-                            castmember10ImgBitmap = BitmapFactory.decodeStream((InputStream)new URL(castmember_img).getContent());
+                            castmember10Img = (ImageView) findViewById(R.id.cast_actor_10_img);
+                            castmember10ImgBitmap = BitmapFactory.decodeStream((InputStream) new URL(castmember_img).getContent());
                             break;
                     }
 
                     counter++;
                 }
 
-                for (String castName : castNames)
-                {
-                    if(counter > limit)
-                    {
+                for (String castName : castNames) {
+                    if (counter > limit) {
                         counter = 1;
                         break;
                     }
 
-                    if(castName == "null")
-                    {
+                    if (castName == "null") {
                         castName = "???";
                     }
 
-                    switch(counter)
-                    {
+                    switch (counter) {
                         case 1:
-                            castmember1Name = (TextView)findViewById(R.id.cast_actor_1_name);
+                            castmember1Name = (TextView) findViewById(R.id.cast_actor_1_name);
                             castmember_1_name = castName;
                             break;
                         case 2:
-                            castmember2Name = (TextView)findViewById(R.id.cast_actor_2_name);
+                            castmember2Name = (TextView) findViewById(R.id.cast_actor_2_name);
                             castmember_2_name = castName;
                             break;
                         case 3:
-                            castmember3Name = (TextView)findViewById(R.id.cast_actor_3_name);
+                            castmember3Name = (TextView) findViewById(R.id.cast_actor_3_name);
                             castmember_3_name = castName;
                             break;
                         case 4:
-                            castmember4Name = (TextView)findViewById(R.id.cast_actor_4_name);
+                            castmember4Name = (TextView) findViewById(R.id.cast_actor_4_name);
                             castmember_4_name = castName;
                             break;
                         case 5:
-                            castmember5Name = (TextView)findViewById(R.id.cast_actor_5_name);
+                            castmember5Name = (TextView) findViewById(R.id.cast_actor_5_name);
                             castmember_5_name = castName;
                             break;
                         case 6:
-                            castmember6Name = (TextView)findViewById(R.id.cast_actor_6_name);
+                            castmember6Name = (TextView) findViewById(R.id.cast_actor_6_name);
                             castmember_6_name = castName;
                             break;
                         case 7:
-                            castmember7Name = (TextView)findViewById(R.id.cast_actor_7_name);
+                            castmember7Name = (TextView) findViewById(R.id.cast_actor_7_name);
                             castmember_7_name = castName;
                             break;
                         case 8:
-                            castmember8Name = (TextView)findViewById(R.id.cast_actor_8_name);
+                            castmember8Name = (TextView) findViewById(R.id.cast_actor_8_name);
                             castmember_8_name = castName;
                             break;
                         case 9:
-                            castmember9Name = (TextView)findViewById(R.id.cast_actor_9_name);
+                            castmember9Name = (TextView) findViewById(R.id.cast_actor_9_name);
                             castmember_9_name = castName;
                             break;
                         case 10:
-                            castmember10Name = (TextView)findViewById(R.id.cast_actor_10_name);
+                            castmember10Name = (TextView) findViewById(R.id.cast_actor_10_name);
                             castmember_10_name = castName;
                             break;
                     }
                     counter++;
                 }
 
-                for (String castCharacter : castCharacters)
-                {
-                    if(counter > limit)
-                    {
+                for (String castCharacter : castCharacters) {
+                    if (counter > limit) {
                         counter = 1;
                         break;
                     }
 
-                    if(castCharacter == "null")
-                    {
+                    if (castCharacter == "null") {
                         castCharacter = "???";
                     }
 
-                    switch(counter)
-                    {
+                    switch (counter) {
                         case 1:
-                            castmember1Character = (TextView)findViewById(R.id.cast_actor_1_character);
+                            castmember1Character = (TextView) findViewById(R.id.cast_actor_1_character);
                             castmember_1_character = castCharacter;
                             break;
                         case 2:
-                            castmember2Character = (TextView)findViewById(R.id.cast_actor_2_character);
+                            castmember2Character = (TextView) findViewById(R.id.cast_actor_2_character);
                             castmember_2_character = castCharacter;
                             break;
                         case 3:
-                            castmember3Character = (TextView)findViewById(R.id.cast_actor_3_character);
+                            castmember3Character = (TextView) findViewById(R.id.cast_actor_3_character);
                             castmember_3_character = castCharacter;
                             break;
                         case 4:
-                            castmember4Character = (TextView)findViewById(R.id.cast_actor_4_character);
+                            castmember4Character = (TextView) findViewById(R.id.cast_actor_4_character);
                             castmember_4_character = castCharacter;
                             break;
                         case 5:
-                            castmember5Character = (TextView)findViewById(R.id.cast_actor_5_character);
+                            castmember5Character = (TextView) findViewById(R.id.cast_actor_5_character);
                             castmember_5_character = castCharacter;
                             break;
                         case 6:
-                            castmember6Character = (TextView)findViewById(R.id.cast_actor_6_character);
+                            castmember6Character = (TextView) findViewById(R.id.cast_actor_6_character);
                             castmember_6_character = castCharacter;
                             break;
                         case 7:
-                            castmember7Character = (TextView)findViewById(R.id.cast_actor_7_character);
+                            castmember7Character = (TextView) findViewById(R.id.cast_actor_7_character);
                             castmember_7_character = castCharacter;
                             break;
                         case 8:
-                            castmember8Character = (TextView)findViewById(R.id.cast_actor_8_character);
+                            castmember8Character = (TextView) findViewById(R.id.cast_actor_8_character);
                             castmember_8_character = castCharacter;
                             break;
                         case 9:
-                            castmember9Character = (TextView)findViewById(R.id.cast_actor_9_character);
+                            castmember9Character = (TextView) findViewById(R.id.cast_actor_9_character);
                             castmember_9_character = castCharacter;
                             break;
                         case 10:
-                            castmember10Character = (TextView)findViewById(R.id.cast_actor_10_character);
+                            castmember10Character = (TextView) findViewById(R.id.cast_actor_10_character);
                             castmember_10_character = castCharacter;
                             break;
                     }
                     counter++;
                 }
 
-                for (String castID : castIDs)
-                {
-                    if(counter > limit)
-                    {
+                for (String castID : castIDs) {
+                    if (counter > limit) {
                         counter = 1;
                         break;
                     }
 
-                    if(castID == "null")
-                    {
+                    if (castID == "null") {
                         castID = "???";
                     }
 
-                    switch(counter)
-                    {
+                    switch (counter) {
                         case 1:
                             castmember_1_id = castID;
                             break;
@@ -695,27 +572,20 @@ public class MovieDetailsUI extends FragmentActivity implements OnMapReadyCallba
 
                 //region Retrieve crew list
                 counter = 0;
-                for (int i = 0 ; i < crewArray.length(); i++)
-                {
-                    if(counter > limit)
-                    {
+                for (int i = 0; i < crewArray.length(); i++) {
+                    if (counter > limit) {
                         counter = 1;
                         break;
                     }
 
-                    try
-                    {
+                    try {
                         JSONObject ithObject = crewArray.getJSONObject(i);
-                        if (ithObject.has("job") && (ithObject.has("id")) && (ithObject.has("name")) && (ithObject.has("profile_path")))
-                        {
+                        if (ithObject.has("job") && (ithObject.has("id")) && (ithObject.has("name")) && (ithObject.has("profile_path"))) {
                             crewJobs.add(ithObject.getString("job"));
                             crewIDs.add(ithObject.getString("id"));
                             crewNames.add(ithObject.getString("name"));
                             crewProfiles.add(ithObject.getString("profile_path"));
-                        }
-
-                        else
-                        {
+                        } else {
                             crewJobs.add("null");
                             crewIDs.add("null");
                             crewNames.add("null");
@@ -723,76 +593,66 @@ public class MovieDetailsUI extends FragmentActivity implements OnMapReadyCallba
                         }
 
                         counter++;
-                    }
-
-                    catch(Exception dataError)
-                    {
+                    } catch (Exception dataError) {
                         System.out.println("Error! Something went wrong here!");
                     }
 
                 }
 
                 counter = 0;
-                for (String crewProfile : crewProfiles)
-                {
-                    if(counter > limit)
-                    {
+                for (String crewProfile : crewProfiles) {
+                    if (counter > limit) {
                         counter = 1;
                         break;
                     }
 
-                    if(crewProfile == "null")
-                    {
+                    if (crewProfile == "null") {
                         crewmember_img = "https://www.themoviedb.org/assets/e2dd052f141e33392eb749aab2414ec0/images/no-poster-w300_and_h450_bestv2-v2.png";
-                    }
-
-                    else
-                    {
+                    } else {
                         crewmember_img = "https://image.tmdb.org/t/p/w132_and_h132_bestv2" + crewProfile;
                     }
 
 
-                    switch(counter)
-                    {
+                    switch (counter) {
                         case 1:
-                            crewmember1Img = (ImageView)findViewById(R.id.crew_1_img);
-                            crewmember1ImgBitmap = BitmapFactory.decodeStream((InputStream)new URL(crewmember_img).getContent());
+                            crewmember1Img = (ImageView) findViewById(R.id.crew_1_img);
+                            crewmember1ImgBitmap = BitmapFactory.decodeStream((InputStream) new URL(crewmember_img).getContent());
                             break;
                         case 2:
-                            crewmember2Img = (ImageView)findViewById(R.id.crew_2_img);
-                            crewmember2ImgBitmap = BitmapFactory.decodeStream((InputStream)new URL(crewmember_img).getContent());
+                            crewmember2Img = (ImageView) findViewById(R.id.crew_2_img);
+                            crewmember2ImgBitmap = BitmapFactory.decodeStream((InputStream) new URL(crewmember_img).getContent());
                             break;
                         case 3:
-                            crewmember3Img = (ImageView)findViewById(R.id.crew_3_img);
-                            crewmember3ImgBitmap = BitmapFactory.decodeStream((InputStream)new URL(crewmember_img).getContent());
+                            crewmember3Img = (ImageView) findViewById(R.id.crew_3_img);
+                            crewmember3ImgBitmap = BitmapFactory.decodeStream((InputStream) new URL(crewmember_img).getContent());
                             break;
                         case 4:
-                            crewmember4Img = (ImageView)findViewById(R.id.crew_4_img);
-                            crewmember4ImgBitmap = BitmapFactory.decodeStream((InputStream)new URL(crewmember_img).getContent());
+                            crewmember4Img = (ImageView) findViewById(R.id.crew_4_img);
+                            crewmember4ImgBitmap = BitmapFactory.decodeStream((InputStream) new URL(crewmember_img).getContent());
                             break;
                         case 5:
-                            crewmember5Img = (ImageView)findViewById(R.id.crew_5_img);
-                            crewmember5ImgBitmap = BitmapFactory.decodeStream((InputStream)new URL(crewmember_img).getContent());
+                            crewmember5Img = (ImageView) findViewById(R.id.crew_5_img);
+                            crewmember5ImgBitmap = BitmapFactory.decodeStream((InputStream) new URL(crewmember_img).getContent());
                             break;
                         case 6:
-                            crewmember6Img = (ImageView)findViewById(R.id.crew_6_img);
-                            crewmember6ImgBitmap = BitmapFactory.decodeStream((InputStream)new URL(crewmember_img).getContent());
+                            crewmember6Img = (ImageView) findViewById(R.id.crew_6_img);
+                            crewmember6ImgBitmap = BitmapFactory.decodeStream((InputStream) new URL(crewmember_img).getContent());
                             break;
                         case 7:
-                            crewmember7Img = (ImageView)findViewById(R.id.crew_7_img);
-                            crewmember7ImgBitmap = BitmapFactory.decodeStream((InputStream)new URL(crewmember_img).getContent());
+                            crewmember7Img = (ImageView) findViewById(R.id.crew_7_img);
+                            crewmember7ImgBitmap = BitmapFactory.decodeStream((InputStream) new URL(crewmember_img).getContent());
                             break;
                         case 8:
-                            crewmember8Img = (ImageView)findViewById(R.id.crew_8_img);
-                            crewmember8ImgBitmap = BitmapFactory.decodeStream((InputStream)new URL(crewmember_img).getContent());
+                            crewmember8Img = (ImageView) findViewById(R.id.crew_8_img);
+                            crewmember8ImgBitmap = BitmapFactory.decodeStream((InputStream) new URL(crewmember_img).getContent());
                             break;
                         case 9:
-                            crewmember9Img = (ImageView)findViewById(R.id.crew_9_img);
-                            crewmember9ImgBitmap = BitmapFactory.decodeStream((InputStream)new URL(crewmember_img).getContent());
+                            crewmember9Img = (ImageView) findViewById(R.id.crew_9_img);
+                            crewmember9ImgBitmap = BitmapFactory.decodeStream((InputStream) new URL(crewmember_img).getContent());
                             break;
                         case 10:
-                            crewmember10Img = (ImageView)findViewById(R.id.crew_10_img);
-                            crewmember10ImgBitmap = BitmapFactory.decodeStream((InputStream)new URL(crewmember_img).getContent());
+                            crewmember10Img = (ImageView) findViewById(R.id.crew_10_img);
+                            crewmember10ImgBitmap = BitmapFactory.decodeStream((InputStream) new URL(crewmember_img).getContent());
                             break;
                     }
 
@@ -800,59 +660,55 @@ public class MovieDetailsUI extends FragmentActivity implements OnMapReadyCallba
                 }
 
                 counter = 0;
-                for (String crewName : crewNames)
-                {
-                    if(counter > limit)
-                    {
+                for (String crewName : crewNames) {
+                    if (counter > limit) {
                         counter = 1;
                         break;
                     }
 
-                    if(crewName == "null")
-                    {
+                    if (crewName == "null") {
                         crewName = "???";
                     }
 
-                    switch(counter)
-                    {
+                    switch (counter) {
                         case 1:
-                            crewmember1Name = (TextView)findViewById(R.id.crew_1_name);
+                            crewmember1Name = (TextView) findViewById(R.id.crew_1_name);
                             crewmember_1_name = crewName;
                             break;
                         case 2:
-                            crewmember2Name = (TextView)findViewById(R.id.crew_2_name);
+                            crewmember2Name = (TextView) findViewById(R.id.crew_2_name);
                             crewmember_2_name = crewName;
                             break;
                         case 3:
-                            crewmember3Name = (TextView)findViewById(R.id.crew_3_name);
+                            crewmember3Name = (TextView) findViewById(R.id.crew_3_name);
                             crewmember_3_name = crewName;
                             break;
                         case 4:
-                            crewmember4Name = (TextView)findViewById(R.id.crew_4_name);
+                            crewmember4Name = (TextView) findViewById(R.id.crew_4_name);
                             crewmember_4_name = crewName;
                             break;
                         case 5:
-                            crewmember5Name = (TextView)findViewById(R.id.crew_5_name);
+                            crewmember5Name = (TextView) findViewById(R.id.crew_5_name);
                             crewmember_5_name = crewName;
                             break;
                         case 6:
-                            crewmember6Name = (TextView)findViewById(R.id.crew_6_name);
+                            crewmember6Name = (TextView) findViewById(R.id.crew_6_name);
                             crewmember_6_name = crewName;
                             break;
                         case 7:
-                            crewmember7Name = (TextView)findViewById(R.id.crew_7_name);
+                            crewmember7Name = (TextView) findViewById(R.id.crew_7_name);
                             crewmember_7_name = crewName;
                             break;
                         case 8:
-                            crewmember8Name = (TextView)findViewById(R.id.crew_8_name);
+                            crewmember8Name = (TextView) findViewById(R.id.crew_8_name);
                             crewmember_8_name = crewName;
                             break;
                         case 9:
-                            crewmember9Name = (TextView)findViewById(R.id.crew_9_name);
+                            crewmember9Name = (TextView) findViewById(R.id.crew_9_name);
                             crewmember_9_name = crewName;
                             break;
                         case 10:
-                            crewmember10Name = (TextView)findViewById(R.id.crew_10_name);
+                            crewmember10Name = (TextView) findViewById(R.id.crew_10_name);
                             crewmember_10_name = crewName;
                             break;
                     }
@@ -860,59 +716,55 @@ public class MovieDetailsUI extends FragmentActivity implements OnMapReadyCallba
                 }
 
                 counter = 0;
-                for (String crewJob : crewJobs)
-                {
-                    if(counter > limit)
-                    {
+                for (String crewJob : crewJobs) {
+                    if (counter > limit) {
                         counter = 1;
                         break;
                     }
 
-                    if(crewJob == "null")
-                    {
+                    if (crewJob == "null") {
                         crewJob = "???";
                     }
 
-                    switch(counter)
-                    {
+                    switch (counter) {
                         case 1:
-                            crewmember1Job = (TextView)findViewById(R.id.crew_1_job);
+                            crewmember1Job = (TextView) findViewById(R.id.crew_1_job);
                             crewmember_1_job = crewJob;
                             break;
                         case 2:
-                            crewmember2Job = (TextView)findViewById(R.id.crew_2_job);
+                            crewmember2Job = (TextView) findViewById(R.id.crew_2_job);
                             crewmember_2_job = crewJob;
                             break;
                         case 3:
-                            crewmember3Job = (TextView)findViewById(R.id.crew_3_job);
+                            crewmember3Job = (TextView) findViewById(R.id.crew_3_job);
                             crewmember_3_job = crewJob;
                             break;
                         case 4:
-                            crewmember4Job = (TextView)findViewById(R.id.crew_4_job);
+                            crewmember4Job = (TextView) findViewById(R.id.crew_4_job);
                             crewmember_4_job = crewJob;
                             break;
                         case 5:
-                            crewmember5Job = (TextView)findViewById(R.id.crew_5_job);
+                            crewmember5Job = (TextView) findViewById(R.id.crew_5_job);
                             crewmember_5_job = crewJob;
                             break;
                         case 6:
-                            crewmember6Job = (TextView)findViewById(R.id.crew_6_job);
+                            crewmember6Job = (TextView) findViewById(R.id.crew_6_job);
                             crewmember_6_job = crewJob;
                             break;
                         case 7:
-                            crewmember7Job = (TextView)findViewById(R.id.crew_7_job);
+                            crewmember7Job = (TextView) findViewById(R.id.crew_7_job);
                             crewmember_7_job = crewJob;
                             break;
                         case 8:
-                            crewmember8Job = (TextView)findViewById(R.id.crew_8_job);
+                            crewmember8Job = (TextView) findViewById(R.id.crew_8_job);
                             crewmember_8_job = crewJob;
                             break;
                         case 9:
-                            crewmember9Job = (TextView)findViewById(R.id.crew_9_job);
+                            crewmember9Job = (TextView) findViewById(R.id.crew_9_job);
                             crewmember_9_job = crewJob;
                             break;
                         case 10:
-                            crewmember10Job = (TextView)findViewById(R.id.crew_10_job);
+                            crewmember10Job = (TextView) findViewById(R.id.crew_10_job);
                             crewmember_10_job = crewJob;
                             break;
                     }
@@ -920,21 +772,17 @@ public class MovieDetailsUI extends FragmentActivity implements OnMapReadyCallba
                 }
 
                 counter = 0;
-                for (String crewID : crewIDs)
-                {
-                    if(counter > limit)
-                    {
+                for (String crewID : crewIDs) {
+                    if (counter > limit) {
                         counter = 1;
                         break;
                     }
 
-                    if(crewID == "null")
-                    {
+                    if (crewID == "null") {
                         crewID = "???";
                     }
 
-                    switch(counter)
-                    {
+                    switch (counter) {
                         case 1:
                             crewmember_1_id = crewID;
                             break;
@@ -970,33 +818,25 @@ public class MovieDetailsUI extends FragmentActivity implements OnMapReadyCallba
                 }
                 //endregion
 
-                try
-                {
+                try {
                     String importantInformationTest;
                     //region Check and get Poster
                     importantInformationTest = jsonObject.getString("poster_path");
-                    if(importantInformationTest == "null")
-                    {
+                    if (importantInformationTest == "null") {
                         poster_path = "https://www.themoviedb.org/assets/e2dd052f141e33392eb749aab2414ec0/images/no-poster-w300_and_h450_bestv2-v2.png";
-                    }
-
-                    else
-                    {
+                    } else {
                         poster_path = "https://image.tmdb.org/t/p/w300_and_h450_bestv2" + importantInformationTest;
                     }
                     //endregion
                     //region Check and get Backdrop
                     importantInformationTest = jsonObject.getString("backdrop_path");
-                    if(importantInformationTest == "null")
-                    {
+                    if (importantInformationTest == "null") {
                         backdrop_path = "https://www.themoviedb.org/assets/e2dd052f141e33392eb749aab2414ec0/images/no-poster-w300_and_h450_bestv2-v2.png";
-                    }
-
-                    else
-                    {
+                    } else {
                         backdrop_path = "https://image.tmdb.org/t/p/w500_and_h281_bestv2" + importantInformationTest;
                     }
                     //endregion
+
                     //region Retrieve movie data
                     movie_title = jsonObject.getString("title");
                     movie_release_date = jsonObject.getString("release_date");
@@ -1010,48 +850,35 @@ public class MovieDetailsUI extends FragmentActivity implements OnMapReadyCallba
                     movie_revenue = jsonObject.getString("revenue");
                     movie_voters = jsonObject.getString("vote_count");
                     //endregion
-                }
-
-                catch (Exception e)
-                {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
-                try
-                {
+                try {
                     //region Decode Poster and Backdrop & get ready to apply them
-                    poster = (ImageView)findViewById(R.id.movie_poster);
-                    poster_bitmap = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
-                    backdrop = (ImageView)findViewById(R.id.movie_backdrop);
-                    backdrop_bitmap = BitmapFactory.decodeStream((InputStream)new URL(backdrop_path).getContent());
+                    poster = (ImageView) findViewById(R.id.movie_poster);
+                    poster_bitmap = BitmapFactory.decodeStream((InputStream) new URL(poster_path).getContent());
+                    backdrop = (ImageView) findViewById(R.id.movie_backdrop);
+                    backdrop_bitmap = BitmapFactory.decodeStream((InputStream) new URL(backdrop_path).getContent());
                     //endregion
                     //region locates all Movie Data elements and gets ready to apply them
-                    name = (TextView)findViewById(R.id.movie_name);
-                    release_date = (TextView)findViewById(R.id.movie_release_date);
-                    tagline = (TextView)findViewById(R.id.movie_tagline);
-                    overview = (TextView)findViewById(R.id.movie_overview);
-                    rating = (ImageView)findViewById(R.id.movie_rating);
-                    runtime = (TextView)findViewById(R.id.movie_runtime);
-                    language = (TextView)findViewById(R.id.movie_language);
-                    budget = (TextView)findViewById(R.id.movie_budget);
-                    revenue = (TextView)findViewById(R.id.movie_revenue);
-                    voters = (TextView)findViewById(R.id.movie_voters);
+                    name = (TextView) findViewById(R.id.movie_name);
+                    release_date = (TextView) findViewById(R.id.movie_release_date);
+                    tagline = (TextView) findViewById(R.id.movie_tagline);
+                    overview = (TextView) findViewById(R.id.movie_overview);
+                    rating = (ImageView) findViewById(R.id.movie_rating);
+                    runtime = (TextView) findViewById(R.id.movie_runtime);
+                    language = (TextView) findViewById(R.id.movie_language);
+                    budget = (TextView) findViewById(R.id.movie_budget);
+                    revenue = (TextView) findViewById(R.id.movie_revenue);
+                    voters = (TextView) findViewById(R.id.movie_voters);
                     //endregion
-                }
-
-                catch (MalformedURLException e)
-                {
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
-
-                catch (IOException e)
-                {
-                    e.printStackTrace();
-                }
-            }
-
-            catch (Exception e)
-            {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
@@ -1059,8 +886,7 @@ public class MovieDetailsUI extends FragmentActivity implements OnMapReadyCallba
         }
 
         @Override
-        protected void onPostExecute(String strFromDoInBg)
-        {
+        protected void onPostExecute(String strFromDoInBg) {
             //region Apply Poster & Backdrop
             poster.setImageBitmap(poster_bitmap);
             backdrop.setImageBitmap(backdrop_bitmap);
@@ -1084,30 +910,157 @@ public class MovieDetailsUI extends FragmentActivity implements OnMapReadyCallba
                 castmember1Img.setImageBitmap(castmember1ImgBitmap);
                 castmember1Name.setText(castmember_1_name);
                 castmember1Character.setText(castmember_1_character);
+            }
+
+            catch (Exception e)
+            {
+                CardView ErrorCardView = (CardView) findViewById(R.id.cast_actor_1);
+                ErrorCardView.setVisibility(View.GONE);
+                View ErrorView = MovieDetailsUI.this.findViewById(R.id.cast_actor_1_name);
+                ErrorView.setVisibility(View.GONE);
+                ErrorView = MovieDetailsUI.this.findViewById(R.id.cast_actor_1_character);
+                ErrorView.setVisibility(View.GONE);
+                CastCrew_Error_No = CastCrew_Error_No + 10;
+
+            }
+
+            try {
                 castmember2Img.setImageBitmap(castmember2ImgBitmap);
                 castmember2Name.setText(castmember_2_name);
                 castmember2Character.setText(castmember_2_character);
+            }
+
+            catch (Exception e)
+            {
+                CardView ErrorCardView = (CardView) findViewById(R.id.cast_actor_2);
+                ErrorCardView.setVisibility(View.GONE);
+                View ErrorView = MovieDetailsUI.this.findViewById(R.id.cast_actor_2_name);
+                ErrorView.setVisibility(View.GONE);
+                ErrorView = MovieDetailsUI.this.findViewById(R.id.cast_actor_2_character);
+                ErrorView.setVisibility(View.GONE);
+                CastCrew_Error_No = CastCrew_Error_No + 10;
+            }
+
+            try {
                 castmember3Img.setImageBitmap(castmember3ImgBitmap);
                 castmember3Name.setText(castmember_3_name);
                 castmember3Character.setText(castmember_3_character);
+            }
+
+            catch (Exception e)
+            {
+                CardView ErrorCardView = (CardView) findViewById(R.id.cast_actor_3);
+                ErrorCardView.setVisibility(View.GONE);
+                View ErrorView = MovieDetailsUI.this.findViewById(R.id.cast_actor_3_name);
+                ErrorView.setVisibility(View.GONE);
+                ErrorView = MovieDetailsUI.this.findViewById(R.id.cast_actor_3_character);
+                ErrorView.setVisibility(View.GONE);
+                CastCrew_Error_No = CastCrew_Error_No + 10;
+            }
+
+            try {
                 castmember4Img.setImageBitmap(castmember4ImgBitmap);
                 castmember4Name.setText(castmember_4_name);
                 castmember4Character.setText(castmember_4_character);
+            }
+
+            catch (Exception e)
+            {
+                CardView ErrorCardView = (CardView) findViewById(R.id.cast_actor_4);
+                ErrorCardView.setVisibility(View.GONE);
+                View ErrorView = MovieDetailsUI.this.findViewById(R.id.cast_actor_4_name);
+                ErrorView.setVisibility(View.GONE);
+                ErrorView = MovieDetailsUI.this.findViewById(R.id.cast_actor_4_character);
+                ErrorView.setVisibility(View.GONE);
+                CastCrew_Error_No = CastCrew_Error_No + 10;
+            }
+
+            try {
                 castmember5Img.setImageBitmap(castmember5ImgBitmap);
                 castmember5Name.setText(castmember_5_name);
                 castmember5Character.setText(castmember_5_character);
+            }
+
+            catch (Exception e)
+            {
+                CardView ErrorCardView = (CardView) findViewById(R.id.cast_actor_5);
+                ErrorCardView.setVisibility(View.GONE);
+                View ErrorView = MovieDetailsUI.this.findViewById(R.id.cast_actor_5_name);
+                ErrorView.setVisibility(View.GONE);
+                ErrorView = MovieDetailsUI.this.findViewById(R.id.cast_actor_5_character);
+                ErrorView.setVisibility(View.GONE);
+                CastCrew_Error_No = CastCrew_Error_No + 10;
+            }
+
+            try {
                 castmember6Img.setImageBitmap(castmember6ImgBitmap);
                 castmember6Name.setText(castmember_6_name);
                 castmember6Character.setText(castmember_6_character);
+            }
+
+            catch (Exception e)
+            {
+                CardView ErrorCardView = (CardView) findViewById(R.id.cast_actor_6);
+                ErrorCardView.setVisibility(View.GONE);
+                View ErrorView = MovieDetailsUI.this.findViewById(R.id.cast_actor_6_name);
+                ErrorView.setVisibility(View.GONE);
+                ErrorView = MovieDetailsUI.this.findViewById(R.id.cast_actor_6_character);
+                ErrorView.setVisibility(View.GONE);
+                CastCrew_Error_No = CastCrew_Error_No + 10;
+            }
+
+            try {
                 castmember7Img.setImageBitmap(castmember7ImgBitmap);
                 castmember7Name.setText(castmember_7_name);
                 castmember7Character.setText(castmember_7_character);
+            }
+
+            catch (Exception e)
+            {
+                CardView ErrorCardView = (CardView) findViewById(R.id.cast_actor_7);
+                ErrorCardView.setVisibility(View.GONE);
+                View ErrorView = MovieDetailsUI.this.findViewById(R.id.cast_actor_7_name);
+                ErrorView.setVisibility(View.GONE);
+                ErrorView = MovieDetailsUI.this.findViewById(R.id.cast_actor_7_character);
+                ErrorView.setVisibility(View.GONE);
+                CastCrew_Error_No = CastCrew_Error_No + 10;
+            }
+
+            try {
                 castmember8Img.setImageBitmap(castmember8ImgBitmap);
                 castmember8Name.setText(castmember_8_name);
                 castmember8Character.setText(castmember_8_character);
+            }
+
+            catch (Exception e)
+            {
+                CardView ErrorCardView = (CardView) findViewById(R.id.cast_actor_8);
+                ErrorCardView.setVisibility(View.GONE);
+                View ErrorView = MovieDetailsUI.this.findViewById(R.id.cast_actor_8_name);
+                ErrorView.setVisibility(View.GONE);
+                ErrorView = MovieDetailsUI.this.findViewById(R.id.cast_actor_8_character);
+                ErrorView.setVisibility(View.GONE);
+                CastCrew_Error_No = CastCrew_Error_No + 10;
+            }
+
+            try {
                 castmember9Img.setImageBitmap(castmember9ImgBitmap);
                 castmember9Name.setText(castmember_9_name);
                 castmember9Character.setText(castmember_9_character);
+            }
+
+            catch (Exception e)
+            {
+                CardView ErrorCardView = (CardView) findViewById(R.id.cast_actor_9);
+                ErrorCardView.setVisibility(View.GONE);
+                View ErrorView = MovieDetailsUI.this.findViewById(R.id.cast_actor_9_name);
+                ErrorView.setVisibility(View.GONE);
+                ErrorView = MovieDetailsUI.this.findViewById(R.id.cast_actor_9_character);
+                ErrorView.setVisibility(View.GONE);
+                CastCrew_Error_No = CastCrew_Error_No + 10;
+            }
+
+            try {
                 castmember10Img.setImageBitmap(castmember10ImgBitmap);
                 castmember10Name.setText(castmember_10_name);
                 castmember10Character.setText(castmember_10_character);
@@ -1115,300 +1068,347 @@ public class MovieDetailsUI extends FragmentActivity implements OnMapReadyCallba
 
             catch (Exception e)
             {
-                Context context = getApplicationContext();
-                CharSequence text = "Problem with Cast Images!";
-                int duration = Toast.LENGTH_SHORT;
-
-                Toast toast = Toast.makeText(context, text, duration);
-                toast.show();
+                CardView ErrorCardView = (CardView) findViewById(R.id.cast_actor_10);
+                ErrorCardView.setVisibility(View.GONE);
+                View ErrorView = MovieDetailsUI.this.findViewById(R.id.cast_actor_10_name);
+                ErrorView.setVisibility(View.GONE);
+                ErrorView = MovieDetailsUI.this.findViewById(R.id.cast_actor_10_character);
+                ErrorView.setVisibility(View.GONE);
+                CastCrew_Error_No = CastCrew_Error_No + 10;
             }
+
+            //region Remove section if no values
+            if(CastCrew_Error_No == 100)
+            {
+                View ErrorView = MovieDetailsUI.this.findViewById(R.id.cast_title);
+                ErrorView.setVisibility(View.GONE);
+                ErrorView = MovieDetailsUI.this.findViewById(R.id.cast_view);
+                ErrorView.setVisibility(View.GONE);
+                ErrorView = MovieDetailsUI.this.findViewById(R.id.crew_title);
+                ErrorView.setPadding(0, 300, 0, 0);
+                CastCrew_Error_No = 0;
+            }
+
+            else
+            {
+                CastCrew_Error_No = 0;
+            }
+            //endregion
 
             //endregion
 
             //region Apply crewmember details
-
-            try
-            {
+            //region Crewmember 1
+            try {
                 crewmember1Img.setImageBitmap(crewmember1ImgBitmap);
                 crewmember1Name.setText(crewmember_1_name);
                 crewmember1Job.setText(crewmember_1_job);
+            } catch (Exception e) {
+                CardView ErrorCardView = (CardView) findViewById(R.id.crew_1);
+                ErrorCardView.setVisibility(View.GONE);
+                View ErrorView = MovieDetailsUI.this.findViewById(R.id.crew_1_name);
+                ErrorView.setVisibility(View.GONE);
+                ErrorView = MovieDetailsUI.this.findViewById(R.id.crew_1_job);
+                ErrorView.setVisibility(View.GONE);
+                CastCrew_Error_No = CastCrew_Error_No + 10;
+            }
+            //endregion
+            //region Crewmember 2
+            try {
                 crewmember2Img.setImageBitmap(crewmember2ImgBitmap);
                 crewmember2Name.setText(crewmember_2_name);
                 crewmember2Job.setText(crewmember_2_job);
+            } catch (Exception e) {
+                CardView ErrorCardView = (CardView) findViewById(R.id.crew_2);
+                ErrorCardView.setVisibility(View.GONE);
+                View ErrorView = MovieDetailsUI.this.findViewById(R.id.crew_2_name);
+                ErrorView.setVisibility(View.GONE);
+                ErrorView = MovieDetailsUI.this.findViewById(R.id.crew_2_job);
+                ErrorView.setVisibility(View.GONE);
+                CastCrew_Error_No = CastCrew_Error_No + 10;
+            }
+            //endregion
+            //region Crewmember 3
+            try {
                 crewmember3Img.setImageBitmap(crewmember3ImgBitmap);
                 crewmember3Name.setText(crewmember_3_name);
                 crewmember3Job.setText(crewmember_3_job);
+            } catch (Exception e) {
+                CardView ErrorCardView = (CardView) findViewById(R.id.crew_3);
+                ErrorCardView.setVisibility(View.GONE);
+                View ErrorView = MovieDetailsUI.this.findViewById(R.id.crew_3_name);
+                ErrorView.setVisibility(View.GONE);
+                ErrorView = MovieDetailsUI.this.findViewById(R.id.crew_3_job);
+                ErrorView.setVisibility(View.GONE);
+                CastCrew_Error_No = CastCrew_Error_No + 10;
+            }
+            //endregion
+            //region Crewmember 4
+            try {
                 crewmember4Img.setImageBitmap(crewmember4ImgBitmap);
                 crewmember4Name.setText(crewmember_4_name);
                 crewmember4Job.setText(crewmember_4_job);
+            } catch (Exception e) {
+                CardView ErrorCardView = (CardView) findViewById(R.id.crew_4);
+                ErrorCardView.setVisibility(View.GONE);
+                View ErrorView = MovieDetailsUI.this.findViewById(R.id.crew_4_name);
+                ErrorView.setVisibility(View.GONE);
+                ErrorView = MovieDetailsUI.this.findViewById(R.id.crew_4_job);
+                ErrorView.setVisibility(View.GONE);
+                CastCrew_Error_No = CastCrew_Error_No + 10;
+            }
+            //endregion
+            //region Crewmember 5
+            try {
                 crewmember5Img.setImageBitmap(crewmember5ImgBitmap);
                 crewmember5Name.setText(crewmember_5_name);
                 crewmember5Job.setText(crewmember_5_job);
+            } catch (Exception e) {
+                CardView ErrorCardView = (CardView) findViewById(R.id.crew_5);
+                ErrorCardView.setVisibility(View.GONE);
+                View ErrorView = MovieDetailsUI.this.findViewById(R.id.crew_5_name);
+                ErrorView.setVisibility(View.GONE);
+                ErrorView = MovieDetailsUI.this.findViewById(R.id.crew_5_job);
+                ErrorView.setVisibility(View.GONE);
+                CastCrew_Error_No = CastCrew_Error_No + 10;
+            }
+            //endregion
+            //region Crewmember 6
+            try {
                 crewmember6Img.setImageBitmap(crewmember6ImgBitmap);
                 crewmember6Name.setText(crewmember_6_name);
                 crewmember6Job.setText(crewmember_6_job);
+            } catch (Exception e) {
+                CardView ErrorCardView = (CardView) findViewById(R.id.crew_6);
+                ErrorCardView.setVisibility(View.GONE);
+                View ErrorView = MovieDetailsUI.this.findViewById(R.id.crew_6_name);
+                ErrorView.setVisibility(View.GONE);
+                ErrorView = MovieDetailsUI.this.findViewById(R.id.crew_6_job);
+                ErrorView.setVisibility(View.GONE);
+                CastCrew_Error_No = CastCrew_Error_No + 10;
+            }
+            //endregion
+            //region Crewmember 7
+            try {
                 crewmember7Img.setImageBitmap(crewmember7ImgBitmap);
                 crewmember7Name.setText(crewmember_7_name);
                 crewmember7Job.setText(crewmember_7_job);
+            } catch (Exception e) {
+                CardView ErrorCardView = (CardView) findViewById(R.id.crew_7);
+                ErrorCardView.setVisibility(View.GONE);
+                View ErrorView = MovieDetailsUI.this.findViewById(R.id.crew_7_name);
+                ErrorView.setVisibility(View.GONE);
+                ErrorView = MovieDetailsUI.this.findViewById(R.id.crew_7_job);
+                ErrorView.setVisibility(View.GONE);
+                CastCrew_Error_No = CastCrew_Error_No + 10;
+            }
+            //endregion
+            //region Crewmember 8
+            try {
                 crewmember8Img.setImageBitmap(crewmember8ImgBitmap);
                 crewmember8Name.setText(crewmember_8_name);
                 crewmember8Job.setText(crewmember_8_job);
+            } catch (Exception e) {
+                CardView ErrorCardView = (CardView) findViewById(R.id.crew_8);
+                ErrorCardView.setVisibility(View.GONE);
+                View ErrorView = MovieDetailsUI.this.findViewById(R.id.crew_8_name);
+                ErrorView.setVisibility(View.GONE);
+                ErrorView = MovieDetailsUI.this.findViewById(R.id.crew_8_job);
+                ErrorView.setVisibility(View.GONE);
+                CastCrew_Error_No = CastCrew_Error_No + 10;
+            }
+            //endregion
+            //region Crewmember 9
+            try {
                 crewmember9Img.setImageBitmap(crewmember9ImgBitmap);
                 crewmember9Name.setText(crewmember_9_name);
                 crewmember9Job.setText(crewmember_9_job);
+            } catch (Exception e) {
+                CardView ErrorCardView = (CardView) findViewById(R.id.crew_9);
+                ErrorCardView.setVisibility(View.GONE);
+                View ErrorView = MovieDetailsUI.this.findViewById(R.id.crew_9_name);
+                ErrorView.setVisibility(View.GONE);
+                ErrorView = MovieDetailsUI.this.findViewById(R.id.crew_9_job);
+                ErrorView.setVisibility(View.GONE);
+                CastCrew_Error_No = CastCrew_Error_No + 10;
+            }
+            //endregion
+            //region Crewmember 10
+            try {
                 crewmember10Img.setImageBitmap(crewmember10ImgBitmap);
                 crewmember10Name.setText(crewmember_10_name);
                 crewmember10Job.setText(crewmember_10_job);
-            }
-
-            catch (Exception e)
-            {
-                Context context = getApplicationContext();
-                CharSequence text = "Problem with Crew Images!";
-                int duration = Toast.LENGTH_SHORT;
-
-                Toast toast = Toast.makeText(context, text, duration);
-                toast.show();
+            } catch (Exception e) {
+                CardView ErrorCardView = (CardView) findViewById(R.id.crew_10);
+                ErrorCardView.setVisibility(View.GONE);
+                View ErrorView = MovieDetailsUI.this.findViewById(R.id.crew_10_name);
+                ErrorView.setVisibility(View.GONE);
+                ErrorView = MovieDetailsUI.this.findViewById(R.id.crew_10_job);
+                ErrorView.setVisibility(View.GONE);
+                CastCrew_Error_No = CastCrew_Error_No + 10;
             }
             //endregion
-        }
 
-        public void calculateRating()
-        {
-            movie_rating = movie_rating.replace(".", "");
-            int ratingInt = Integer.parseInt(movie_rating);
-            ImageView ratingIcon = (ImageView) findViewById(R.id.movie_rating);
-            ImageView ratingBackdrop = (ImageView) findViewById(R.id.movie_rating_backdrop);
-
-            //region Calculate Rating
-            if(ratingInt >= 70)
+            //region Remove section if no values
+            if(CastCrew_Error_No == 100)
             {
-                ratingIcon.setImageResource(R.mipmap.rating_thumbs_up_plus);
-                ratingBackdrop.setImageResource(R.drawable.positive_banner);
+                View ErrorView = MovieDetailsUI.this.findViewById(R.id.crew_title);
+                ErrorView.setVisibility(View.GONE);
+                ErrorView = MovieDetailsUI.this.findViewById(R.id.crew_view);
+                ErrorView.setVisibility(View.GONE);
+                CastCrew_Error_No = 0;
             }
 
             else
             {
-                if(ratingInt >= 60)
-                {
-                    ratingIcon.setImageResource(R.mipmap.rating_thumbs_up);
-                    ratingBackdrop.setImageResource(R.drawable.positive_banner);
-                }
-
-                else
-                {
-                    if(ratingInt >= 50)
-                    {
-                        ratingIcon.setImageResource(R.mipmap.rating_neutral);
-                        ratingBackdrop.setImageResource(R.drawable.neutral_banner);
-                    }
-
-                    else
-                    {
-                        if(ratingInt >= 40)
-                        {
-                            ratingIcon.setImageResource(R.mipmap.rating_thumbs_down);
-                            ratingBackdrop.setImageResource(R.drawable.negative_banner);
-                        }
-
-                        else
-                        {
-                            ratingIcon.setImageResource(R.mipmap.rating_thumbs_down_plus);
-                            ratingBackdrop.setImageResource(R.drawable.negative_banner);
-                        }
-                    }
-                }
-            }
-            //endregion
-        }
-
-        public void calculateBudgetRevenue()
-        {
-            int budget_length = movie_budget.length( );
-            int revenue_length = movie_revenue.length( );
-
-            //region Calculate Budget
-            if(budget_length == 9)
-            {
-                movie_budget = "$" + (movie_budget.substring(0, 3)) + "m";
-                budget.setText(movie_budget);
-            }
-
-            else
-            {
-                if(budget_length == 8)
-                {
-                    movie_budget = "$" + (movie_budget.substring(0, 2)) + "m";
-                    budget.setText(movie_budget);
-                }
-
-                else
-                {
-                    if(budget_length == 7)
-                    {
-                        movie_budget = "$" + (movie_budget.substring(0, 1)) + "m";
-                        budget.setText(movie_budget);
-                    }
-
-                    else
-                    {
-                        if(budget_length == 6)
-                        {
-                            movie_budget = "$" + (movie_budget.substring(0, 3)) + "k";
-                            budget.setText(movie_budget);
-                        }
-
-                        else
-                        {
-                                if(budget_length == 5)
-                                {
-                                    movie_budget = "$" + (movie_budget.substring(0, 2)) + "k";
-                                    budget.setText(movie_budget);
-                                }
-
-                                else
-                                {
-                                    if(budget_length == 4)
-                                    {
-                                        movie_budget = "$" + (movie_budget.substring(0, 1)) + "k";
-                                        budget.setText(movie_budget);
-                                    }
-
-                                    else
-                                    {
-                                        if(budget_length == 3)
-                                        {
-                                            movie_budget = "$" + (movie_budget.substring(0, 3));
-                                            budget.setText(movie_budget);
-                                        }
-
-                                        else
-                                        {
-                                            if(budget_length == 2)
-                                            {
-                                                movie_budget = "$" + (movie_budget.substring(0, 2));
-                                                budget.setText(movie_budget);
-                                            }
-
-                                            else
-                                            {
-                                                if(budget_length == 1)
-                                                {
-                                                    movie_budget = "$" + (movie_budget.substring(0, 1));
-                                                    budget.setText(movie_budget);
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                        }
-                    }
-                }
+                CastCrew_Error_No = 0;
             }
             //endregion
 
-            //region Calculate Revenue
-            if(revenue_length == 10)
-            {
-                movie_revenue = "$" + (movie_revenue.substring(0, 1)) + "." + (movie_revenue.substring(1, 2)) + "b";
-                revenue.setText(movie_revenue);
-            }
-
-            else
-            {
-                if(revenue_length == 9)
-                {
-                    movie_revenue = "$" + (movie_revenue.substring(0, 3)) + "m";
-                    revenue.setText(movie_revenue);
-                }
-
-                else
-                {
-                    if(revenue_length == 8)
-                    {
-                        movie_revenue = "$" + (movie_revenue.substring(0, 2)) + "m";
-                        revenue.setText(movie_revenue);
-                    }
-
-                    else
-                    {
-                        if(revenue_length == 7)
-                        {
-                            movie_revenue = "$" + (movie_revenue.substring(0, 1)) + "m";
-                            revenue.setText(movie_revenue);
-                        }
-
-                        else
-                        {
-                            if(revenue_length == 6)
-                            {
-                                movie_revenue = "$" + (movie_revenue.substring(0, 3)) + "k";
-                                revenue.setText(movie_revenue);
-                            }
-
-                            else
-                            {
-                                if(revenue_length == 5)
-                                {
-                                    movie_revenue = "$" + (movie_revenue.substring(0, 2)) + "k";
-                                    revenue.setText(movie_revenue);
-                                }
-
-                                else
-                                {
-                                    if(revenue_length == 4)
-                                    {
-                                        movie_revenue = "$" + (movie_revenue.substring(0, 1)) + "k";
-                                        revenue.setText(movie_revenue);
-                                    }
-
-                                    else
-                                    {
-                                        if(revenue_length == 3)
-                                        {
-                                            movie_revenue = "$" + (movie_revenue.substring(0, 3));
-                                            revenue.setText(movie_revenue);
-                                        }
-
-                                        else
-                                        {
-                                            if(revenue_length == 2)
-                                            {
-                                                movie_revenue = "$" + (movie_revenue.substring(0, 2));
-                                                revenue.setText(movie_revenue);
-                                            }
-
-                                            else
-                                            {
-                                                if(revenue_length == 1)
-                                                {
-                                                    if(movie_revenue == "0")
-                                                    {
-                                                        movie_revenue = "TBD";
-                                                        revenue.setText("movie_revenue");
-                                                    }
-
-                                                    else
-                                                    {
-                                                        movie_revenue = "$" + (movie_revenue.substring(0, 1));
-                                                        revenue.setText(movie_revenue);
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
             //endregion
         }
     }
 
+    public void calculateRating() {
+        movie_rating = movie_rating.replace(".", "");
+        int ratingInt = Integer.parseInt(movie_rating);
+        ImageView ratingIcon = (ImageView) findViewById(R.id.movie_rating);
+        ImageView ratingBackdrop = (ImageView) findViewById(R.id.movie_rating_backdrop);
 
+        //region Calculate Rating
+        if (ratingInt >= 70) {
+            ratingIcon.setImageResource(R.mipmap.rating_thumbs_up_plus);
+            ratingBackdrop.setImageResource(R.drawable.positive_banner);
+        } else {
+            if (ratingInt >= 60) {
+                ratingIcon.setImageResource(R.mipmap.rating_thumbs_up);
+                ratingBackdrop.setImageResource(R.drawable.positive_banner);
+            } else {
+                if (ratingInt >= 50) {
+                    ratingIcon.setImageResource(R.mipmap.rating_neutral);
+                    ratingBackdrop.setImageResource(R.drawable.neutral_banner);
+                } else {
+                    if (ratingInt >= 40) {
+                        ratingIcon.setImageResource(R.mipmap.rating_thumbs_down);
+                        ratingBackdrop.setImageResource(R.drawable.negative_banner);
+                    } else {
+                        ratingIcon.setImageResource(R.mipmap.rating_thumbs_down_plus);
+                        ratingBackdrop.setImageResource(R.drawable.negative_banner);
+                    }
+                }
+            }
+        }
+        //endregion
+    }
+
+    public void calculateBudgetRevenue() {
+        int budget_length = movie_budget.length();
+        int revenue_length = movie_revenue.length();
+
+        //region Calculate Budget
+        if (budget_length == 9) {
+            movie_budget = "$" + (movie_budget.substring(0, 3)) + "m";
+            budget.setText(movie_budget);
+        } else {
+            if (budget_length == 8) {
+                movie_budget = "$" + (movie_budget.substring(0, 2)) + "m";
+                budget.setText(movie_budget);
+            } else {
+                if (budget_length == 7) {
+                    movie_budget = "$" + (movie_budget.substring(0, 1)) + "m";
+                    budget.setText(movie_budget);
+                } else {
+                    if (budget_length == 6) {
+                        movie_budget = "$" + (movie_budget.substring(0, 3)) + "k";
+                        budget.setText(movie_budget);
+                    } else {
+                        if (budget_length == 5) {
+                            movie_budget = "$" + (movie_budget.substring(0, 2)) + "k";
+                            budget.setText(movie_budget);
+                        } else {
+                            if (budget_length == 4) {
+                                movie_budget = "$" + (movie_budget.substring(0, 1)) + "k";
+                                budget.setText(movie_budget);
+                            } else {
+                                if (budget_length == 3) {
+                                    movie_budget = "$" + (movie_budget.substring(0, 3));
+                                    budget.setText(movie_budget);
+                                } else {
+                                    if (budget_length == 2) {
+                                        movie_budget = "$" + (movie_budget.substring(0, 2));
+                                        budget.setText(movie_budget);
+                                    } else {
+                                        if (budget_length == 1) {
+                                            movie_budget = "$" + (movie_budget.substring(0, 1));
+                                            budget.setText(movie_budget);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        //endregion
+
+        //region Calculate Revenue
+        if (revenue_length == 10) {
+            movie_revenue = "$" + (movie_revenue.substring(0, 1)) + "." + (movie_revenue.substring(1, 2)) + "b";
+            revenue.setText(movie_revenue);
+        } else {
+            if (revenue_length == 9) {
+                movie_revenue = "$" + (movie_revenue.substring(0, 3)) + "m";
+                revenue.setText(movie_revenue);
+            } else {
+                if (revenue_length == 8) {
+                    movie_revenue = "$" + (movie_revenue.substring(0, 2)) + "m";
+                    revenue.setText(movie_revenue);
+                } else {
+                    if (revenue_length == 7) {
+                        movie_revenue = "$" + (movie_revenue.substring(0, 1)) + "m";
+                        revenue.setText(movie_revenue);
+                    } else {
+                        if (revenue_length == 6) {
+                            movie_revenue = "$" + (movie_revenue.substring(0, 3)) + "k";
+                            revenue.setText(movie_revenue);
+                        } else {
+                            if (revenue_length == 5) {
+                                movie_revenue = "$" + (movie_revenue.substring(0, 2)) + "k";
+                                revenue.setText(movie_revenue);
+                            } else {
+                                if (revenue_length == 4) {
+                                    movie_revenue = "$" + (movie_revenue.substring(0, 1)) + "k";
+                                    revenue.setText(movie_revenue);
+                                } else {
+                                    if (revenue_length == 3) {
+                                        movie_revenue = "$" + (movie_revenue.substring(0, 3));
+                                        revenue.setText(movie_revenue);
+                                    } else {
+                                        if (revenue_length == 2) {
+                                            movie_revenue = "$" + (movie_revenue.substring(0, 2));
+                                            revenue.setText(movie_revenue);
+                                        } else {
+                                            if (revenue_length == 1) {
+                                                if (movie_revenue == "0") {
+                                                    movie_revenue = "TBD";
+                                                    revenue.setText("movie_revenue");
+                                                } else {
+                                                    movie_revenue = "$" + (movie_revenue.substring(0, 1));
+                                                    revenue.setText(movie_revenue);
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        //endregion
+    }
 }
-
 
 

@@ -8,46 +8,52 @@
 
 
 
-
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:background="@android:color/white">
 
-            <ImageView
+            <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="231dp"
-                card_view:srcCompat="@drawable/side_nav_bar"
-                android:layout_alignParentStart="true"
-                android:id="@+id/movie_backdrop"
-                android:layout_alignParentEnd="true"
-                android:adjustViewBounds="true" />
+                android:layout_height="match_parent">
 
-        <android.support.v7.widget.CardView
-            android:id="@+id/movie_poster_card"
-            android:layout_gravity="left"
-            android:layout_width="100dp"
-            android:layout_height="150dp"
-            card_view:cardCornerRadius="4dp"
-            android:layout_marginTop="-75dp"
-            android:layout_marginLeft="20dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="@android:color/white">
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                card_view:srcCompat="@mipmap/ic_launcher"
-                android:id="@+id/movie_poster"
-                android:scaleType="fitXY"/>
-        </android.support.v7.widget.CardView>
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="231dp"
+                        card_view:srcCompat="@drawable/side_nav_bar"
+                        android:layout_alignParentStart="true"
+                        android:id="@+id/movie_backdrop"
+                        android:layout_alignParentEnd="true"
+                        android:adjustViewBounds="true" />
+
+                    <android.support.v7.widget.CardView
+                        android:id="@+id/movie_poster_card"
+                        android:layout_gravity="left"
+                        android:layout_width="100dp"
+                        android:layout_height="150dp"
+                        card_view:cardCornerRadius="4dp"
+                        android:layout_marginTop="-75dp"
+                        android:layout_marginLeft="20dp">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            card_view:srcCompat="@mipmap/ic_launcher"
+                            android:id="@+id/movie_poster"
+                            android:scaleType="fitXY"/>
+                    </android.support.v7.widget.CardView>
+
+
 
         <TextView
-            android:text="TextView"
+            android:text=""
             android:layout_gravity="left"
             android:layout_width="276dp"
             android:layout_height="43dp"
@@ -58,7 +64,7 @@
             android:singleLine="true" />
 
         <TextView
-            android:text="TextView"
+            android:text=""
             android:layout_gravity="left"
             android:layout_width="276dp"
             android:layout_height="43dp"
@@ -68,7 +74,7 @@
             android:textSize="15sp" />
 
         <TextView
-            android:text="TextView"
+            android:text=""
             android:layout_gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -78,7 +84,7 @@
             android:textStyle="normal|italic" />
 
         <TextView
-            android:text="TextView"
+            android:text=""
             android:layout_gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -123,7 +129,8 @@
         <HorizontalScrollView
             android:scrollbars="none"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:id="@+id/cast_view">
 
         <LinearLayout
             android:layout_width="100dp"
@@ -597,7 +604,8 @@
             android:scrollbars="none"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="0dp">
+            android:layout_marginTop="0dp"
+            android:id="@+id/crew_view">
 
         <LinearLayout
             android:layout_width="100dp"
@@ -605,7 +613,7 @@
             android:orientation="horizontal" >
 
             <android.support.v7.widget.CardView
-                android:id="@+id/cast_1"
+                android:id="@+id/crew_1"
                 android:layout_gravity="top|center"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
@@ -650,7 +658,7 @@
                 android:textStyle="italic"/>
 
             <android.support.v7.widget.CardView
-                android:id="@+id/cast_2"
+                android:id="@+id/crew_2"
                 android:layout_gravity="top|center"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
@@ -695,7 +703,7 @@
                 android:textStyle="italic"/>
 
             <android.support.v7.widget.CardView
-                android:id="@+id/cast_3"
+                android:id="@+id/crew_3"
                 android:layout_gravity="top|center"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
@@ -740,7 +748,7 @@
                 android:textStyle="italic"/>
 
             <android.support.v7.widget.CardView
-                android:id="@+id/cast_4"
+                android:id="@+id/crew_4"
                 android:layout_gravity="top|center"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
@@ -785,7 +793,7 @@
                 android:textStyle="italic"/>
 
             <android.support.v7.widget.CardView
-                android:id="@+id/cast_5"
+                android:id="@+id/crew_5"
                 android:layout_gravity="top|center"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
@@ -830,7 +838,7 @@
                 android:textStyle="italic"/>
 
             <android.support.v7.widget.CardView
-                android:id="@+id/cast_6"
+                android:id="@+id/crew_6"
                 android:layout_gravity="top|center"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
@@ -875,7 +883,7 @@
                 android:textStyle="italic"/>
 
             <android.support.v7.widget.CardView
-                android:id="@+id/cast_7"
+                android:id="@+id/crew_7"
                 android:layout_gravity="top|center"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
@@ -920,7 +928,7 @@
                 android:textStyle="italic"/>
 
             <android.support.v7.widget.CardView
-                android:id="@+id/cast_8"
+                android:id="@+id/crew_8"
                 android:layout_gravity="top|center"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
@@ -965,7 +973,7 @@
                 android:textStyle="italic"/>
 
             <android.support.v7.widget.CardView
-                android:id="@+id/cast_9"
+                android:id="@+id/crew_9"
                 android:layout_gravity="top|center"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
@@ -1010,7 +1018,7 @@
                 android:textStyle="italic"/>
 
             <android.support.v7.widget.CardView
-                android:id="@+id/cast_10"
+                android:id="@+id/crew_10"
                 android:layout_gravity="top|center"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
@@ -1053,11 +1061,6 @@
                 android:layout_marginBottom="-60dp"
                 android:lineSpacingExtra="-5dp"
                 android:textStyle="italic"/>
-
-
-
-
-
             </LinearLayout>
         </HorizontalScrollView>
 
@@ -1220,8 +1223,10 @@
 
             </LinearLayout>
 
+                </LinearLayout>
+            </ScrollView>
     </LinearLayout>
-    </ScrollView>
+
 
 
 

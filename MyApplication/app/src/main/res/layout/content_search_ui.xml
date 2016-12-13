@@ -39,12 +39,14 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginTop="20dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:weightSum="1">
 
         <android.support.v7.widget.CardView
             android:id="@+id/search_result_1"
@@ -52,8 +54,8 @@
             android:layout_width="100dp"
             android:layout_height="150dp"
             card_view:cardCornerRadius="4dp"
-            android:layout_marginTop="75dp"
-            android:layout_marginLeft="30dp"
+            android:layout_marginTop="65dp"
+            android:layout_marginLeft="20dp"
             android:visibility="invisible">
 
             <ImageView
@@ -61,16 +63,34 @@
                 android:layout_height="match_parent"
                 card_view:srcCompat="@mipmap/ic_launcher"
                 android:id="@+id/search_result_1_poster"
-                android:scaleType="fitXY"/>
+                android:scaleType="fitXY"
+                android:onClick="searchResult1"/>
         </android.support.v7.widget.CardView>
+
+        <TextView
+            android:text="Name"
+            android:layout_gravity="left"
+            android:textAlignment="inherit"
+            android:layout_width="234dp"
+            android:layout_height="150dp"
+            android:id="@+id/search_result_1_name"
+            android:paddingTop="0dp"
+            android:textSize="25sp"
+            android:layout_marginLeft="135dp"
+            android:layout_marginBottom="0dp"
+            android:layout_marginTop="-150dp"
+            android:lineSpacingExtra="-5dp"
+            android:layout_weight="0.58"
+            android:visibility="invisible"/>
 
         <android.support.v7.widget.CardView
             android:id="@+id/search_result_2"
-            android:layout_gravity="center"
+            android:layout_gravity="left"
             android:layout_width="100dp"
             android:layout_height="150dp"
             card_view:cardCornerRadius="4dp"
-            android:layout_marginTop="-150dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
             android:visibility="invisible">
 
             <ImageView
@@ -78,17 +98,34 @@
                 android:layout_height="match_parent"
                 card_view:srcCompat="@mipmap/ic_launcher"
                 android:id="@+id/search_result_2_poster"
-                android:scaleType="fitXY"/>
+                android:scaleType="fitXY"
+                android:onClick="searchResult2"/>
         </android.support.v7.widget.CardView>
+
+        <TextView
+            android:text="Name"
+            android:layout_gravity="left"
+            android:textAlignment="inherit"
+            android:layout_width="234dp"
+            android:layout_height="150dp"
+            android:id="@+id/search_result_2_name"
+            android:paddingTop="0dp"
+            android:textSize="25sp"
+            android:layout_marginLeft="135dp"
+            android:layout_marginBottom="0dp"
+            android:layout_marginTop="-150dp"
+            android:lineSpacingExtra="-5dp"
+            android:layout_weight="0.58"
+            android:visibility="invisible"/>
 
         <android.support.v7.widget.CardView
             android:id="@+id/search_result_3"
-            android:layout_gravity="right"
+            android:layout_gravity="left"
             android:layout_width="100dp"
             android:layout_height="150dp"
             card_view:cardCornerRadius="4dp"
-            android:layout_marginTop="-150dp"
-            android:layout_marginRight="30dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
             android:visibility="invisible">
 
             <ImageView
@@ -96,8 +133,25 @@
                 android:layout_height="match_parent"
                 card_view:srcCompat="@mipmap/ic_launcher"
                 android:id="@+id/search_result_3_poster"
-                android:scaleType="fitXY"/>
+                android:scaleType="fitXY"
+                android:onClick="searchResult3"/>
         </android.support.v7.widget.CardView>
+
+        <TextView
+            android:text="Name"
+            android:layout_gravity="left"
+            android:textAlignment="inherit"
+            android:layout_width="234dp"
+            android:layout_height="150dp"
+            android:id="@+id/search_result_3_name"
+            android:paddingTop="0dp"
+            android:textSize="25sp"
+            android:layout_marginLeft="135dp"
+            android:layout_marginBottom="0dp"
+            android:layout_marginTop="-150dp"
+            android:lineSpacingExtra="-5dp"
+            android:layout_weight="0.58"
+            android:visibility="invisible"/>
 
         <android.support.v7.widget.CardView
             android:id="@+id/search_result_4"
@@ -106,7 +160,7 @@
             android:layout_height="150dp"
             card_view:cardCornerRadius="4dp"
             android:layout_marginTop="20dp"
-            android:layout_marginLeft="30dp"
+            android:layout_marginLeft="20dp"
             android:visibility="invisible">
 
             <ImageView
@@ -114,16 +168,34 @@
                 android:layout_height="match_parent"
                 card_view:srcCompat="@mipmap/ic_launcher"
                 android:id="@+id/search_result_4_poster"
-                android:scaleType="fitXY"/>
+                android:scaleType="fitXY"
+                android:onClick="searchResult4"/>
         </android.support.v7.widget.CardView>
+
+        <TextView
+            android:text="Name"
+            android:layout_gravity="left"
+            android:textAlignment="inherit"
+            android:layout_width="234dp"
+            android:layout_height="150dp"
+            android:id="@+id/search_result_4_name"
+            android:paddingTop="0dp"
+            android:textSize="25sp"
+            android:layout_marginLeft="135dp"
+            android:layout_marginBottom="0dp"
+            android:layout_marginTop="-150dp"
+            android:lineSpacingExtra="-5dp"
+            android:layout_weight="0.58"
+            android:visibility="invisible"/>
 
         <android.support.v7.widget.CardView
             android:id="@+id/search_result_5"
-            android:layout_gravity="center"
+            android:layout_gravity="left"
             android:layout_width="100dp"
             android:layout_height="150dp"
             card_view:cardCornerRadius="4dp"
-            android:layout_marginTop="-150dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
             android:visibility="invisible">
 
             <ImageView
@@ -131,17 +203,34 @@
                 android:layout_height="match_parent"
                 card_view:srcCompat="@mipmap/ic_launcher"
                 android:id="@+id/search_result_5_poster"
-                android:scaleType="fitXY"/>
+                android:scaleType="fitXY"
+                android:onClick="searchResult5"/>
         </android.support.v7.widget.CardView>
+
+        <TextView
+            android:text="Name"
+            android:layout_gravity="left"
+            android:textAlignment="inherit"
+            android:layout_width="234dp"
+            android:layout_height="150dp"
+            android:id="@+id/search_result_5_name"
+            android:paddingTop="0dp"
+            android:textSize="25sp"
+            android:layout_marginLeft="135dp"
+            android:layout_marginBottom="0dp"
+            android:layout_marginTop="-150dp"
+            android:lineSpacingExtra="-5dp"
+            android:layout_weight="0.58"
+            android:visibility="invisible"/>
 
         <android.support.v7.widget.CardView
             android:id="@+id/search_result_6"
-            android:layout_gravity="right"
+            android:layout_gravity="left"
             android:layout_width="100dp"
             android:layout_height="150dp"
             card_view:cardCornerRadius="4dp"
-            android:layout_marginTop="-150dp"
-            android:layout_marginRight="30dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
             android:visibility="invisible">
 
             <ImageView
@@ -149,8 +238,25 @@
                 android:layout_height="match_parent"
                 card_view:srcCompat="@mipmap/ic_launcher"
                 android:id="@+id/search_result_6_poster"
-                android:scaleType="fitXY"/>
+                android:scaleType="fitXY"
+                android:onClick="searchResult6"/>
         </android.support.v7.widget.CardView>
+
+        <TextView
+            android:text="Name"
+            android:layout_gravity="left"
+            android:textAlignment="inherit"
+            android:layout_width="234dp"
+            android:layout_height="150dp"
+            android:id="@+id/search_result_6_name"
+            android:paddingTop="0dp"
+            android:textSize="25sp"
+            android:layout_marginLeft="135dp"
+            android:layout_marginBottom="0dp"
+            android:layout_marginTop="-150dp"
+            android:lineSpacingExtra="-5dp"
+            android:layout_weight="0.58"
+            android:visibility="invisible"/>
 
         <android.support.v7.widget.CardView
             android:id="@+id/search_result_7"
@@ -159,7 +265,7 @@
             android:layout_height="150dp"
             card_view:cardCornerRadius="4dp"
             android:layout_marginTop="20dp"
-            android:layout_marginLeft="30dp"
+            android:layout_marginLeft="20dp"
             android:visibility="invisible">
 
             <ImageView
@@ -167,16 +273,34 @@
                 android:layout_height="match_parent"
                 card_view:srcCompat="@mipmap/ic_launcher"
                 android:id="@+id/search_result_7_poster"
-                android:scaleType="fitXY"/>
+                android:scaleType="fitXY"
+                android:onClick="searchResult7"/>
         </android.support.v7.widget.CardView>
+
+        <TextView
+            android:text="Name"
+            android:layout_gravity="left"
+            android:textAlignment="inherit"
+            android:layout_width="234dp"
+            android:layout_height="150dp"
+            android:id="@+id/search_result_7_name"
+            android:paddingTop="0dp"
+            android:textSize="25sp"
+            android:layout_marginLeft="135dp"
+            android:layout_marginBottom="0dp"
+            android:layout_marginTop="-150dp"
+            android:lineSpacingExtra="-5dp"
+            android:layout_weight="0.58"
+            android:visibility="invisible"/>
 
         <android.support.v7.widget.CardView
             android:id="@+id/search_result_8"
-            android:layout_gravity="center"
+            android:layout_gravity="left"
             android:layout_width="100dp"
             android:layout_height="150dp"
             card_view:cardCornerRadius="4dp"
-            android:layout_marginTop="-150dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
             android:visibility="invisible">
 
             <ImageView
@@ -184,17 +308,34 @@
                 android:layout_height="match_parent"
                 card_view:srcCompat="@mipmap/ic_launcher"
                 android:id="@+id/search_result_8_poster"
-                android:scaleType="fitXY"/>
+                android:scaleType="fitXY"
+                android:onClick="searchResult8"/>
         </android.support.v7.widget.CardView>
+
+        <TextView
+            android:text="Name"
+            android:layout_gravity="left"
+            android:textAlignment="inherit"
+            android:layout_width="234dp"
+            android:layout_height="150dp"
+            android:id="@+id/search_result_8_name"
+            android:paddingTop="0dp"
+            android:textSize="25sp"
+            android:layout_marginLeft="135dp"
+            android:layout_marginBottom="0dp"
+            android:layout_marginTop="-150dp"
+            android:lineSpacingExtra="-5dp"
+            android:layout_weight="0.58"
+            android:visibility="invisible"/>
 
         <android.support.v7.widget.CardView
             android:id="@+id/search_result_9"
-            android:layout_gravity="right"
+            android:layout_gravity="left"
             android:layout_width="100dp"
             android:layout_height="150dp"
             card_view:cardCornerRadius="4dp"
-            android:layout_marginTop="-150dp"
-            android:layout_marginRight="30dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
             android:visibility="invisible">
 
             <ImageView
@@ -202,9 +343,410 @@
                 android:layout_height="match_parent"
                 card_view:srcCompat="@mipmap/ic_launcher"
                 android:id="@+id/search_result_9_poster"
-                android:scaleType="fitXY"/>
+                android:scaleType="fitXY"
+                android:onClick="searchResult9"/>
         </android.support.v7.widget.CardView>
 
+        <TextView
+            android:text="Name"
+            android:layout_gravity="left"
+            android:textAlignment="inherit"
+            android:layout_width="234dp"
+            android:layout_height="150dp"
+            android:id="@+id/search_result_9_name"
+            android:paddingTop="0dp"
+            android:textSize="25sp"
+            android:layout_marginLeft="135dp"
+            android:layout_marginBottom="0dp"
+            android:layout_marginTop="-150dp"
+            android:lineSpacingExtra="-5dp"
+            android:layout_weight="0.58"
+            android:visibility="invisible"/>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/search_result_10"
+            android:layout_gravity="left"
+            android:layout_width="100dp"
+            android:layout_height="150dp"
+            card_view:cardCornerRadius="4dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            android:visibility="invisible">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                card_view:srcCompat="@mipmap/ic_launcher"
+                android:id="@+id/search_result_10_poster"
+                android:scaleType="fitXY"
+                android:onClick="searchResult10"/>
+        </android.support.v7.widget.CardView>
+
+        <TextView
+            android:text="Name"
+            android:layout_gravity="left"
+            android:textAlignment="inherit"
+            android:layout_width="234dp"
+            android:layout_height="150dp"
+            android:id="@+id/search_result_10_name"
+            android:paddingTop="0dp"
+            android:textSize="25sp"
+            android:layout_marginLeft="135dp"
+            android:layout_marginBottom="0dp"
+            android:layout_marginTop="-150dp"
+            android:lineSpacingExtra="-5dp"
+            android:layout_weight="0.58"
+            android:visibility="invisible"/>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/search_result_11"
+            android:layout_gravity="left"
+            android:layout_width="100dp"
+            android:layout_height="150dp"
+            card_view:cardCornerRadius="4dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            android:visibility="invisible">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                card_view:srcCompat="@mipmap/ic_launcher"
+                android:id="@+id/search_result_11_poster"
+                android:scaleType="fitXY"
+                android:onClick="searchResult11"/>
+        </android.support.v7.widget.CardView>
+
+        <TextView
+            android:text="Name"
+            android:layout_gravity="left"
+            android:textAlignment="inherit"
+            android:layout_width="234dp"
+            android:layout_height="150dp"
+            android:id="@+id/search_result_11_name"
+            android:paddingTop="0dp"
+            android:textSize="25sp"
+            android:layout_marginLeft="135dp"
+            android:layout_marginBottom="0dp"
+            android:layout_marginTop="-150dp"
+            android:lineSpacingExtra="-5dp"
+            android:layout_weight="0.58"
+            android:visibility="invisible"/>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/search_result_12"
+            android:layout_gravity="left"
+            android:layout_width="100dp"
+            android:layout_height="150dp"
+            card_view:cardCornerRadius="4dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            android:visibility="invisible">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                card_view:srcCompat="@mipmap/ic_launcher"
+                android:id="@+id/search_result_12_poster"
+                android:scaleType="fitXY"
+                android:onClick="searchResult12"/>
+        </android.support.v7.widget.CardView>
+
+        <TextView
+            android:text="Name"
+            android:layout_gravity="left"
+            android:textAlignment="inherit"
+            android:layout_width="234dp"
+            android:layout_height="150dp"
+            android:id="@+id/search_result_12_name"
+            android:paddingTop="0dp"
+            android:textSize="25sp"
+            android:layout_marginLeft="135dp"
+            android:layout_marginBottom="0dp"
+            android:layout_marginTop="-150dp"
+            android:lineSpacingExtra="-5dp"
+            android:layout_weight="0.58"
+            android:visibility="invisible"/>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/search_result_13"
+            android:layout_gravity="left"
+            android:layout_width="100dp"
+            android:layout_height="150dp"
+            card_view:cardCornerRadius="4dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            android:visibility="invisible">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                card_view:srcCompat="@mipmap/ic_launcher"
+                android:id="@+id/search_result_13_poster"
+                android:scaleType="fitXY"
+                android:onClick="searchResult13"/>
+        </android.support.v7.widget.CardView>
+
+        <TextView
+            android:text="Name"
+            android:layout_gravity="left"
+            android:textAlignment="inherit"
+            android:layout_width="234dp"
+            android:layout_height="150dp"
+            android:id="@+id/search_result_13_name"
+            android:paddingTop="0dp"
+            android:textSize="25sp"
+            android:layout_marginLeft="135dp"
+            android:layout_marginBottom="0dp"
+            android:layout_marginTop="-150dp"
+            android:lineSpacingExtra="-5dp"
+            android:layout_weight="0.58"
+            android:visibility="invisible"/>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/search_result_14"
+            android:layout_gravity="left"
+            android:layout_width="100dp"
+            android:layout_height="150dp"
+            card_view:cardCornerRadius="4dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            android:visibility="invisible">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                card_view:srcCompat="@mipmap/ic_launcher"
+                android:id="@+id/search_result_14_poster"
+                android:scaleType="fitXY"
+                android:onClick="searchResult14"/>
+        </android.support.v7.widget.CardView>
+
+        <TextView
+            android:text="Name"
+            android:layout_gravity="left"
+            android:textAlignment="inherit"
+            android:layout_width="234dp"
+            android:layout_height="150dp"
+            android:id="@+id/search_result_14_name"
+            android:paddingTop="0dp"
+            android:textSize="25sp"
+            android:layout_marginLeft="135dp"
+            android:layout_marginBottom="0dp"
+            android:layout_marginTop="-150dp"
+            android:lineSpacingExtra="-5dp"
+            android:layout_weight="0.58"
+            android:visibility="invisible"/>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/search_result_15"
+            android:layout_gravity="left"
+            android:layout_width="100dp"
+            android:layout_height="150dp"
+            card_view:cardCornerRadius="4dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            android:visibility="invisible">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                card_view:srcCompat="@mipmap/ic_launcher"
+                android:id="@+id/search_result_15_poster"
+                android:scaleType="fitXY"
+                android:onClick="searchResult15"/>
+        </android.support.v7.widget.CardView>
+
+        <TextView
+            android:text="Name"
+            android:layout_gravity="left"
+            android:textAlignment="inherit"
+            android:layout_width="234dp"
+            android:layout_height="150dp"
+            android:id="@+id/search_result_15_name"
+            android:paddingTop="0dp"
+            android:textSize="25sp"
+            android:layout_marginLeft="135dp"
+            android:layout_marginBottom="0dp"
+            android:layout_marginTop="-150dp"
+            android:lineSpacingExtra="-5dp"
+            android:layout_weight="0.58"
+            android:visibility="invisible"/>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/search_result_16"
+            android:layout_gravity="left"
+            android:layout_width="100dp"
+            android:layout_height="150dp"
+            card_view:cardCornerRadius="4dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            android:visibility="invisible">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                card_view:srcCompat="@mipmap/ic_launcher"
+                android:id="@+id/search_result_16_poster"
+                android:scaleType="fitXY"
+                android:onClick="searchResult16"/>
+        </android.support.v7.widget.CardView>
+
+        <TextView
+            android:text="Name"
+            android:layout_gravity="left"
+            android:textAlignment="inherit"
+            android:layout_width="234dp"
+            android:layout_height="150dp"
+            android:id="@+id/search_result_16_name"
+            android:paddingTop="0dp"
+            android:textSize="25sp"
+            android:layout_marginLeft="135dp"
+            android:layout_marginBottom="0dp"
+            android:layout_marginTop="-150dp"
+            android:lineSpacingExtra="-5dp"
+            android:layout_weight="0.58"
+            android:visibility="invisible"/>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/search_result_17"
+            android:layout_gravity="left"
+            android:layout_width="100dp"
+            android:layout_height="150dp"
+            card_view:cardCornerRadius="4dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            android:visibility="invisible">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                card_view:srcCompat="@mipmap/ic_launcher"
+                android:id="@+id/search_result_17_poster"
+                android:scaleType="fitXY"
+                android:onClick="searchResult17"/>
+        </android.support.v7.widget.CardView>
+
+        <TextView
+            android:text="Name"
+            android:layout_gravity="left"
+            android:textAlignment="inherit"
+            android:layout_width="234dp"
+            android:layout_height="150dp"
+            android:id="@+id/search_result_17_name"
+            android:paddingTop="0dp"
+            android:textSize="25sp"
+            android:layout_marginLeft="135dp"
+            android:layout_marginBottom="0dp"
+            android:layout_marginTop="-150dp"
+            android:lineSpacingExtra="-5dp"
+            android:layout_weight="0.58"
+            android:visibility="invisible"/>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/search_result_18"
+            android:layout_gravity="left"
+            android:layout_width="100dp"
+            android:layout_height="150dp"
+            card_view:cardCornerRadius="4dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            android:visibility="invisible">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                card_view:srcCompat="@mipmap/ic_launcher"
+                android:id="@+id/search_result_18_poster"
+                android:scaleType="fitXY"
+                android:onClick="searchResult18"/>
+        </android.support.v7.widget.CardView>
+
+        <TextView
+            android:text="Name"
+            android:layout_gravity="left"
+            android:textAlignment="inherit"
+            android:layout_width="234dp"
+            android:layout_height="150dp"
+            android:id="@+id/search_result_18_name"
+            android:paddingTop="0dp"
+            android:textSize="25sp"
+            android:layout_marginLeft="135dp"
+            android:layout_marginBottom="0dp"
+            android:layout_marginTop="-150dp"
+            android:lineSpacingExtra="-5dp"
+            android:layout_weight="0.58"
+            android:visibility="invisible"/>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/search_result_19"
+            android:layout_gravity="left"
+            android:layout_width="100dp"
+            android:layout_height="150dp"
+            card_view:cardCornerRadius="4dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            android:visibility="invisible">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                card_view:srcCompat="@mipmap/ic_launcher"
+                android:id="@+id/search_result_19_poster"
+                android:scaleType="fitXY"
+                android:onClick="searchResult19"/>
+        </android.support.v7.widget.CardView>
+
+        <TextView
+            android:text="Name"
+            android:layout_gravity="left"
+            android:textAlignment="inherit"
+            android:layout_width="234dp"
+            android:layout_height="150dp"
+            android:id="@+id/search_result_19_name"
+            android:paddingTop="0dp"
+            android:textSize="25sp"
+            android:layout_marginLeft="135dp"
+            android:layout_marginBottom="0dp"
+            android:layout_marginTop="-150dp"
+            android:lineSpacingExtra="-5dp"
+            android:layout_weight="0.58"
+            android:visibility="invisible"/>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/search_result_20"
+            android:layout_gravity="left"
+            android:layout_width="100dp"
+            android:layout_height="150dp"
+            card_view:cardCornerRadius="4dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            android:visibility="invisible">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                card_view:srcCompat="@mipmap/ic_launcher"
+                android:id="@+id/search_result_20_poster"
+                android:scaleType="fitXY"
+                android:onClick="searchResult20"/>
+        </android.support.v7.widget.CardView>
+
+        <TextView
+            android:text="Name"
+            android:layout_gravity="left"
+            android:textAlignment="inherit"
+            android:layout_width="234dp"
+            android:layout_height="150dp"
+            android:id="@+id/search_result_20_name"
+            android:paddingTop="0dp"
+            android:textSize="25sp"
+            android:layout_marginLeft="135dp"
+            android:layout_marginBottom="0dp"
+            android:layout_marginTop="-150dp"
+            android:lineSpacingExtra="-5dp"
+            android:layout_weight="0.58"
+            android:visibility="invisible"/>
     </LinearLayout>
     </ScrollView>
 </FrameLayout>
