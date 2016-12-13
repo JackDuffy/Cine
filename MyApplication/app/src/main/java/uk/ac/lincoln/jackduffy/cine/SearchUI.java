@@ -211,8 +211,13 @@ public class SearchUI extends AppCompatActivity {
         @Override
         protected String doInBackground(String... arg0) {
             String url = "http://api.themoviedb.org/3/search/movie?query=" + searchQuery + apiKey;
+            //String url = "https://api.themoviedb.org/3/movie/now_playing?" + apiKey + "&language=en-US&page=1";
 
-            try {
+            System.out.println("The URL I am attempting to access is:");
+            System.out.println(url);
+
+            try
+            {
                 httpConnect jParser = new httpConnect();
                 JSONObject json2obj = new JSONObject(jParser.getJSONFromUrl(url));
                 JSONArray json2arr = json2obj.getJSONArray("results");
@@ -220,7 +225,9 @@ public class SearchUI extends AppCompatActivity {
                 List<String> posterPaths = new ArrayList<String>(json2arr.length());
                 List<String> movieNames = new ArrayList<String>(json2arr.length());
 
-                for (int i = 0; i < json2arr.length(); i++) {
+
+                for (int i = 0; i < json2arr.length(); i++)
+                {
                     JSONObject ithObject = json2arr.getJSONObject(i);
                     if (ithObject.has("poster_path") && (ithObject.has("id")) && (ithObject.has("title"))) {
                         movieIDs.add(ithObject.getString("id"));
@@ -231,14 +238,13 @@ public class SearchUI extends AppCompatActivity {
 
                 numberOfResults = movieIDs.size();
                 System.out.println(numberOfResults + " results found");
-                //TEMPORARY - REMOVE WHEN FULLY OPERATIONAL
-                if (numberOfResults > 20) {
-                    numberOfResults = 20;
-                }
 
                 int movie_ID_number = 1;
-                for (String movieID : movieIDs) {
-                    if (numberOfResults == 0) {
+                for (String movieID : movieIDs)
+                {
+                    if (numberOfResults == 0)
+                    {
+                        System.out.println("Something went wrong");
                         break;
                     }
 
@@ -553,13 +559,11 @@ public class SearchUI extends AppCompatActivity {
                         }
                     }
                 }
-
-
             }
 
             catch (Exception e)
             {
-
+                System.out.println("O shit");
             }
 
             return null;
@@ -779,6 +783,8 @@ public class SearchUI extends AppCompatActivity {
         {
             final EditText edit =  (EditText) findViewById(R.id.searchField);
             searchQuery = edit.getText().toString();
+            searchQuery = searchQuery.replaceAll(" ", "%20").toLowerCase();
+            System.out.println("Your search query is: " + searchQuery);
             new search().execute();
 
             SharedPreferences userInfo = getSharedPreferences("searchQueries", Context.MODE_PRIVATE);

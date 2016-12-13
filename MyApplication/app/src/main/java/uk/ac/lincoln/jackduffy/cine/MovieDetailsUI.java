@@ -8,12 +8,16 @@ import android.graphics.Movie;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
+import android.text.TextUtils;
+import android.util.Base64;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -31,6 +35,17 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import android.os.AsyncTask;
 
+import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.util.Arrays;
+import java.util.Locale;
+import android.net.Uri;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -58,6 +73,7 @@ public class MovieDetailsUI extends FragmentActivity {
     String movie_rating;
 
     Integer CastCrew_Error_No = 0;
+    View missingTagline;
 
     String movie_runtime;
     String movie_language;
@@ -284,14 +300,24 @@ public class MovieDetailsUI extends FragmentActivity {
         ID = extras.getString("movieID");
         inCinemas = extras.getString("inCinemas");
 
-        if (inCinemas == null) {
+        System.out.println("This is movie " + ID);
+
+        if (inCinemas == null)
+        {
             inCinemas = "false";
-        } else {
+        }
+
+        else
+        {
 
         }
 
         System.out.println("Is movie in cinemas? - " + inCinemas);
         new get_movie_data().execute();
+        TextView tv;
+        tv = (TextView) this.findViewById(R.id.movie_name);
+        tv.setSelected(true);
+
     }
 
     public class get_movie_data extends AsyncTask<String, String, String> {
@@ -300,16 +326,150 @@ public class MovieDetailsUI extends FragmentActivity {
         }
 
         @Override
-        protected String doInBackground(String... arg0) {
-            try {
-                String url = "https://api.themoviedb.org/3/movie/" + ID + apiKey + "&language=en-US";
-                System.out.println(url);
-                httpConnect jParser = new httpConnect();
-                String json = jParser.getJSONFromUrl(url);
-                JSONObject jsonObject = new JSONObject(json);
+        protected String doInBackground(String... arg0)
+        {
+            String url;
+            httpConnect jParser;
+            String json;
+            JSONObject jsonObject;
+
+            try
+            {
+                //region If movie has already been visited
+                StringBuilder fileReader = new StringBuilder("");
+                try
+                {
+                    // open location file from private storage area
+                    FileInputStream fIn = openFileInput("Movie-" + ID);
+                    InputStreamReader isr = new InputStreamReader( fIn ) ;
+                    BufferedReader buffreader = new BufferedReader( isr ) ;
+                    // loop to read each line, each line has a long and lat value
+                    String readString = buffreader.readLine ( ) ;
+
+                    while ( readString != null )
+                    {
+                        fileReader.append(readString);
+                        readString = buffreader.readLine ( ) ;
+                    }
+
+                    String[] movieData = fileReader.toString().split("##");
+                    System.out.println(Arrays.toString(movieData));
+                    movie_title = movieData[0];
+                    movie_release_date = movieData[1];
+                    movie_tagline = movieData[2];
+                    movie_overview = movieData[3];
+                    movie_rating = movieData[4];
+                    poster_path = movieData[5];
+                    backdrop_path = movieData[6];
+                    movie_runtime = movieData[7];
+                    movie_language = movieData[8];
+                    movie_budget = movieData[9];
+                    movie_revenue = movieData[10];
+                    movie_voters = movieData[11];
+
+                    //region Decode Poster and Backdrop & get ready to apply them
+                    poster = (ImageView) findViewById(R.id.movie_poster);
+                    poster_bitmap = BitmapFactory.decodeStream((InputStream) new URL(poster_path).getContent());
+                    backdrop = (ImageView) findViewById(R.id.movie_backdrop);
+                    backdrop_bitmap = BitmapFactory.decodeStream((InputStream) new URL(backdrop_path).getContent());
+                    //endregion
+                    //region locates all Movie Data elements and gets ready to apply them
+                    name = (TextView) findViewById(R.id.movie_name);
+                    release_date = (TextView) findViewById(R.id.movie_release_date);
+                    tagline = (TextView) findViewById(R.id.movie_tagline);
+                    overview = (TextView) findViewById(R.id.movie_overview);
+                    rating = (ImageView) findViewById(R.id.movie_rating);
+                    runtime = (TextView) findViewById(R.id.movie_runtime);
+                    language = (TextView) findViewById(R.id.movie_language);
+                    budget = (TextView) findViewById(R.id.movie_budget);
+                    revenue = (TextView) findViewById(R.id.movie_revenue);
+                    voters = (TextView) findViewById(R.id.movie_voters);
+                    //endregion
+
+                    isr.close ( ) ;
+                }
+                //endregion
+
+                //region If not, get data for movie
+                catch ( IOException ioe )
+                {
+                    url = "https://api.themoviedb.org/3/movie/" + ID + apiKey + "&language=en-US";
+                    jParser = new httpConnect();
+                    json = jParser.getJSONFromUrl(url);
+                    jsonObject = new JSONObject(json);
+
+                    try
+                    {
+                        String importantInformationTest;
+                        //region Check and get Poster
+                        importantInformationTest = jsonObject.getString("poster_path");
+                        if (importantInformationTest == "null") {
+                            poster_path = "https://www.themoviedb.org/assets/e2dd052f141e33392eb749aab2414ec0/images/no-poster-w300_and_h450_bestv2-v2.png";
+                        } else {
+                            poster_path = "https://image.tmdb.org/t/p/w300_and_h450_bestv2" + importantInformationTest;
+                        }
+                        //endregion
+                        //region Check and get Backdrop
+                        importantInformationTest = jsonObject.getString("backdrop_path");
+                        if (importantInformationTest == "null") {
+                            backdrop_path = "https://www.themoviedb.org/assets/e2dd052f141e33392eb749aab2414ec0/images/no-poster-w300_and_h450_bestv2-v2.png";
+                        } else {
+                            backdrop_path = "https://image.tmdb.org/t/p/w500_and_h281_bestv2" + importantInformationTest;
+                        }
+                        //endregion
+
+                        //region Retrieve movie data
+                        movie_title = jsonObject.getString("title");
+                        movie_release_date = jsonObject.getString("release_date");
+                        movie_release_date = "(" + (movie_release_date.substring(0, movie_release_date.length() - 6)) + ")";
+                        movie_tagline = jsonObject.getString("tagline");
+                        movie_overview = jsonObject.getString("overview");
+                        movie_rating = jsonObject.getString("vote_average");
+                        movie_runtime = jsonObject.getString("runtime") + "m";
+                        movie_language = jsonObject.getString("original_language");
+                        movie_budget = jsonObject.getString("budget");
+                        movie_revenue = jsonObject.getString("revenue");
+                        movie_voters = jsonObject.getString("vote_count");
+                        //endregion
+                    }
+
+                    catch (Exception e)
+                    {
+                        e.printStackTrace();
+                    }
+
+                    try
+                    {
+                        //region Decode Poster and Backdrop & get ready to apply them
+                        poster = (ImageView) findViewById(R.id.movie_poster);
+                        poster_bitmap = BitmapFactory.decodeStream((InputStream) new URL(poster_path).getContent());
+                        backdrop = (ImageView) findViewById(R.id.movie_backdrop);
+                        backdrop_bitmap = BitmapFactory.decodeStream((InputStream) new URL(backdrop_path).getContent());
+                        //endregion
+                        //region locates all Movie Data elements and gets ready to apply them
+                        name = (TextView) findViewById(R.id.movie_name);
+                        release_date = (TextView) findViewById(R.id.movie_release_date);
+                        tagline = (TextView) findViewById(R.id.movie_tagline);
+                        overview = (TextView) findViewById(R.id.movie_overview);
+                        rating = (ImageView) findViewById(R.id.movie_rating);
+                        runtime = (TextView) findViewById(R.id.movie_runtime);
+                        language = (TextView) findViewById(R.id.movie_language);
+                        budget = (TextView) findViewById(R.id.movie_budget);
+                        revenue = (TextView) findViewById(R.id.movie_revenue);
+                        voters = (TextView) findViewById(R.id.movie_voters);
+                        //endregion
+                    }
+
+                    catch (MalformedURLException e)
+                    {
+                        e.printStackTrace();
+                    }
+
+                }
+                //endregion
+
 
                 url = "https://api.themoviedb.org/3/movie/" + ID + "/credits" + apiKey;
-                System.out.println(url);
                 jParser = new httpConnect();
                 JSONObject creditsRetrieval = new JSONObject(jParser.getJSONFromUrl(url));
                 JSONArray castArray = creditsRetrieval.getJSONArray("cast");
@@ -818,67 +978,10 @@ public class MovieDetailsUI extends FragmentActivity {
                 }
                 //endregion
 
-                try {
-                    String importantInformationTest;
-                    //region Check and get Poster
-                    importantInformationTest = jsonObject.getString("poster_path");
-                    if (importantInformationTest == "null") {
-                        poster_path = "https://www.themoviedb.org/assets/e2dd052f141e33392eb749aab2414ec0/images/no-poster-w300_and_h450_bestv2-v2.png";
-                    } else {
-                        poster_path = "https://image.tmdb.org/t/p/w300_and_h450_bestv2" + importantInformationTest;
-                    }
-                    //endregion
-                    //region Check and get Backdrop
-                    importantInformationTest = jsonObject.getString("backdrop_path");
-                    if (importantInformationTest == "null") {
-                        backdrop_path = "https://www.themoviedb.org/assets/e2dd052f141e33392eb749aab2414ec0/images/no-poster-w300_and_h450_bestv2-v2.png";
-                    } else {
-                        backdrop_path = "https://image.tmdb.org/t/p/w500_and_h281_bestv2" + importantInformationTest;
-                    }
-                    //endregion
+            }
 
-                    //region Retrieve movie data
-                    movie_title = jsonObject.getString("title");
-                    movie_release_date = jsonObject.getString("release_date");
-                    movie_release_date = "(" + (movie_release_date.substring(0, movie_release_date.length() - 6)) + ")";
-                    movie_tagline = "\"" + jsonObject.getString("tagline") + "\"";
-                    movie_overview = jsonObject.getString("overview");
-                    movie_rating = jsonObject.getString("vote_average");
-                    movie_runtime = jsonObject.getString("runtime") + "m";
-                    movie_language = jsonObject.getString("original_language");
-                    movie_budget = jsonObject.getString("budget");
-                    movie_revenue = jsonObject.getString("revenue");
-                    movie_voters = jsonObject.getString("vote_count");
-                    //endregion
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-                try {
-                    //region Decode Poster and Backdrop & get ready to apply them
-                    poster = (ImageView) findViewById(R.id.movie_poster);
-                    poster_bitmap = BitmapFactory.decodeStream((InputStream) new URL(poster_path).getContent());
-                    backdrop = (ImageView) findViewById(R.id.movie_backdrop);
-                    backdrop_bitmap = BitmapFactory.decodeStream((InputStream) new URL(backdrop_path).getContent());
-                    //endregion
-                    //region locates all Movie Data elements and gets ready to apply them
-                    name = (TextView) findViewById(R.id.movie_name);
-                    release_date = (TextView) findViewById(R.id.movie_release_date);
-                    tagline = (TextView) findViewById(R.id.movie_tagline);
-                    overview = (TextView) findViewById(R.id.movie_overview);
-                    rating = (ImageView) findViewById(R.id.movie_rating);
-                    runtime = (TextView) findViewById(R.id.movie_runtime);
-                    language = (TextView) findViewById(R.id.movie_language);
-                    budget = (TextView) findViewById(R.id.movie_budget);
-                    revenue = (TextView) findViewById(R.id.movie_revenue);
-                    voters = (TextView) findViewById(R.id.movie_voters);
-                    //endregion
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            } catch (Exception e) {
+            catch (Exception e)
+            {
                 e.printStackTrace();
             }
 
@@ -886,7 +989,8 @@ public class MovieDetailsUI extends FragmentActivity {
         }
 
         @Override
-        protected void onPostExecute(String strFromDoInBg) {
+        protected void onPostExecute(String strFromDoInBg)
+        {
             //region Apply Poster & Backdrop
             poster.setImageBitmap(poster_bitmap);
             backdrop.setImageBitmap(backdrop_bitmap);
@@ -894,11 +998,26 @@ public class MovieDetailsUI extends FragmentActivity {
             //region Apply movie data
             name.setText(movie_title);
             release_date.setText(movie_release_date);
-            tagline.setText(movie_tagline);
+
+            System.out.println(movie_tagline);
+            if(TextUtils.isEmpty(movie_tagline))
+            {
+                missingTagline = MovieDetailsUI.this.findViewById(R.id.movie_tagline);
+                missingTagline.setVisibility(View.GONE);
+                missingTagline = MovieDetailsUI.this.findViewById(R.id.movie_overview);
+                missingTagline.setPadding(0, 100, 0, 0);
+            }
+
+            else
+            {
+                tagline.setText("'\'" + movie_tagline + "'\'");
+            }
+
+
             overview.setText(movie_overview);
             calculateRating();
             runtime.setText(movie_runtime);
-            language.setText(movie_language);
+            generateLanguageLabel();
             calculateBudgetRevenue();
             voters.setText(movie_voters);
             //endregion
@@ -1266,6 +1385,38 @@ public class MovieDetailsUI extends FragmentActivity {
             //endregion
 
             //endregion
+
+            //region Save data for potential future use
+
+            //region Save movie data
+            String filename = "Movie" + "-" + ID;
+            String string = movie_title + "##" + movie_release_date + "##" + movie_tagline + "##" + movie_overview + "##" + movie_rating + "##" + poster_path + "##" + backdrop_path + "##" + movie_runtime + "##" + movie_language + "##" + movie_budget + "##" + movie_revenue + "##" + movie_voters;
+            FileOutputStream outputStream;
+            File file = getFileStreamPath(filename);
+
+            if(file == null || !file.exists())
+            {
+                try
+                {
+                    outputStream = openFileOutput(filename, MODE_PRIVATE);
+                    outputStream.write(string.getBytes());
+                    outputStream.write("\r\n".getBytes());
+                    outputStream.close();
+                }
+
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+
+            else
+            {
+
+            }
+            //endregion
+
+            //endregion
         }
     }
 
@@ -1299,6 +1450,25 @@ public class MovieDetailsUI extends FragmentActivity {
             }
         }
         //endregion
+    }
+
+    public void generateLanguageLabel()
+    {
+        switch(movie_language)
+        {
+            case "en":
+                movie_language = "English";
+                break;
+            case "English":
+                break;
+            default:
+                movie_language = "Foreign";
+            break;
+        }
+
+
+
+        language.setText(movie_language);
     }
 
     public void calculateBudgetRevenue() {

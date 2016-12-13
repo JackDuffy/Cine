@@ -55,25 +55,50 @@
         <TextView
             android:text=""
             android:layout_gravity="left"
-            android:layout_width="276dp"
+            android:layout_width="239dp"
             android:layout_height="43dp"
             android:id="@+id/movie_name"
             android:layout_marginTop="-70dp"
             android:layout_marginLeft="135dp"
             android:textSize="30sp"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:lines="1"
+            android:ellipsize="marquee"
+            android:fadingEdge="horizontal"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:scrollHorizontally="true"/>
 
-        <TextView
+                    <TextView
             android:text=""
             android:layout_gravity="left"
-            android:layout_width="276dp"
+            android:layout_width="53dp"
             android:layout_height="43dp"
             android:id="@+id/movie_release_date"
             android:layout_marginTop="-5dp"
             android:layout_marginLeft="135dp"
             android:textSize="15sp" />
 
-        <TextView
+                    <TextView
+                        android:text=""
+                        android:layout_gravity="left"
+                        android:layout_width="53dp"
+                        android:layout_height="43dp"
+                        android:id="@+id/movie_runtime"
+                        android:layout_marginTop="-43dp"
+                        android:layout_marginLeft="200dp"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:text=""
+                        android:layout_gravity="left"
+                        android:layout_width="53dp"
+                        android:layout_height="43dp"
+                        android:id="@+id/movie_language"
+                        android:layout_marginTop="-43dp"
+                        android:layout_marginLeft="260dp"
+                        android:textSize="15sp" />
+
+                    <TextView
             android:text=""
             android:layout_gravity="center"
             android:layout_width="match_parent"
@@ -1161,28 +1186,6 @@
                 android:layout_height="48dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:id="@+id/movie_runtime"
-                android:textSize="15sp" />
-
-            <TextView
-                android:text="000m"
-                android:layout_gravity="center"
-                android:textAlignment="center"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:id="@+id/movie_language"
-                android:textSize="15sp" />
-
-            <TextView
-                android:text="000m"
-                android:layout_gravity="center"
-                android:textAlignment="center"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
                 android:id="@+id/movie_budget"
                 android:textSize="15sp" />
 
@@ -1215,13 +1218,7 @@
             android:orientation="horizontal"
             android:gravity="center">
 
-                <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:name="com.google.android.gms.maps.MapFragment"
-                    android:id="@+id/map"
-                    android:layout_width="match_parent"
-                    android:layout_height="400dp"/>
-
-            </LinearLayout>
+        </LinearLayout>
 
                 </LinearLayout>
             </ScrollView>
