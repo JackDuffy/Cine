@@ -3,6 +3,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 24
     buildToolsVersion "24.0.3"
+    useLibrary 'org.apache.http.legacy'
     defaultConfig {
         applicationId "uk.ac.lincoln.jackduffy.cine"
         minSdkVersion 21
@@ -19,6 +20,13 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    packagingOptions {
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/NOTICE'
+    }
 }
 
 dependencies {
@@ -29,9 +37,17 @@ dependencies {
     compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'com.android.support:support-v4:24.2.1'
     compile 'com.android.support:design:24.2.1'
-    compile 'com.google.android.gms:play-services:7.5.0'
+    compile 'com.google.android.gms:play-services:9.2.0'
+    compile 'com.google.android.gms:play-services-location:9.2.0'
     //compile 'com.google.code.gson:gson:2.7'
-    compile 'com.android.support:cardview-v7:21.0.+' //for card view
+    compile 'com.android.support:cardview-v7:24.0.+' //for card view
     compile 'com.wonderkiln:blurkit:1.0.0' //blur - https://github.com/wonderkiln/blurkit-android
-    testCompile 'junit:junit:4.12'
+    compile 'me.zhanghai.android.materialprogressbar:library:1.3.0' //spinner - https://github.com/DreaminginCodeZH/MaterialProgressBar
+
+
+    compile 'org.apache.httpcomponents:httpclient-android:4.3.5.1'
+    compile 'se.walkercrou:google-places-api-java:2.1.7'
+
+
+    testCompile 'junit:junit:4.11'
 }

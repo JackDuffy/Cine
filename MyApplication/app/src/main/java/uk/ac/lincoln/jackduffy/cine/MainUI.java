@@ -1,12 +1,14 @@
 package uk.ac.lincoln.jackduffy.cine;
 
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Movie;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.view.View;
@@ -26,8 +28,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import android.os.AsyncTask;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -40,11 +47,13 @@ import android.util.Log;
 
 import com.wonderkiln.blurkit.BlurKit;
 
+import static android.R.attr.path;
+
 public class MainUI extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener
 {
-    int tmdb_mode; //0 is pull the most popular movies, 1 is to pull the latest movies
+    int tmdb_mode = 0; //0 is pull the most popular movies, 1 is to pull everything else
+    int save_mode = 0;
     String apiKey = "api_key=822b6a3af922b0c70d5455e2d2e0f782";
-    Boolean tmbd_update = false;
     String poster_path;
     String backdrop_path;
     String ID;
@@ -117,7 +126,7 @@ public class MainUI extends AppCompatActivity implements NavigationView.OnNaviga
     ImageView poster_60;
     //endregion
 
-    //region Generate 20 Bitmap items
+    //region Generate Bitmap items
     Bitmap featured_poster_bitmap_1; Bitmap featured_backdrop_bitmap_1;
     Bitmap featured_poster_bitmap_2; Bitmap featured_backdrop_bitmap_2;
     Bitmap featured_poster_bitmap_3; Bitmap featured_backdrop_bitmap_3;
@@ -186,6 +195,7 @@ public class MainUI extends AppCompatActivity implements NavigationView.OnNaviga
     //endregion
 
     //region Generate 20 String items
+    String featuredID;
     String movie_id_1;
     String movie_id_2;
     String movie_id_3;
@@ -275,104 +285,7 @@ public class MainUI extends AppCompatActivity implements NavigationView.OnNaviga
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-        //region Populate the popular movies section
-        tmdb_mode = 1;
-        tmbd_update = true;
         new get_movie_data().execute();
-
-        while(tmbd_update == true)
-        {
-            //do nothing
-        }
-
-        //region Apply Popular Movie Posters
-        poster_1.setImageBitmap(bitmap_1);
-        poster_2.setImageBitmap(bitmap_2);
-        poster_3.setImageBitmap(bitmap_3);
-        poster_4.setImageBitmap(bitmap_4);
-        poster_5.setImageBitmap(bitmap_5);
-        poster_6.setImageBitmap(bitmap_6);
-        poster_7.setImageBitmap(bitmap_7);
-        poster_8.setImageBitmap(bitmap_8);
-        poster_9.setImageBitmap(bitmap_9);
-        poster_10.setImageBitmap(bitmap_10);
-        poster_11.setImageBitmap(bitmap_11);
-        poster_12.setImageBitmap(bitmap_12);
-        poster_13.setImageBitmap(bitmap_13);
-        poster_14.setImageBitmap(bitmap_14);
-        poster_15.setImageBitmap(bitmap_15);
-        poster_16.setImageBitmap(bitmap_16);
-        poster_17.setImageBitmap(bitmap_17);
-        poster_18.setImageBitmap(bitmap_18);
-        poster_19.setImageBitmap(bitmap_19);
-        poster_20.setImageBitmap(bitmap_20);
-
-        poster_21.setImageBitmap(bitmap_21);
-        poster_22.setImageBitmap(bitmap_22);
-        poster_23.setImageBitmap(bitmap_23);
-        poster_24.setImageBitmap(bitmap_24);
-        poster_25.setImageBitmap(bitmap_25);
-        poster_26.setImageBitmap(bitmap_26);
-        poster_27.setImageBitmap(bitmap_27);
-        poster_28.setImageBitmap(bitmap_28);
-        poster_29.setImageBitmap(bitmap_29);
-        poster_30.setImageBitmap(bitmap_30);
-        poster_31.setImageBitmap(bitmap_31);
-        poster_32.setImageBitmap(bitmap_32);
-        poster_33.setImageBitmap(bitmap_33);
-        poster_34.setImageBitmap(bitmap_34);
-        poster_35.setImageBitmap(bitmap_35);
-        poster_36.setImageBitmap(bitmap_36);
-        poster_37.setImageBitmap(bitmap_37);
-        poster_38.setImageBitmap(bitmap_38);
-        poster_39.setImageBitmap(bitmap_39);
-        poster_40.setImageBitmap(bitmap_40);
-
-        poster_41.setImageBitmap(bitmap_41);
-        poster_42.setImageBitmap(bitmap_42);
-        poster_43.setImageBitmap(bitmap_43);
-        poster_44.setImageBitmap(bitmap_44);
-        poster_45.setImageBitmap(bitmap_45);
-        poster_46.setImageBitmap(bitmap_46);
-        poster_47.setImageBitmap(bitmap_47);
-        poster_48.setImageBitmap(bitmap_48);
-        poster_49.setImageBitmap(bitmap_49);
-        poster_50.setImageBitmap(bitmap_50);
-        poster_51.setImageBitmap(bitmap_51);
-        poster_52.setImageBitmap(bitmap_52);
-        poster_53.setImageBitmap(bitmap_53);
-        poster_54.setImageBitmap(bitmap_54);
-        poster_55.setImageBitmap(bitmap_55);
-        poster_56.setImageBitmap(bitmap_56);
-        poster_57.setImageBitmap(bitmap_57);
-        poster_58.setImageBitmap(bitmap_58);
-        poster_59.setImageBitmap(bitmap_59);
-        poster_60.setImageBitmap(bitmap_60);
-        //endregion
-        //endregion
-
-        //region Populate the featured movie poster/backdrop
-        tmdb_mode = 0;
-        tmbd_update = true;
-        new get_movie_data().execute();
-
-        while(tmbd_update == true)
-        {
-            //do nothing
-        }
-
-        //region Apply featured movie poster/backdrop
-        featured_poster_1.setImageBitmap(featured_poster_bitmap_1);
-        featured_backdrop_1.setImageBitmap(featured_backdrop_bitmap_1);
-        featured_name_1.setText(featured_name_string_1);
-        //endregion
-        //endregion
-
-
-
-
-
     }
 
     // added asynctask class methods below -  you can make this class as a separate class file
@@ -401,6 +314,7 @@ public class MainUI extends AppCompatActivity implements NavigationView.OnNaviga
                     List<String> movieNames = new ArrayList<String>(json1arr.length());
                     List<String> posterPaths = new ArrayList<String>(json1arr.length());
                     List<String> backdropPaths = new ArrayList<String>(json1arr.length());
+                    List<String> movieIDs = new ArrayList<String>(json1arr.length());
 
                     for (int i = 0; i < json1arr.length(); i++) {
                         JSONObject ithObject = json1arr.getJSONObject(i);
@@ -418,9 +332,28 @@ public class MainUI extends AppCompatActivity implements NavigationView.OnNaviga
                             {
                                 backdropPaths.add("/6I2tPx6KIiBB4TWFiWwNUzrbxUn.jpg");
                             }
+
+                            if (ithObject.has("id"))
+                            {
+                                movieIDs.add(ithObject.getString("id"));
+                            }
+
+                            else
+                            {
+
+                            }
                         }
                     }
 
+                    java.io.FileInputStream readIn;
+                    for(String movieID : movieIDs)
+                    {
+                        featuredID = movieID;
+                        break;
+                    }
+
+                    System.out.println("Featured ID is : " + featuredID);
+                    Boolean localStorage = false;
                     for(String movieName : movieNames)
                     {
                         featured_name_1 = (TextView)findViewById(R.id.featured_movie_name);
@@ -430,17 +363,45 @@ public class MainUI extends AppCompatActivity implements NavigationView.OnNaviga
 
                     for (String posterPath : posterPaths)
                     {
-                        poster_path = "https://image.tmdb.org/t/p/w300_and_h450_bestv2" + posterPath;
                         featured_poster_1 = (ImageView) findViewById(R.id.featured_poster_1);
-                        featured_poster_bitmap_1 = BitmapFactory.decodeStream((InputStream) new URL(poster_path).getContent());
+                        String input = "";
+
+
+                            input = (Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/uk.ac.lincoln.jackduffy.cine/posters/" + featuredID + "_poster.png");
+                            featured_poster_bitmap_1 = BitmapFactory.decodeFile(input);
+                            System.out.println("Stored poster image retrieved");
+
+
+
+                            if(featured_poster_bitmap_1 == null)
+                            {
+                                System.out.println("Retrieving poster from the web");
+                                poster_path = "https://image.tmdb.org/t/p/w300_and_h450_bestv2" + posterPath;
+                                featured_poster_bitmap_1 = BitmapFactory.decodeStream((InputStream) new URL(poster_path).getContent());
+                            }
+
+
                         break;
                     }
 
                     for (String backdropPath : backdropPaths)
                     {
-                        backdrop_path = "https://image.tmdb.org/t/p/w500_and_h281_bestv2" + backdropPath;
                         featured_backdrop_1 = (ImageView) findViewById(R.id.featured_backdrop_1);
-                        featured_backdrop_bitmap_1 = BitmapFactory.decodeStream((InputStream) new URL(backdrop_path).getContent());
+                        String input = "";
+
+                            input = (Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/uk.ac.lincoln.jackduffy.cine/backdrops/" + featuredID + "_backdrop.png");
+                            featured_backdrop_bitmap_1 = BitmapFactory.decodeFile(input);
+                            System.out.println("Stored backdrop image retrieved");
+
+
+                            if(featured_backdrop_bitmap_1 == null)
+                            {
+                                System.out.println("Retrieving backdrop from the web");
+                                backdrop_path = "https://image.tmdb.org/t/p/w500_and_h281_bestv2" + backdropPath;
+                                featured_backdrop_bitmap_1 = BitmapFactory.decodeStream((InputStream) new URL(backdrop_path).getContent());
+                            }
+
+
                         break;
                     }
                 }
@@ -450,7 +411,6 @@ public class MainUI extends AppCompatActivity implements NavigationView.OnNaviga
 
                 }
 
-                    tmbd_update = false;
                     break;
                 //endregion
 
@@ -582,112 +542,236 @@ public class MainUI extends AppCompatActivity implements NavigationView.OnNaviga
                         int poster_number = 1;
                         for (String posterPath : posterPaths)
                         {
-
                             if(poster_number <= 20)
                             {
                                 poster_path = "https://image.tmdb.org/t/p/w300_and_h450_bestv2" + posterPath;
+                                String input = "";
 
                                 //region Locate the card element in the activity and apply the correct poster URL's to each corrosponding bitmap
                                 switch(poster_number)
                                 {
                                     case 1:
+                                        //region Check poster local availability or fetch data from the web
                                         poster_1 = (ImageView)findViewById(R.id.now_playing_movie_poster_1);
-                                        bitmap_1 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        input = (Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/uk.ac.lincoln.jackduffy.cine/posters/" + movie_id_1 + "_poster.png");
+                                        bitmap_1 = BitmapFactory.decodeFile(input);
+                                        if(bitmap_1 == null)
+                                        {
+                                            bitmap_1 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        }
+                                        //endregion
                                         poster_number++;
                                         break;
                                     case 2:
+                                        //region Check poster local availability or fetch data from the web
                                         poster_2 = (ImageView)findViewById(R.id.now_playing_movie_poster_2);
-                                        bitmap_2 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        input = (Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/uk.ac.lincoln.jackduffy.cine/posters/" + movie_id_2 + "_poster.png");
+                                        bitmap_2 = BitmapFactory.decodeFile(input);
+                                        if(bitmap_2 == null)
+                                        {
+                                            bitmap_2 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        }
+                                        //endregion
                                         poster_number++;
                                         break;
                                     case 3:
+                                        //region Check poster local availability or fetch data from the web
                                         poster_3 = (ImageView)findViewById(R.id.now_playing_movie_poster_3);
-                                        bitmap_3 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        input = (Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/uk.ac.lincoln.jackduffy.cine/posters/" + movie_id_3 + "_poster.png");
+                                        bitmap_3 = BitmapFactory.decodeFile(input);
+                                        if(bitmap_3 == null)
+                                        {
+                                            bitmap_3 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        }
+                                        //endregion
                                         poster_number++;
                                         break;
                                     case 4:
+                                        //region Check poster local availability or fetch data from the web
                                         poster_4 = (ImageView)findViewById(R.id.now_playing_movie_poster_4);
-                                        bitmap_4 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        input = (Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/uk.ac.lincoln.jackduffy.cine/posters/" + movie_id_4 + "_poster.png");
+                                        bitmap_4 = BitmapFactory.decodeFile(input);
+                                        if(bitmap_4 == null)
+                                        {
+                                            bitmap_4 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        }
+                                        //endregion
                                         poster_number++;
                                         break;
                                     case 5:
                                         poster_5 = (ImageView)findViewById(R.id.now_playing_movie_poster_5);
-                                        bitmap_5 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        input = (Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/uk.ac.lincoln.jackduffy.cine/posters/" + movie_id_5 + "_poster.png");
+                                        bitmap_5 = BitmapFactory.decodeFile(input);
+                                        if(bitmap_5 == null)
+                                        {
+                                            bitmap_5 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        }
+                                        //endregion
                                         poster_number++;
                                         break;
                                     case 6:
                                         poster_6 = (ImageView)findViewById(R.id.now_playing_movie_poster_6);
-                                        bitmap_6 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        input = (Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/uk.ac.lincoln.jackduffy.cine/posters/" + movie_id_6 + "_poster.png");
+                                        bitmap_6 = BitmapFactory.decodeFile(input);
+                                        if(bitmap_6 == null)
+                                        {
+                                            bitmap_6 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        }
+                                        //endregion
                                         poster_number++;
                                         break;
                                     case 7:
                                         poster_7 = (ImageView)findViewById(R.id.now_playing_movie_poster_7);
-                                        bitmap_7 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        input = (Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/uk.ac.lincoln.jackduffy.cine/posters/" + movie_id_7 + "_poster.png");
+                                        bitmap_7 = BitmapFactory.decodeFile(input);
+                                        if(bitmap_7 == null)
+                                        {
+                                            bitmap_7 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        }
+                                        //endregion
                                         poster_number++;
                                         break;
                                     case 8:
                                         poster_8 = (ImageView)findViewById(R.id.now_playing_movie_poster_8);
-                                        bitmap_8 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        input = (Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/uk.ac.lincoln.jackduffy.cine/posters/" + movie_id_8 + "_poster.png");
+                                        bitmap_8 = BitmapFactory.decodeFile(input);
+                                        if(bitmap_8 == null)
+                                        {
+                                            bitmap_8 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        }
+                                        //endregion
                                         poster_number++;
                                         break;
                                     case 9:
                                         poster_9 = (ImageView)findViewById(R.id.now_playing_movie_poster_9);
-                                        bitmap_9 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        input = (Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/uk.ac.lincoln.jackduffy.cine/posters/" + movie_id_9 + "_poster.png");
+                                        bitmap_9 = BitmapFactory.decodeFile(input);
+                                        if(bitmap_9 == null)
+                                        {
+                                            bitmap_9 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        }
+                                        //endregion
                                         poster_number++;
                                         break;
                                     case 10:
                                         poster_10 = (ImageView)findViewById(R.id.now_playing_movie_poster_10);
-                                        bitmap_10 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        input = (Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/uk.ac.lincoln.jackduffy.cine/posters/" + movie_id_10 + "_poster.png");
+                                        bitmap_10 = BitmapFactory.decodeFile(input);
+                                        if(bitmap_10 == null)
+                                        {
+                                            bitmap_10 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        }
+                                        //endregion
                                         poster_number++;
                                         break;
                                     case 11:
                                         poster_11 = (ImageView)findViewById(R.id.now_playing_movie_poster_11);
-                                        bitmap_11 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        input = (Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/uk.ac.lincoln.jackduffy.cine/posters/" + movie_id_11 + "_poster.png");
+                                        bitmap_11 = BitmapFactory.decodeFile(input);
+                                        if(bitmap_11 == null)
+                                        {
+                                            bitmap_11 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        }
+                                        //endregion
                                         poster_number++;
                                         break;
                                     case 12:
                                         poster_12 = (ImageView)findViewById(R.id.now_playing_movie_poster_12);
-                                        bitmap_12 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        input = (Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/uk.ac.lincoln.jackduffy.cine/posters/" + movie_id_12 + "_poster.png");
+                                        bitmap_12 = BitmapFactory.decodeFile(input);
+                                        if(bitmap_12 == null)
+                                        {
+                                            bitmap_12 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        }
+                                        //endregion
                                         poster_number++;
                                         break;
                                     case 13:
                                         poster_13 = (ImageView)findViewById(R.id.now_playing_movie_poster_13);
-                                        bitmap_13 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        input = (Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/uk.ac.lincoln.jackduffy.cine/posters/" + movie_id_13 + "_poster.png");
+                                        bitmap_13 = BitmapFactory.decodeFile(input);
+                                        if(bitmap_13 == null)
+                                        {
+                                            bitmap_13 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        }
+                                        //endregion
                                         poster_number++;
                                         break;
                                     case 14:
                                         poster_14 = (ImageView)findViewById(R.id.now_playing_movie_poster_14);
-                                        bitmap_14 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        input = (Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/uk.ac.lincoln.jackduffy.cine/posters/" + movie_id_14 + "_poster.png");
+                                        bitmap_14 = BitmapFactory.decodeFile(input);
+                                        if(bitmap_14 == null)
+                                        {
+                                            bitmap_14 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        }
+                                        //endregion
                                         poster_number++;
                                         break;
                                     case 15:
                                         poster_15 = (ImageView)findViewById(R.id.now_playing_movie_poster_15);
-                                        bitmap_15 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        input = (Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/uk.ac.lincoln.jackduffy.cine/posters/" + movie_id_15 + "_poster.png");
+                                        bitmap_15 = BitmapFactory.decodeFile(input);
+                                        if(bitmap_15 == null)
+                                        {
+                                            bitmap_15 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        }
+                                        //endregion
                                         poster_number++;
                                         break;
                                     case 16:
                                         poster_16 = (ImageView)findViewById(R.id.now_playing_movie_poster_16);
-                                        bitmap_16 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        input = (Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/uk.ac.lincoln.jackduffy.cine/posters/" + movie_id_16 + "_poster.png");
+                                        bitmap_16 = BitmapFactory.decodeFile(input);
+                                        if(bitmap_16 == null)
+                                        {
+                                            bitmap_16 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        }
+                                        //endregion
                                         poster_number++;
                                         break;
                                     case 17:
                                         poster_17 = (ImageView)findViewById(R.id.now_playing_movie_poster_17);
-                                        bitmap_17 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        input = (Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/uk.ac.lincoln.jackduffy.cine/posters/" + movie_id_17 + "_poster.png");
+                                        bitmap_17 = BitmapFactory.decodeFile(input);
+                                        if(bitmap_17 == null)
+                                        {
+                                            bitmap_17 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        }
+                                        //endregion
                                         poster_number++;
                                         break;
                                     case 18:
                                         poster_18 = (ImageView)findViewById(R.id.now_playing_movie_poster_18);
-                                        bitmap_18 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        input = (Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/uk.ac.lincoln.jackduffy.cine/posters/" + movie_id_18 + "_poster.png");
+                                        bitmap_18 = BitmapFactory.decodeFile(input);
+                                        if(bitmap_18 == null)
+                                        {
+                                            bitmap_18 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        }
+                                        //endregion
                                         poster_number++;
                                         break;
                                     case 19:
                                         poster_19 = (ImageView)findViewById(R.id.now_playing_movie_poster_19);
-                                        bitmap_19 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        input = (Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/uk.ac.lincoln.jackduffy.cine/posters/" + movie_id_19 + "_poster.png");
+                                        bitmap_19 = BitmapFactory.decodeFile(input);
+                                        if(bitmap_19 == null)
+                                        {
+                                            bitmap_19 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        }
+                                        //endregion
                                         poster_number++;
                                         break;
                                     case 20:
                                         poster_20 = (ImageView)findViewById(R.id.now_playing_movie_poster_20);
-                                        bitmap_20 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        input = (Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/uk.ac.lincoln.jackduffy.cine/posters/" + movie_id_20 + "_poster.png");
+                                        bitmap_20 = BitmapFactory.decodeFile(input);
+                                        if(bitmap_20 == null)
+                                        {
+                                            bitmap_20 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        }
+                                        //endregion
                                         poster_number++;
                                         break;
                                 }
@@ -707,15 +791,6 @@ public class MainUI extends AppCompatActivity implements NavigationView.OnNaviga
 
                     }
                     //endregion
-
-
-
-
-
-
-
-
-
 
                     //region Popular Movies
                     url = "https://api.themoviedb.org/3/discover/movie?" + apiKey + "&sort_by=popularity.desc";
@@ -847,108 +922,229 @@ public class MainUI extends AppCompatActivity implements NavigationView.OnNaviga
                             if(poster_number <= 20)
                             {
                                 poster_path = "https://image.tmdb.org/t/p/w300_and_h450_bestv2" + posterPath;
+                                String input = "";
 
                                 //region Locate the card element in the activity and apply the correct poster URL's to each corrosponding bitmap
                                 switch(poster_number)
                                 {
                                     case 1:
                                         poster_21 = (ImageView)findViewById(R.id.popular_movie_poster_1);
-                                        bitmap_21 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        input = (Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/uk.ac.lincoln.jackduffy.cine/posters/" + movie_id_21 + "_poster.png");
+                                        bitmap_21 = BitmapFactory.decodeFile(input);
+                                        if(bitmap_21 == null)
+                                        {
+                                            bitmap_21 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        }
+                                        //endregion
                                         poster_number++;
                                         break;
                                     case 2:
                                         poster_22 = (ImageView)findViewById(R.id.popular_movie_poster_2);
-                                        bitmap_22 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        input = (Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/uk.ac.lincoln.jackduffy.cine/posters/" + movie_id_22 + "_poster.png");
+                                        bitmap_22 = BitmapFactory.decodeFile(input);
+                                        if(bitmap_22 == null)
+                                        {
+                                            bitmap_22 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        }
+                                        //endregion
                                         poster_number++;
                                         break;
                                     case 3:
                                         poster_23 = (ImageView)findViewById(R.id.popular_movie_poster_3);
-                                        bitmap_23 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        input = (Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/uk.ac.lincoln.jackduffy.cine/posters/" + movie_id_23 + "_poster.png");
+                                        bitmap_23 = BitmapFactory.decodeFile(input);
+                                        if(bitmap_23 == null)
+                                        {
+                                            bitmap_23 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        }
+                                        //endregion
                                         poster_number++;
                                         break;
                                     case 4:
                                         poster_24 = (ImageView)findViewById(R.id.popular_movie_poster_4);
-                                        bitmap_24 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        input = (Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/uk.ac.lincoln.jackduffy.cine/posters/" + movie_id_24 + "_poster.png");
+                                        bitmap_24 = BitmapFactory.decodeFile(input);
+                                        if(bitmap_24 == null)
+                                        {
+                                            bitmap_24 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        }
+                                        //endregion
                                         poster_number++;
                                         break;
                                     case 5:
                                         poster_25 = (ImageView)findViewById(R.id.popular_movie_poster_5);
-                                        bitmap_25 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        input = (Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/uk.ac.lincoln.jackduffy.cine/posters/" + movie_id_25 + "_poster.png");
+                                        bitmap_25 = BitmapFactory.decodeFile(input);
+                                        if(bitmap_25 == null)
+                                        {
+                                            bitmap_25 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        }
+                                        //endregion
                                         poster_number++;
                                         break;
                                     case 6:
                                         poster_26 = (ImageView)findViewById(R.id.popular_movie_poster_6);
-                                        bitmap_26 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        input = (Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/uk.ac.lincoln.jackduffy.cine/posters/" + movie_id_26 + "_poster.png");
+                                        bitmap_26 = BitmapFactory.decodeFile(input);
+                                        if(bitmap_26 == null)
+                                        {
+                                            bitmap_26 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        }
+                                        //endregion
                                         poster_number++;
                                         break;
                                     case 7:
                                         poster_27 = (ImageView)findViewById(R.id.popular_movie_poster_7);
-                                        bitmap_27 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        input = (Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/uk.ac.lincoln.jackduffy.cine/posters/" + movie_id_27 + "_poster.png");
+                                        bitmap_27 = BitmapFactory.decodeFile(input);
+                                        if(bitmap_27 == null)
+                                        {
+                                            bitmap_27 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        }
+                                        //endregion
                                         poster_number++;
                                         break;
                                     case 8:
                                         poster_28 = (ImageView)findViewById(R.id.popular_movie_poster_8);
-                                        bitmap_28 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        input = (Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/uk.ac.lincoln.jackduffy.cine/posters/" + movie_id_28 + "_poster.png");
+                                        bitmap_28 = BitmapFactory.decodeFile(input);
+                                        if(bitmap_28 == null)
+                                        {
+                                            bitmap_28 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        }
+                                        //endregion
                                         poster_number++;
                                         break;
                                     case 9:
                                         poster_29 = (ImageView)findViewById(R.id.popular_movie_poster_9);
-                                        bitmap_29 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        input = (Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/uk.ac.lincoln.jackduffy.cine/posters/" + movie_id_29 + "_poster.png");
+                                        bitmap_29 = BitmapFactory.decodeFile(input);
+                                        if(bitmap_29 == null)
+                                        {
+                                            bitmap_29 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        }
+                                        //endregion
                                         poster_number++;
                                         break;
                                     case 10:
                                         poster_30 = (ImageView)findViewById(R.id.popular_movie_poster_10);
-                                        bitmap_30 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        input = (Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/uk.ac.lincoln.jackduffy.cine/posters/" + movie_id_30 + "_poster.png");
+                                        bitmap_30 = BitmapFactory.decodeFile(input);
+                                        if(bitmap_30 == null)
+                                        {
+                                            bitmap_30 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        }
+                                        //endregion
                                         poster_number++;
                                         break;
                                     case 11:
                                         poster_31 = (ImageView)findViewById(R.id.popular_movie_poster_11);
-                                        bitmap_31 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        input = (Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/uk.ac.lincoln.jackduffy.cine/posters/" + movie_id_31 + "_poster.png");
+                                        bitmap_31 = BitmapFactory.decodeFile(input);
+                                        if(bitmap_31 == null)
+                                        {
+                                            bitmap_31 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        }
+                                        //endregion
                                         poster_number++;
                                         break;
                                     case 12:
                                         poster_32 = (ImageView)findViewById(R.id.popular_movie_poster_12);
-                                        bitmap_32 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        input = (Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/uk.ac.lincoln.jackduffy.cine/posters/" + movie_id_32 + "_poster.png");
+                                        bitmap_32 = BitmapFactory.decodeFile(input);
+                                        if(bitmap_32 == null)
+                                        {
+                                            bitmap_32 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        }
+                                        //endregion
                                         poster_number++;
                                         break;
                                     case 13:
                                         poster_33 = (ImageView)findViewById(R.id.popular_movie_poster_13);
-                                        bitmap_33 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        input = (Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/uk.ac.lincoln.jackduffy.cine/posters/" + movie_id_33 + "_poster.png");
+                                        bitmap_33 = BitmapFactory.decodeFile(input);
+                                        if(bitmap_33 == null)
+                                        {
+                                            bitmap_33 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        }
+                                        //endregion
                                         poster_number++;
                                         break;
                                     case 14:
                                         poster_34 = (ImageView)findViewById(R.id.popular_movie_poster_14);
-                                        bitmap_34 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        input = (Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/uk.ac.lincoln.jackduffy.cine/posters/" + movie_id_34 + "_poster.png");
+                                        bitmap_34 = BitmapFactory.decodeFile(input);
+                                        if(bitmap_34 == null)
+                                        {
+                                            bitmap_34 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        }
+                                        //endregion
                                         poster_number++;
                                         break;
                                     case 15:
                                         poster_35 = (ImageView)findViewById(R.id.popular_movie_poster_15);
-                                        bitmap_35 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        input = (Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/uk.ac.lincoln.jackduffy.cine/posters/" + movie_id_35 + "_poster.png");
+                                        bitmap_35 = BitmapFactory.decodeFile(input);
+                                        if(bitmap_35 == null)
+                                        {
+                                            bitmap_35 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        }
+                                        //endregion
                                         poster_number++;
                                         break;
                                     case 16:
                                         poster_36 = (ImageView)findViewById(R.id.popular_movie_poster_16);
-                                        bitmap_36 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        input = (Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/uk.ac.lincoln.jackduffy.cine/posters/" + movie_id_36 + "_poster.png");
+                                        bitmap_36 = BitmapFactory.decodeFile(input);
+                                        if(bitmap_36 == null)
+                                        {
+                                            bitmap_36 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        }
+                                        //endregion
                                         poster_number++;
                                         break;
                                     case 17:
                                         poster_37 = (ImageView)findViewById(R.id.popular_movie_poster_17);
-                                        bitmap_37 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        input = (Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/uk.ac.lincoln.jackduffy.cine/posters/" + movie_id_37 + "_poster.png");
+                                        bitmap_37 = BitmapFactory.decodeFile(input);
+                                        if(bitmap_37 == null)
+                                        {
+                                            bitmap_37 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        }
+                                        //endregion
                                         poster_number++;
                                         break;
                                     case 18:
                                         poster_38 = (ImageView)findViewById(R.id.popular_movie_poster_18);
-                                        bitmap_38 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        input = (Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/uk.ac.lincoln.jackduffy.cine/posters/" + movie_id_38 + "_poster.png");
+                                        bitmap_38 = BitmapFactory.decodeFile(input);
+                                        if(bitmap_38 == null)
+                                        {
+                                            bitmap_38 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        }
+                                        //endregion
                                         poster_number++;
                                         break;
                                     case 19:
                                         poster_39 = (ImageView)findViewById(R.id.popular_movie_poster_19);
-                                        bitmap_39 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        input = (Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/uk.ac.lincoln.jackduffy.cine/posters/" + movie_id_39 + "_poster.png");
+                                        bitmap_39 = BitmapFactory.decodeFile(input);
+                                        if(bitmap_39 == null)
+                                        {
+                                            bitmap_39 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        }
+                                        //endregion
                                         poster_number++;
                                         break;
                                     case 20:
                                         poster_40 = (ImageView)findViewById(R.id.popular_movie_poster_20);
-                                        bitmap_40 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        input = (Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/uk.ac.lincoln.jackduffy.cine/posters/" + movie_id_40 + "_poster.png");
+                                        bitmap_40 = BitmapFactory.decodeFile(input);
+                                        if(bitmap_40 == null)
+                                        {
+                                            bitmap_40 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        }
+                                        //endregion
                                         poster_number++;
                                         break;
                                 }
@@ -1101,108 +1297,228 @@ public class MainUI extends AppCompatActivity implements NavigationView.OnNaviga
                             if(poster_number <= 20)
                             {
                                 poster_path = "https://image.tmdb.org/t/p/w300_and_h450_bestv2" + posterPath;
-
+                                String input = "";
                                 //region Locate the card element in the activity and apply the correct poster URL's to each corrosponding bitmap
                                 switch(poster_number)
                                 {
                                     case 1:
                                         poster_41 = (ImageView)findViewById(R.id.highest_rated_movie_poster_1);
-                                        bitmap_41 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        input = (Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/uk.ac.lincoln.jackduffy.cine/posters/" + movie_id_41 + "_poster.png");
+                                        bitmap_41 = BitmapFactory.decodeFile(input);
+                                        if(bitmap_41 == null)
+                                        {
+                                            bitmap_41 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        }
+                                        //endregion
                                         poster_number++;
                                         break;
                                     case 2:
                                         poster_42 = (ImageView)findViewById(R.id.highest_rated_movie_poster_2);
-                                        bitmap_42 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        input = (Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/uk.ac.lincoln.jackduffy.cine/posters/" + movie_id_42 + "_poster.png");
+                                        bitmap_42 = BitmapFactory.decodeFile(input);
+                                        if(bitmap_42 == null)
+                                        {
+                                            bitmap_42 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        }
+                                        //endregion
                                         poster_number++;
                                         break;
                                     case 3:
                                         poster_43 = (ImageView)findViewById(R.id.highest_rated_movie_poster_3);
-                                        bitmap_43 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        input = (Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/uk.ac.lincoln.jackduffy.cine/posters/" + movie_id_43 + "_poster.png");
+                                        bitmap_43 = BitmapFactory.decodeFile(input);
+                                        if(bitmap_43 == null)
+                                        {
+                                            bitmap_43 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        }
+                                        //endregion
                                         poster_number++;
                                         break;
                                     case 4:
                                         poster_44 = (ImageView)findViewById(R.id.highest_rated_movie_poster_4);
-                                        bitmap_44 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        input = (Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/uk.ac.lincoln.jackduffy.cine/posters/" + movie_id_44 + "_poster.png");
+                                        bitmap_44 = BitmapFactory.decodeFile(input);
+                                        if(bitmap_44 == null)
+                                        {
+                                            bitmap_44 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        }
+                                        //endregion
                                         poster_number++;
                                         break;
                                     case 5:
                                         poster_45 = (ImageView)findViewById(R.id.highest_rated_movie_poster_5);
-                                        bitmap_45 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        input = (Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/uk.ac.lincoln.jackduffy.cine/posters/" + movie_id_45 + "_poster.png");
+                                        bitmap_45 = BitmapFactory.decodeFile(input);
+                                        if(bitmap_45 == null)
+                                        {
+                                            bitmap_45 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        }
+                                        //endregion
                                         poster_number++;
                                         break;
                                     case 6:
                                         poster_46 = (ImageView)findViewById(R.id.highest_rated_movie_poster_6);
-                                        bitmap_46 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        input = (Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/uk.ac.lincoln.jackduffy.cine/posters/" + movie_id_46 + "_poster.png");
+                                        bitmap_46 = BitmapFactory.decodeFile(input);
+                                        if(bitmap_46 == null)
+                                        {
+                                            bitmap_46 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        }
+                                        //endregion
                                         poster_number++;
                                         break;
                                     case 7:
                                         poster_47 = (ImageView)findViewById(R.id.highest_rated_movie_poster_7);
-                                        bitmap_47 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        input = (Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/uk.ac.lincoln.jackduffy.cine/posters/" + movie_id_47 + "_poster.png");
+                                        bitmap_47 = BitmapFactory.decodeFile(input);
+                                        if(bitmap_47 == null)
+                                        {
+                                            bitmap_47 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        }
+                                        //endregion
                                         poster_number++;
                                         break;
                                     case 8:
                                         poster_48 = (ImageView)findViewById(R.id.highest_rated_movie_poster_8);
-                                        bitmap_48 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        input = (Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/uk.ac.lincoln.jackduffy.cine/posters/" + movie_id_48 + "_poster.png");
+                                        bitmap_48 = BitmapFactory.decodeFile(input);
+                                        if(bitmap_48 == null)
+                                        {
+                                            bitmap_48 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        }
+                                        //endregion
                                         poster_number++;
                                         break;
                                     case 9:
                                         poster_49 = (ImageView)findViewById(R.id.highest_rated_movie_poster_9);
-                                        bitmap_49 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        input = (Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/uk.ac.lincoln.jackduffy.cine/posters/" + movie_id_49 + "_poster.png");
+                                        bitmap_49 = BitmapFactory.decodeFile(input);
+                                        if(bitmap_49 == null)
+                                        {
+                                            bitmap_49 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        }
+                                        //endregion
                                         poster_number++;
                                         break;
                                     case 10:
                                         poster_50 = (ImageView)findViewById(R.id.highest_rated_movie_poster_10);
-                                        bitmap_50 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        input = (Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/uk.ac.lincoln.jackduffy.cine/posters/" + movie_id_50 + "_poster.png");
+                                        bitmap_50 = BitmapFactory.decodeFile(input);
+                                        if(bitmap_50 == null)
+                                        {
+                                            bitmap_50 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        }
+                                        //endregion
                                         poster_number++;
                                         break;
                                     case 11:
                                         poster_51 = (ImageView)findViewById(R.id.highest_rated_movie_poster_11);
-                                        bitmap_51 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        input = (Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/uk.ac.lincoln.jackduffy.cine/posters/" + movie_id_51 + "_poster.png");
+                                        bitmap_51 = BitmapFactory.decodeFile(input);
+                                        if(bitmap_51 == null)
+                                        {
+                                            bitmap_51 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        }
+                                        //endregion
                                         poster_number++;
                                         break;
                                     case 12:
                                         poster_52 = (ImageView)findViewById(R.id.highest_rated_movie_poster_12);
-                                        bitmap_52 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        input = (Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/uk.ac.lincoln.jackduffy.cine/posters/" + movie_id_52 + "_poster.png");
+                                        bitmap_52 = BitmapFactory.decodeFile(input);
+                                        if(bitmap_52 == null)
+                                        {
+                                            bitmap_52 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        }
+                                        //endregion
                                         poster_number++;
                                         break;
                                     case 13:
                                         poster_53 = (ImageView)findViewById(R.id.highest_rated_movie_poster_13);
-                                        bitmap_53 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        input = (Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/uk.ac.lincoln.jackduffy.cine/posters/" + movie_id_53 + "_poster.png");
+                                        bitmap_53 = BitmapFactory.decodeFile(input);
+                                        if(bitmap_53 == null)
+                                        {
+                                            bitmap_53 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        }
+                                        //endregion
                                         poster_number++;
                                         break;
                                     case 14:
                                         poster_54 = (ImageView)findViewById(R.id.highest_rated_movie_poster_14);
-                                        bitmap_54 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        input = (Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/uk.ac.lincoln.jackduffy.cine/posters/" + movie_id_54 + "_poster.png");
+                                        bitmap_54 = BitmapFactory.decodeFile(input);
+                                        if(bitmap_54 == null)
+                                        {
+                                            bitmap_54 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        }
+                                        //endregion
                                         poster_number++;
                                         break;
                                     case 15:
                                         poster_55 = (ImageView)findViewById(R.id.highest_rated_movie_poster_15);
-                                        bitmap_55 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        input = (Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/uk.ac.lincoln.jackduffy.cine/posters/" + movie_id_55 + "_poster.png");
+                                        bitmap_55 = BitmapFactory.decodeFile(input);
+                                        if(bitmap_55 == null)
+                                        {
+                                            bitmap_55 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        }
+                                        //endregion
                                         poster_number++;
                                         break;
                                     case 16:
                                         poster_56 = (ImageView)findViewById(R.id.highest_rated_movie_poster_16);
-                                        bitmap_56 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        input = (Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/uk.ac.lincoln.jackduffy.cine/posters/" + movie_id_56 + "_poster.png");
+                                        bitmap_56 = BitmapFactory.decodeFile(input);
+                                        if(bitmap_56 == null)
+                                        {
+                                            bitmap_56 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        }
+                                        //endregion
                                         poster_number++;
                                         break;
                                     case 17:
                                         poster_57 = (ImageView)findViewById(R.id.highest_rated_movie_poster_17);
-                                        bitmap_57 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        input = (Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/uk.ac.lincoln.jackduffy.cine/posters/" + movie_id_57 + "_poster.png");
+                                        bitmap_57 = BitmapFactory.decodeFile(input);
+                                        if(bitmap_57 == null)
+                                        {
+                                            bitmap_57 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        }
+                                        //endregion
                                         poster_number++;
                                         break;
                                     case 18:
                                         poster_58 = (ImageView)findViewById(R.id.highest_rated_movie_poster_18);
-                                        bitmap_58 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        input = (Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/uk.ac.lincoln.jackduffy.cine/posters/" + movie_id_58 + "_poster.png");
+                                        bitmap_58 = BitmapFactory.decodeFile(input);
+                                        if(bitmap_58 == null)
+                                        {
+                                            bitmap_58 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        }
+                                        //endregion
                                         poster_number++;
                                         break;
                                     case 19:
                                         poster_59 = (ImageView)findViewById(R.id.highest_rated_movie_poster_19);
-                                        bitmap_59 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        input = (Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/uk.ac.lincoln.jackduffy.cine/posters/" + movie_id_59 + "_poster.png");
+                                        bitmap_59 = BitmapFactory.decodeFile(input);
+                                        if(bitmap_59 == null)
+                                        {
+                                            bitmap_59 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        }
+                                        //endregion
                                         poster_number++;
                                         break;
                                     case 20:
                                         poster_60 = (ImageView)findViewById(R.id.highest_rated_movie_poster_20);
-                                        bitmap_60 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        input = (Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/uk.ac.lincoln.jackduffy.cine/posters/" + movie_id_60 + "_poster.png");
+                                        bitmap_60 = BitmapFactory.decodeFile(input);
+                                        if(bitmap_60 == null)
+                                        {
+                                            bitmap_60 = BitmapFactory.decodeStream((InputStream)new URL(poster_path).getContent());
+                                        }
+                                        //endregion
                                         poster_number++;
                                         break;
                                 }
@@ -1222,7 +1538,6 @@ public class MainUI extends AppCompatActivity implements NavigationView.OnNaviga
                     }
 
                     System.out.println("data fetched");
-                    tmbd_update = false;
                     break;
                 //endregion
 
@@ -1235,8 +1550,2515 @@ public class MainUI extends AppCompatActivity implements NavigationView.OnNaviga
         // below method will run when service HTTP request is complete,
         protected void onPostExecute(String strFromDoInBg)
         {
+            switch(tmdb_mode)
+            {
+                case 0:
+                    //region Apply featured movie poster/backdrop
+                    featured_poster_1.setImageBitmap(featured_poster_bitmap_1);
+                    featured_backdrop_1.setImageBitmap(featured_backdrop_bitmap_1);
+                    featured_name_1.setText(featured_name_string_1);
+                    //endregion
+
+                    new save_movie_data().execute();
+                    tmdb_mode = 1;
+                    new get_movie_data().execute();
+                    break;
+                case 1:
+                    //region Apply Popular Movie Posters
+                    poster_1.setImageBitmap(bitmap_1);
+                    poster_2.setImageBitmap(bitmap_2);
+                    poster_3.setImageBitmap(bitmap_3);
+                    poster_4.setImageBitmap(bitmap_4);
+                    poster_5.setImageBitmap(bitmap_5);
+                    poster_6.setImageBitmap(bitmap_6);
+                    poster_7.setImageBitmap(bitmap_7);
+                    poster_8.setImageBitmap(bitmap_8);
+                    poster_9.setImageBitmap(bitmap_9);
+                    poster_10.setImageBitmap(bitmap_10);
+                    poster_11.setImageBitmap(bitmap_11);
+                    poster_12.setImageBitmap(bitmap_12);
+                    poster_13.setImageBitmap(bitmap_13);
+                    poster_14.setImageBitmap(bitmap_14);
+                    poster_15.setImageBitmap(bitmap_15);
+                    poster_16.setImageBitmap(bitmap_16);
+                    poster_17.setImageBitmap(bitmap_17);
+                    poster_18.setImageBitmap(bitmap_18);
+                    poster_19.setImageBitmap(bitmap_19);
+                    poster_20.setImageBitmap(bitmap_20);
+
+                    poster_21.setImageBitmap(bitmap_21);
+                    poster_22.setImageBitmap(bitmap_22);
+                    poster_23.setImageBitmap(bitmap_23);
+                    poster_24.setImageBitmap(bitmap_24);
+                    poster_25.setImageBitmap(bitmap_25);
+                    poster_26.setImageBitmap(bitmap_26);
+                    poster_27.setImageBitmap(bitmap_27);
+                    poster_28.setImageBitmap(bitmap_28);
+                    poster_29.setImageBitmap(bitmap_29);
+                    poster_30.setImageBitmap(bitmap_30);
+                    poster_31.setImageBitmap(bitmap_31);
+                    poster_32.setImageBitmap(bitmap_32);
+                    poster_33.setImageBitmap(bitmap_33);
+                    poster_34.setImageBitmap(bitmap_34);
+                    poster_35.setImageBitmap(bitmap_35);
+                    poster_36.setImageBitmap(bitmap_36);
+                    poster_37.setImageBitmap(bitmap_37);
+                    poster_38.setImageBitmap(bitmap_38);
+                    poster_39.setImageBitmap(bitmap_39);
+                    poster_40.setImageBitmap(bitmap_40);
+
+                    poster_41.setImageBitmap(bitmap_41);
+                    poster_42.setImageBitmap(bitmap_42);
+                    poster_43.setImageBitmap(bitmap_43);
+                    poster_44.setImageBitmap(bitmap_44);
+                    poster_45.setImageBitmap(bitmap_45);
+                    poster_46.setImageBitmap(bitmap_46);
+                    poster_47.setImageBitmap(bitmap_47);
+                    poster_48.setImageBitmap(bitmap_48);
+                    poster_49.setImageBitmap(bitmap_49);
+                    poster_50.setImageBitmap(bitmap_50);
+                    poster_51.setImageBitmap(bitmap_51);
+                    poster_52.setImageBitmap(bitmap_52);
+                    poster_53.setImageBitmap(bitmap_53);
+                    poster_54.setImageBitmap(bitmap_54);
+                    poster_55.setImageBitmap(bitmap_55);
+                    poster_56.setImageBitmap(bitmap_56);
+                    poster_57.setImageBitmap(bitmap_57);
+                    poster_58.setImageBitmap(bitmap_58);
+                    poster_59.setImageBitmap(bitmap_59);
+                    poster_60.setImageBitmap(bitmap_60);
+                    //endregion
+                    //endregion
+
+                    save_mode = 1;
+                    new save_movie_data().execute();
+
+                    break;
+            }
+
             System.out.println("successful execution");
         }
+    }
+
+    public class save_movie_data extends AsyncTask<String, String, String>
+    {
+        @Override
+        protected void onPreExecute() {}
+
+        @Override
+        protected String doInBackground(String... arg0)
+        {
+            String file_path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/uk.ac.lincoln.jackduffy.cine/";
+            File filePath;
+            File dir;
+            File file;
+            FileOutputStream fOut;
+            fOut = null;
+            switch(save_mode)
+            {
+                case 0:
+                    //region Save poster
+                    dir = new File((file_path + "posters"));
+                    if(!dir.exists())
+                        dir.mkdirs();
+                    file = new File(dir, featuredID + "_poster" + ".png");
+                    //region Create output stream
+                    try
+                    {
+                        fOut = new FileOutputStream(file);
+                    }
+
+                    catch (FileNotFoundException e)
+                    {
+                        e.printStackTrace();
+                    }
+                    //endregion
+                    featured_poster_bitmap_1.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                    //region Close
+                    try
+                    {
+                        fOut.flush();
+                    }
+
+                    catch (IOException e)
+                    {
+                        e.printStackTrace();
+                    }
+
+                    try
+                    {
+                        fOut.close();
+                    }
+
+                    catch (IOException e)
+                    {
+                        e.printStackTrace();
+                    }
+                    //endregion
+                    
+                    //endregion
+                    //region Save Backdrop
+                    dir = new File((file_path + "backdrops"));
+                    if(!dir.exists())
+                        dir.mkdirs();
+                    file = new File(dir, featuredID + "_backdrop" + ".png");
+                    //region Create output stream
+                        try
+                        {
+                            fOut = new FileOutputStream(file);
+                        }
+
+                        catch (FileNotFoundException e)
+                        {
+                            e.printStackTrace();
+                        }
+                        //endregion
+                    featured_backdrop_bitmap_1.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                    //region Close
+                        try
+                        {
+                            fOut.flush();
+                        }
+
+                        catch (IOException e)
+                        {
+                            e.printStackTrace();
+                        }
+
+                        try
+                        {
+                            fOut.close();
+                        }
+
+                        catch (IOException e)
+                        {
+                            e.printStackTrace();
+                        }
+                        //endregion
+                    
+                    //endregion
+                    break;
+                case 1:
+                    //region Save all other posters
+                    System.out.println("Initiating loop");
+                    dir = new File((file_path + "posters"));
+                    if(!dir.exists())dir.mkdirs();
+
+                    for(int chooser = 1; chooser <= 60; chooser++)
+                    {
+                        switch(chooser)
+                        {
+                            case 1:
+                                //region Save poster
+                                file = new File(dir, movie_id_1 + "_poster" + ".png");
+                                //region Create output stream
+                                try
+                                {
+                                    fOut = new FileOutputStream(file);
+                                }
+
+                                catch (FileNotFoundException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                bitmap_1.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                                //region Close
+                                try
+                                {
+                                    fOut.flush();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+
+                                try
+                                {
+                                    fOut.close();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                
+                                //endregion
+                                break;
+                            case 2:
+                                //region Save poster
+                                file = new File(dir, movie_id_2 + "_poster" + ".png");
+                                //region Create output stream
+                                try
+                                {
+                                    fOut = new FileOutputStream(file);
+                                }
+
+                                catch (FileNotFoundException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                bitmap_2.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                                //region Close
+                                try
+                                {
+                                    fOut.flush();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+
+                                try
+                                {
+                                    fOut.close();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                
+                                //endregion
+                                break;
+                            case 3:
+                                //region Save poster
+                                file = new File(dir, movie_id_3 + "_poster" + ".png");
+                                //region Create output stream
+                                try
+                                {
+                                    fOut = new FileOutputStream(file);
+                                }
+
+                                catch (FileNotFoundException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                bitmap_3.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                                //region Close
+                                try
+                                {
+                                    fOut.flush();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+
+                                try
+                                {
+                                    fOut.close();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                
+                                //endregion
+                                break;
+                            case 4:
+                                //region Save poster
+                                file = new File(dir, movie_id_4 + "_poster" + ".png");
+                                //region Create output stream
+                                try
+                                {
+                                    fOut = new FileOutputStream(file);
+                                }
+
+                                catch (FileNotFoundException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                bitmap_4.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                                //region Close
+                                try
+                                {
+                                    fOut.flush();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+
+                                try
+                                {
+                                    fOut.close();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                
+                                //endregion
+                                break;
+                            case 5:
+                                //region Save poster
+                                file = new File(dir, movie_id_5 + "_poster" + ".png");
+                                //region Create output stream
+                                try
+                                {
+                                    fOut = new FileOutputStream(file);
+                                }
+
+                                catch (FileNotFoundException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                bitmap_5.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                                //region Close
+                                try
+                                {
+                                    fOut.flush();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+
+                                try
+                                {
+                                    fOut.close();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                
+                                //endregion
+                                break;
+                            case 6:
+                                //region Save poster
+                                file = new File(dir, movie_id_6 + "_poster" + ".png");
+                                //region Create output stream
+                                try
+                                {
+                                    fOut = new FileOutputStream(file);
+                                }
+
+                                catch (FileNotFoundException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                bitmap_6.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                                //region Close
+                                try
+                                {
+                                    fOut.flush();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+
+                                try
+                                {
+                                    fOut.close();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                
+                                //endregion
+                                break;
+                            case 7:
+                                //region Save poster
+                                file = new File(dir, movie_id_7 + "_poster" + ".png");
+                                //region Create output stream
+                                try
+                                {
+                                    fOut = new FileOutputStream(file);
+                                }
+
+                                catch (FileNotFoundException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                bitmap_7.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                                //region Close
+                                try
+                                {
+                                    fOut.flush();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+
+                                try
+                                {
+                                    fOut.close();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                
+                                //endregion
+                                break;
+                            case 8:
+                                //region Save poster
+                                file = new File(dir, movie_id_8 + "_poster" + ".png");
+                                //region Create output stream
+                                try
+                                {
+                                    fOut = new FileOutputStream(file);
+                                }
+
+                                catch (FileNotFoundException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                bitmap_8.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                                //region Close
+                                try
+                                {
+                                    fOut.flush();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+
+                                try
+                                {
+                                    fOut.close();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                
+                                //endregion
+                                break;
+                            case 9:
+                                //region Save poster
+                                file = new File(dir, movie_id_9 + "_poster" + ".png");
+                                //region Create output stream
+                                try
+                                {
+                                    fOut = new FileOutputStream(file);
+                                }
+
+                                catch (FileNotFoundException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                bitmap_9.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                                //region Close
+                                try
+                                {
+                                    fOut.flush();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+
+                                try
+                                {
+                                    fOut.close();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                
+                                //endregion
+                                break;
+                            case 10:
+                                //region Save poster
+                                file = new File(dir, movie_id_10 + "_poster" + ".png");
+                                //region Create output stream
+                                try
+                                {
+                                    fOut = new FileOutputStream(file);
+                                }
+
+                                catch (FileNotFoundException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                bitmap_10.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                                //region Close
+                                try
+                                {
+                                    fOut.flush();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+
+                                try
+                                {
+                                    fOut.close();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                
+                                //endregion
+                                break;
+                            case 12:
+                                //region Save poster
+                                file = new File(dir, movie_id_12 + "_poster" + ".png");
+                                //region Create output stream
+                                try
+                                {
+                                    fOut = new FileOutputStream(file);
+                                }
+
+                                catch (FileNotFoundException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                bitmap_12.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                                //region Close
+                                try
+                                {
+                                    fOut.flush();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+
+                                try
+                                {
+                                    fOut.close();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                
+                                //endregion
+                                break;
+                            case 13:
+                                //region Save poster
+                                file = new File(dir, movie_id_13 + "_poster" + ".png");
+                                //region Create output stream
+                                try
+                                {
+                                    fOut = new FileOutputStream(file);
+                                }
+
+                                catch (FileNotFoundException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                bitmap_13.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                                //region Close
+                                try
+                                {
+                                    fOut.flush();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+
+                                try
+                                {
+                                    fOut.close();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                
+                                //endregion
+                                break;
+                            case 14:
+                                //region Save poster
+                                file = new File(dir, movie_id_14 + "_poster" + ".png");
+                                //region Create output stream
+                                try
+                                {
+                                    fOut = new FileOutputStream(file);
+                                }
+
+                                catch (FileNotFoundException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                bitmap_14.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                                //region Close
+                                try
+                                {
+                                    fOut.flush();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+
+                                try
+                                {
+                                    fOut.close();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                
+                                //endregion
+                                break;
+                            case 15:
+                                //region Save poster
+                                file = new File(dir, movie_id_15 + "_poster" + ".png");
+                                //region Create output stream
+                                try
+                                {
+                                    fOut = new FileOutputStream(file);
+                                }
+
+                                catch (FileNotFoundException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                bitmap_15.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                                //region Close
+                                try
+                                {
+                                    fOut.flush();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+
+                                try
+                                {
+                                    fOut.close();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                
+                                //endregion
+                                break;
+                            case 16:
+                                //region Save poster
+                                file = new File(dir, movie_id_16 + "_poster" + ".png");
+                                //region Create output stream
+                                try
+                                {
+                                    fOut = new FileOutputStream(file);
+                                }
+
+                                catch (FileNotFoundException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                bitmap_16.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                                //region Close
+                                try
+                                {
+                                    fOut.flush();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+
+                                try
+                                {
+                                    fOut.close();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                
+                                //endregion
+                                break;
+                            case 17:
+                                //region Save poster
+                                file = new File(dir, movie_id_17 + "_poster" + ".png");
+                                //region Create output stream
+                                try
+                                {
+                                    fOut = new FileOutputStream(file);
+                                }
+
+                                catch (FileNotFoundException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                bitmap_17.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                                //region Close
+                                try
+                                {
+                                    fOut.flush();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+
+                                try
+                                {
+                                    fOut.close();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                
+                                //endregion
+                                break;
+                            case 18:
+                                //region Save poster
+                                file = new File(dir, movie_id_18 + "_poster" + ".png");
+                                //region Create output stream
+                                try
+                                {
+                                    fOut = new FileOutputStream(file);
+                                }
+
+                                catch (FileNotFoundException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                bitmap_18.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                                //region Close
+                                try
+                                {
+                                    fOut.flush();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+
+                                try
+                                {
+                                    fOut.close();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                
+                                //endregion
+                                break;
+                            case 19:
+                                //region Save poster
+                                file = new File(dir, movie_id_19 + "_poster" + ".png");
+                                //region Create output stream
+                                try
+                                {
+                                    fOut = new FileOutputStream(file);
+                                }
+
+                                catch (FileNotFoundException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                bitmap_19.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                                //region Close
+                                try
+                                {
+                                    fOut.flush();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+
+                                try
+                                {
+                                    fOut.close();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                
+                                //endregion
+                                break;
+                            case 20:
+                                //region Save poster
+                                file = new File(dir, movie_id_20 + "_poster" + ".png");
+                                //region Create output stream
+                                try
+                                {
+                                    fOut = new FileOutputStream(file);
+                                }
+
+                                catch (FileNotFoundException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                bitmap_20.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                                //region Close
+                                try
+                                {
+                                    fOut.flush();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+
+                                try
+                                {
+                                    fOut.close();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                
+                                //endregion
+                                break;
+                            case 21:
+                                //region Save poster
+                                file = new File(dir, movie_id_21 + "_poster" + ".png");
+                                //region Create output stream
+                                try
+                                {
+                                    fOut = new FileOutputStream(file);
+                                }
+
+                                catch (FileNotFoundException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                bitmap_21.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                                //region Close
+                                try
+                                {
+                                    fOut.flush();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+
+                                try
+                                {
+                                    fOut.close();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                
+                                //endregion
+                                break;
+                            case 22:
+                                //region Save poster
+                                file = new File(dir, movie_id_22 + "_poster" + ".png");
+                                //region Create output stream
+                                try
+                                {
+                                    fOut = new FileOutputStream(file);
+                                }
+
+                                catch (FileNotFoundException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                bitmap_22.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                                //region Close
+                                try
+                                {
+                                    fOut.flush();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+
+                                try
+                                {
+                                    fOut.close();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                
+                                //endregion
+                                break;
+                            case 23:
+                                //region Save poster
+                                file = new File(dir, movie_id_23 + "_poster" + ".png");
+                                //region Create output stream
+                                try
+                                {
+                                    fOut = new FileOutputStream(file);
+                                }
+
+                                catch (FileNotFoundException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                bitmap_23.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                                //region Close
+                                try
+                                {
+                                    fOut.flush();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+
+                                try
+                                {
+                                    fOut.close();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                
+                                //endregion
+                                break;
+                            case 24:
+                                //region Save poster
+                                file = new File(dir, movie_id_24 + "_poster" + ".png");
+                                //region Create output stream
+                                try
+                                {
+                                    fOut = new FileOutputStream(file);
+                                }
+
+                                catch (FileNotFoundException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                bitmap_24.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                                //region Close
+                                try
+                                {
+                                    fOut.flush();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+
+                                try
+                                {
+                                    fOut.close();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                
+                                //endregion
+                                break;
+                            case 25:
+                                //region Save poster
+                                file = new File(dir, movie_id_25 + "_poster" + ".png");
+                                //region Create output stream
+                                try
+                                {
+                                    fOut = new FileOutputStream(file);
+                                }
+
+                                catch (FileNotFoundException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                bitmap_25.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                                //region Close
+                                try
+                                {
+                                    fOut.flush();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+
+                                try
+                                {
+                                    fOut.close();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                
+                                //endregion
+                                break;
+                            case 26:
+                                //region Save poster
+                                file = new File(dir, movie_id_26 + "_poster" + ".png");
+                                //region Create output stream
+                                try
+                                {
+                                    fOut = new FileOutputStream(file);
+                                }
+
+                                catch (FileNotFoundException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                bitmap_26.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                                //region Close
+                                try
+                                {
+                                    fOut.flush();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+
+                                try
+                                {
+                                    fOut.close();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                
+                                //endregion
+                                break;
+                            case 27:
+                                //region Save poster
+                                file = new File(dir, movie_id_27 + "_poster" + ".png");
+                                //region Create output stream
+                                try
+                                {
+                                    fOut = new FileOutputStream(file);
+                                }
+
+                                catch (FileNotFoundException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                bitmap_27.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                                //region Close
+                                try
+                                {
+                                    fOut.flush();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+
+                                try
+                                {
+                                    fOut.close();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                
+                                //endregion
+                                break;
+                            case 28:
+                                //region Save poster
+                                file = new File(dir, movie_id_28 + "_poster" + ".png");
+                                //region Create output stream
+                                try
+                                {
+                                    fOut = new FileOutputStream(file);
+                                }
+
+                                catch (FileNotFoundException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                bitmap_28.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                                //region Close
+                                try
+                                {
+                                    fOut.flush();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+
+                                try
+                                {
+                                    fOut.close();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                
+                                //endregion
+                                break;
+                            case 29:
+                                //region Save poster
+                                file = new File(dir, movie_id_29 + "_poster" + ".png");
+                                //region Create output stream
+                                try
+                                {
+                                    fOut = new FileOutputStream(file);
+                                }
+
+                                catch (FileNotFoundException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                bitmap_29.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                                //region Close
+                                try
+                                {
+                                    fOut.flush();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+
+                                try
+                                {
+                                    fOut.close();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                
+                                //endregion
+                                break;
+                            case 30:
+                                //region Save poster
+                                file = new File(dir, movie_id_30 + "_poster" + ".png");
+                                //region Create output stream
+                                try
+                                {
+                                    fOut = new FileOutputStream(file);
+                                }
+
+                                catch (FileNotFoundException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                bitmap_30.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                                //region Close
+                                try
+                                {
+                                    fOut.flush();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+
+                                try
+                                {
+                                    fOut.close();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                
+                                //endregion
+                                break;
+                            case 31:
+                                //region Save poster
+                                file = new File(dir, movie_id_31 + "_poster" + ".png");
+                                //region Create output stream
+                                try
+                                {
+                                    fOut = new FileOutputStream(file);
+                                }
+
+                                catch (FileNotFoundException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                bitmap_31.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                                //region Close
+                                try
+                                {
+                                    fOut.flush();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+
+                                try
+                                {
+                                    fOut.close();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                
+                                //endregion
+                                break;
+                            case 32:
+                                //region Save poster
+                                file = new File(dir, movie_id_32 + "_poster" + ".png");
+                                //region Create output stream
+                                try
+                                {
+                                    fOut = new FileOutputStream(file);
+                                }
+
+                                catch (FileNotFoundException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                bitmap_32.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                                //region Close
+                                try
+                                {
+                                    fOut.flush();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+
+                                try
+                                {
+                                    fOut.close();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                
+                                //endregion
+                                break;
+                            case 33:
+                                //region Save poster
+                                file = new File(dir, movie_id_33 + "_poster" + ".png");
+                                //region Create output stream
+                                try
+                                {
+                                    fOut = new FileOutputStream(file);
+                                }
+
+                                catch (FileNotFoundException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                bitmap_33.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                                //region Close
+                                try
+                                {
+                                    fOut.flush();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+
+                                try
+                                {
+                                    fOut.close();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                
+                                //endregion
+                                break;
+                            case 34:
+                                //region Save poster
+                                file = new File(dir, movie_id_34 + "_poster" + ".png");
+                                //region Create output stream
+                                try
+                                {
+                                    fOut = new FileOutputStream(file);
+                                }
+
+                                catch (FileNotFoundException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                bitmap_34.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                                //region Close
+                                try
+                                {
+                                    fOut.flush();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+
+                                try
+                                {
+                                    fOut.close();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                
+                                //endregion
+                                break;
+                            case 35:
+                                //region Save poster
+                                file = new File(dir, movie_id_35 + "_poster" + ".png");
+                                //region Create output stream
+                                try
+                                {
+                                    fOut = new FileOutputStream(file);
+                                }
+
+                                catch (FileNotFoundException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                bitmap_35.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                                //region Close
+                                try
+                                {
+                                    fOut.flush();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+
+                                try
+                                {
+                                    fOut.close();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                
+                                //endregion
+                                break;
+                            case 36:
+                                //region Save poster
+                                file = new File(dir, movie_id_36 + "_poster" + ".png");
+                                //region Create output stream
+                                try
+                                {
+                                    fOut = new FileOutputStream(file);
+                                }
+
+                                catch (FileNotFoundException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                bitmap_36.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                                //region Close
+                                try
+                                {
+                                    fOut.flush();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+
+                                try
+                                {
+                                    fOut.close();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                
+                                //endregion
+                                break;
+                            case 37:
+                                //region Save poster
+                                file = new File(dir, movie_id_37 + "_poster" + ".png");
+                                //region Create output stream
+                                try
+                                {
+                                    fOut = new FileOutputStream(file);
+                                }
+
+                                catch (FileNotFoundException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                bitmap_37.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                                //region Close
+                                try
+                                {
+                                    fOut.flush();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+
+                                try
+                                {
+                                    fOut.close();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                
+                                //endregion
+                                break;
+                            case 38:
+                                //region Save poster
+                                file = new File(dir, movie_id_38 + "_poster" + ".png");
+                                //region Create output stream
+                                try
+                                {
+                                    fOut = new FileOutputStream(file);
+                                }
+
+                                catch (FileNotFoundException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                bitmap_38.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                                //region Close
+                                try
+                                {
+                                    fOut.flush();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+
+                                try
+                                {
+                                    fOut.close();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                
+                                //endregion
+                                break;
+                            case 39:
+                                //region Save poster
+                                file = new File(dir, movie_id_39 + "_poster" + ".png");
+                                //region Create output stream
+                                try
+                                {
+                                    fOut = new FileOutputStream(file);
+                                }
+
+                                catch (FileNotFoundException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                bitmap_39.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                                //region Close
+                                try
+                                {
+                                    fOut.flush();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+
+                                try
+                                {
+                                    fOut.close();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                
+                                //endregion
+                                break;
+                            case 40:
+                                //region Save poster
+                                file = new File(dir, movie_id_40 + "_poster" + ".png");
+                                //region Create output stream
+                                try
+                                {
+                                    fOut = new FileOutputStream(file);
+                                }
+
+                                catch (FileNotFoundException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                bitmap_40.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                                //region Close
+                                try
+                                {
+                                    fOut.flush();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+
+                                try
+                                {
+                                    fOut.close();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                
+                                //endregion
+                                break;
+                            case 41:
+                                //region Save poster
+                                file = new File(dir, movie_id_41 + "_poster" + ".png");
+                                //region Create output stream
+                                try
+                                {
+                                    fOut = new FileOutputStream(file);
+                                }
+
+                                catch (FileNotFoundException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                bitmap_41.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                                //region Close
+                                try
+                                {
+                                    fOut.flush();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+
+                                try
+                                {
+                                    fOut.close();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                
+                                //endregion
+                                break;
+                            case 42:
+                                //region Save poster
+                                file = new File(dir, movie_id_42 + "_poster" + ".png");
+                                //region Create output stream
+                                try
+                                {
+                                    fOut = new FileOutputStream(file);
+                                }
+
+                                catch (FileNotFoundException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                bitmap_42.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                                //region Close
+                                try
+                                {
+                                    fOut.flush();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+
+                                try
+                                {
+                                    fOut.close();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                
+                                //endregion
+                                break;
+                            case 43:
+                                //region Save poster
+                                file = new File(dir, movie_id_43 + "_poster" + ".png");
+                                //region Create output stream
+                                try
+                                {
+                                    fOut = new FileOutputStream(file);
+                                }
+
+                                catch (FileNotFoundException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                bitmap_43.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                                //region Close
+                                try
+                                {
+                                    fOut.flush();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+
+                                try
+                                {
+                                    fOut.close();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                
+                                //endregion
+                                break;
+                            case 44:
+                                //region Save poster
+                                file = new File(dir, movie_id_44 + "_poster" + ".png");
+                                //region Create output stream
+                                try
+                                {
+                                    fOut = new FileOutputStream(file);
+                                }
+
+                                catch (FileNotFoundException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                bitmap_44.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                                //region Close
+                                try
+                                {
+                                    fOut.flush();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+
+                                try
+                                {
+                                    fOut.close();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                
+                                //endregion
+                                break;
+                            case 45:
+                                //region Save poster
+                                file = new File(dir, movie_id_45 + "_poster" + ".png");
+                                //region Create output stream
+                                try
+                                {
+                                    fOut = new FileOutputStream(file);
+                                }
+
+                                catch (FileNotFoundException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                bitmap_45.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                                //region Close
+                                try
+                                {
+                                    fOut.flush();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+
+                                try
+                                {
+                                    fOut.close();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                
+                                //endregion
+                                break;
+                            case 46:
+                                //region Save poster
+                                file = new File(dir, movie_id_46 + "_poster" + ".png");
+                                //region Create output stream
+                                try
+                                {
+                                    fOut = new FileOutputStream(file);
+                                }
+
+                                catch (FileNotFoundException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                bitmap_46.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                                //region Close
+                                try
+                                {
+                                    fOut.flush();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+
+                                try
+                                {
+                                    fOut.close();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                
+                                //endregion
+                                break;
+                            case 47:
+                                //region Save poster
+                                file = new File(dir, movie_id_47 + "_poster" + ".png");
+                                //region Create output stream
+                                try
+                                {
+                                    fOut = new FileOutputStream(file);
+                                }
+
+                                catch (FileNotFoundException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                bitmap_47.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                                //region Close
+                                try
+                                {
+                                    fOut.flush();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+
+                                try
+                                {
+                                    fOut.close();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                
+                                //endregion
+                                break;
+                            case 48:
+                                //region Save poster
+                                file = new File(dir, movie_id_48 + "_poster" + ".png");
+                                //region Create output stream
+                                try
+                                {
+                                    fOut = new FileOutputStream(file);
+                                }
+
+                                catch (FileNotFoundException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                bitmap_48.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                                //region Close
+                                try
+                                {
+                                    fOut.flush();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+
+                                try
+                                {
+                                    fOut.close();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                
+                                //endregion
+                                break;
+                            case 49:
+                                //region Save poster
+                                file = new File(dir, movie_id_49 + "_poster" + ".png");
+                                //region Create output stream
+                                try
+                                {
+                                    fOut = new FileOutputStream(file);
+                                }
+
+                                catch (FileNotFoundException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                bitmap_49.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                                //region Close
+                                try
+                                {
+                                    fOut.flush();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+
+                                try
+                                {
+                                    fOut.close();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                
+                                //endregion
+                                break;
+                            case 50:
+                                //region Save poster
+                                file = new File(dir, movie_id_50 + "_poster" + ".png");
+                                //region Create output stream
+                                try
+                                {
+                                    fOut = new FileOutputStream(file);
+                                }
+
+                                catch (FileNotFoundException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                bitmap_50.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                                //region Close
+                                try
+                                {
+                                    fOut.flush();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+
+                                try
+                                {
+                                    fOut.close();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                
+                                //endregion
+                                break;
+                            case 51:
+                                //region Save poster
+                                file = new File(dir, movie_id_51 + "_poster" + ".png");
+                                //region Create output stream
+                                try
+                                {
+                                    fOut = new FileOutputStream(file);
+                                }
+
+                                catch (FileNotFoundException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                bitmap_51.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                                //region Close
+                                try
+                                {
+                                    fOut.flush();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+
+                                try
+                                {
+                                    fOut.close();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                
+                                //endregion
+                                break;
+                            case 52:
+                                //region Save poster
+                                file = new File(dir, movie_id_52 + "_poster" + ".png");
+                                //region Create output stream
+                                try
+                                {
+                                    fOut = new FileOutputStream(file);
+                                }
+
+                                catch (FileNotFoundException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                bitmap_52.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                                //region Close
+                                try
+                                {
+                                    fOut.flush();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+
+                                try
+                                {
+                                    fOut.close();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                
+                                //endregion
+                                break;
+                            case 53:
+                                //region Save poster
+                                file = new File(dir, movie_id_53 + "_poster" + ".png");
+                                //region Create output stream
+                                try
+                                {
+                                    fOut = new FileOutputStream(file);
+                                }
+
+                                catch (FileNotFoundException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                bitmap_53.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                                //region Close
+                                try
+                                {
+                                    fOut.flush();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+
+                                try
+                                {
+                                    fOut.close();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                
+                                //endregion
+                                break;
+                            case 54:
+                                //region Save poster
+                                file = new File(dir, movie_id_54 + "_poster" + ".png");
+                                //region Create output stream
+                                try
+                                {
+                                    fOut = new FileOutputStream(file);
+                                }
+
+                                catch (FileNotFoundException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                bitmap_54.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                                //region Close
+                                try
+                                {
+                                    fOut.flush();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+
+                                try
+                                {
+                                    fOut.close();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                
+                                //endregion
+                                break;
+                            case 55:
+                                //region Save poster
+                                file = new File(dir, movie_id_55 + "_poster" + ".png");
+                                //region Create output stream
+                                try
+                                {
+                                    fOut = new FileOutputStream(file);
+                                }
+
+                                catch (FileNotFoundException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                bitmap_55.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                                //region Close
+                                try
+                                {
+                                    fOut.flush();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+
+                                try
+                                {
+                                    fOut.close();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                
+                                //endregion
+                                break;
+                            case 56:
+                                //region Save poster
+                                file = new File(dir, movie_id_56 + "_poster" + ".png");
+                                //region Create output stream
+                                try
+                                {
+                                    fOut = new FileOutputStream(file);
+                                }
+
+                                catch (FileNotFoundException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                bitmap_56.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                                //region Close
+                                try
+                                {
+                                    fOut.flush();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+
+                                try
+                                {
+                                    fOut.close();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                
+                                //endregion
+                                break;
+                            case 57:
+                                //region Save poster
+                                file = new File(dir, movie_id_57 + "_poster" + ".png");
+                                //region Create output stream
+                                try
+                                {
+                                    fOut = new FileOutputStream(file);
+                                }
+
+                                catch (FileNotFoundException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                bitmap_57.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                                //region Close
+                                try
+                                {
+                                    fOut.flush();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+
+                                try
+                                {
+                                    fOut.close();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                
+                                //endregion
+                                break;
+                            case 58:
+                                //region Save poster
+                                file = new File(dir, movie_id_58 + "_poster" + ".png");
+                                //region Create output stream
+                                try
+                                {
+                                    fOut = new FileOutputStream(file);
+                                }
+
+                                catch (FileNotFoundException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                bitmap_58.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                                //region Close
+                                try
+                                {
+                                    fOut.flush();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+
+                                try
+                                {
+                                    fOut.close();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                
+                                //endregion
+                                break;
+                            case 59:
+                                //region Save poster
+                                file = new File(dir, movie_id_59 + "_poster" + ".png");
+                                //region Create output stream
+                                try
+                                {
+                                    fOut = new FileOutputStream(file);
+                                }
+
+                                catch (FileNotFoundException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                bitmap_59.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                                //region Close
+                                try
+                                {
+                                    fOut.flush();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+
+                                try
+                                {
+                                    fOut.close();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                
+                                //endregion
+                                break;
+                            case 60:
+                                //region Save poster
+                                file = new File(dir, movie_id_60 + "_poster" + ".png");
+                                //region Create output stream
+                                try
+                                {
+                                    fOut = new FileOutputStream(file);
+                                }
+
+                                catch (FileNotFoundException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                bitmap_60.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                                //region Close
+                                try
+                                {
+                                    fOut.flush();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+
+                                try
+                                {
+                                    fOut.close();
+                                }
+
+                                catch (IOException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                //endregion
+                                
+                                //endregion
+                                break;
+                        }
+                    }
+                    //endregion
+                    break;
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String strFromDoInBg) {}
     }
 
     //region Movie Click Events

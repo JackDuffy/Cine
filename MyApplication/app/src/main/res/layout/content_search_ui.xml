@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -36,6 +37,17 @@
             android:onClick="searchMovies" />
 
     </android.support.v7.widget.CardView>
+
+    <me.zhanghai.android.materialprogressbar.MaterialProgressBar
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="0dp"
+        android:layout_gravity="center"
+        android:indeterminate="true"
+        app:mpb_progressStyle="circular"
+        android:visibility="gone"
+        android:id="@+id/progress_spinner"
+        style="@style/Widget.MaterialProgressBar.ProgressBar.Horizontal" />
 
     <ScrollView
         android:layout_width="match_parent"

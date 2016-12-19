@@ -58,6 +58,8 @@ public class SearchUI extends AppCompatActivity {
     String poster_path;
     String ID;
 
+    View spinnerView;
+
     //region Generate all potential ImageView elements
     ImageView searchPoster1;
     ImageView searchPoster2;
@@ -198,14 +200,103 @@ public class SearchUI extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_ui);
-        TextView name = (TextView)findViewById(R.id.searchField);
+        final TextView search = (TextView)findViewById(R.id.searchField);
         SharedPreferences userInfo = getSharedPreferences("searchQueries", Context.MODE_PRIVATE);
-        name.setText(userInfo.getString("searchQuery", ""));
+        search.setText(userInfo.getString("searchQuery", ""));
+
+        search.setFocusableInTouchMode(true);
+        search.requestFocus();
     }
+
+
 
     public class search extends AsyncTask<String, String, String> {
         @Override
-        protected void onPreExecute() {
+        protected void onPreExecute()
+        {
+            spinnerView = findViewById(R.id.search_result_1);
+            spinnerView.setVisibility(View.GONE);
+            spinnerView = findViewById(R.id.search_result_1_name);
+            spinnerView.setVisibility(View.GONE);
+            spinnerView = findViewById(R.id.search_result_2);
+            spinnerView.setVisibility(View.GONE);
+            spinnerView = findViewById(R.id.search_result_2_name);
+            spinnerView.setVisibility(View.GONE);
+            spinnerView = findViewById(R.id.search_result_3);
+            spinnerView.setVisibility(View.GONE);
+            spinnerView = findViewById(R.id.search_result_3_name);
+            spinnerView.setVisibility(View.GONE);
+            spinnerView = findViewById(R.id.search_result_4);
+            spinnerView.setVisibility(View.GONE);
+            spinnerView = findViewById(R.id.search_result_4_name);
+            spinnerView.setVisibility(View.GONE);
+            spinnerView = findViewById(R.id.search_result_5);
+            spinnerView.setVisibility(View.GONE);
+            spinnerView = findViewById(R.id.search_result_5_name);
+            spinnerView.setVisibility(View.GONE);
+            spinnerView = findViewById(R.id.search_result_6);
+            spinnerView.setVisibility(View.GONE);
+            spinnerView = findViewById(R.id.search_result_6_name);
+            spinnerView.setVisibility(View.GONE);
+            spinnerView = findViewById(R.id.search_result_7);
+            spinnerView.setVisibility(View.GONE);
+            spinnerView = findViewById(R.id.search_result_7_name);
+            spinnerView.setVisibility(View.GONE);
+            spinnerView = findViewById(R.id.search_result_8);
+            spinnerView.setVisibility(View.GONE);
+            spinnerView = findViewById(R.id.search_result_8_name);
+            spinnerView.setVisibility(View.GONE);
+            spinnerView = findViewById(R.id.search_result_9);
+            spinnerView.setVisibility(View.GONE);
+            spinnerView = findViewById(R.id.search_result_9_name);
+            spinnerView.setVisibility(View.GONE);
+            spinnerView = findViewById(R.id.search_result_10);
+            spinnerView.setVisibility(View.GONE);
+            spinnerView = findViewById(R.id.search_result_10_name);
+            spinnerView.setVisibility(View.GONE);
+            spinnerView = findViewById(R.id.search_result_11);
+            spinnerView.setVisibility(View.GONE);
+            spinnerView = findViewById(R.id.search_result_11_name);
+            spinnerView.setVisibility(View.GONE);
+            spinnerView = findViewById(R.id.search_result_12);
+            spinnerView.setVisibility(View.GONE);
+            spinnerView = findViewById(R.id.search_result_12_name);
+            spinnerView.setVisibility(View.GONE);
+            spinnerView = findViewById(R.id.search_result_13);
+            spinnerView.setVisibility(View.GONE);
+            spinnerView = findViewById(R.id.search_result_13_name);
+            spinnerView.setVisibility(View.GONE);
+            spinnerView = findViewById(R.id.search_result_14);
+            spinnerView.setVisibility(View.GONE);
+            spinnerView = findViewById(R.id.search_result_14_name);
+            spinnerView.setVisibility(View.GONE);
+            spinnerView = findViewById(R.id.search_result_15);
+            spinnerView.setVisibility(View.GONE);
+            spinnerView = findViewById(R.id.search_result_15_name);
+            spinnerView.setVisibility(View.GONE);
+            spinnerView = findViewById(R.id.search_result_16);
+            spinnerView.setVisibility(View.GONE);
+            spinnerView = findViewById(R.id.search_result_16_name);
+            spinnerView.setVisibility(View.GONE);
+            spinnerView = findViewById(R.id.search_result_17);
+            spinnerView.setVisibility(View.GONE);
+            spinnerView = findViewById(R.id.search_result_17_name);
+            spinnerView.setVisibility(View.GONE);
+            spinnerView = findViewById(R.id.search_result_18);
+            spinnerView.setVisibility(View.GONE);
+            spinnerView = findViewById(R.id.search_result_18_name);
+            spinnerView.setVisibility(View.GONE);
+            spinnerView = findViewById(R.id.search_result_19);
+            spinnerView.setVisibility(View.GONE);
+            spinnerView = findViewById(R.id.search_result_19_name);
+            spinnerView.setVisibility(View.GONE);
+            spinnerView = findViewById(R.id.search_result_20);
+            spinnerView.setVisibility(View.GONE);
+            spinnerView = findViewById(R.id.search_result_20_name);
+            spinnerView.setVisibility(View.GONE);
+
+            spinnerView = findViewById(R.id.progress_spinner);
+            spinnerView.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -764,6 +855,10 @@ public class SearchUI extends AppCompatActivity {
                             break;
                     }
                 }
+
+                spinnerView.setVisibility(View.GONE);
+
+
             }
 
             else

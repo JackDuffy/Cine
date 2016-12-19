@@ -31,7 +31,9 @@
                         android:layout_alignParentStart="true"
                         android:id="@+id/movie_backdrop"
                         android:layout_alignParentEnd="true"
-                        android:adjustViewBounds="true" />
+                        android:layout_marginTop="0dp"
+                        android:adjustViewBounds="true"
+                        android:scaleType="fitXY"/>
 
                     <android.support.v7.widget.CardView
                         android:id="@+id/movie_poster_card"
@@ -176,8 +178,7 @@
                     android:layout_height="match_parent"
                     card_view:srcCompat="@mipmap/ic_launcher"
                     android:id="@+id/cast_actor_1_img"
-                    android:scaleType="fitXY"
-                    android:onClick="cast1" />
+                    android:scaleType="fitXY"/>
             </android.support.v7.widget.CardView>
 
             <TextView
@@ -221,8 +222,7 @@
                     android:layout_height="match_parent"
                     card_view:srcCompat="@mipmap/ic_launcher"
                     android:id="@+id/cast_actor_2_img"
-                    android:scaleType="fitXY"
-                    android:onClick="cast2" />
+                    android:scaleType="fitXY"/>
             </android.support.v7.widget.CardView>
 
             <TextView
@@ -266,8 +266,7 @@
                     android:layout_height="match_parent"
                     card_view:srcCompat="@mipmap/ic_launcher"
                     android:id="@+id/cast_actor_3_img"
-                    android:scaleType="fitXY"
-                    android:onClick="cast3" />
+                    android:scaleType="fitXY"/>
             </android.support.v7.widget.CardView>
 
             <TextView
@@ -311,8 +310,7 @@
                     android:layout_height="match_parent"
                     card_view:srcCompat="@mipmap/ic_launcher"
                     android:id="@+id/cast_actor_4_img"
-                    android:scaleType="fitXY"
-                    android:onClick="cast4" />
+                    android:scaleType="fitXY"/>
             </android.support.v7.widget.CardView>
 
             <TextView
@@ -356,8 +354,7 @@
                     android:layout_height="match_parent"
                     card_view:srcCompat="@mipmap/ic_launcher"
                     android:id="@+id/cast_actor_5_img"
-                    android:scaleType="fitXY"
-                    android:onClick="cast5" />
+                    android:scaleType="fitXY"/>
             </android.support.v7.widget.CardView>
 
             <TextView
@@ -401,8 +398,7 @@
                     android:layout_height="match_parent"
                     card_view:srcCompat="@mipmap/ic_launcher"
                     android:id="@+id/cast_actor_6_img"
-                    android:scaleType="fitXY"
-                    android:onClick="cast6" />
+                    android:scaleType="fitXY"/>
             </android.support.v7.widget.CardView>
 
             <TextView
@@ -446,8 +442,7 @@
                     android:layout_height="match_parent"
                     card_view:srcCompat="@mipmap/ic_launcher"
                     android:id="@+id/cast_actor_7_img"
-                    android:scaleType="fitXY"
-                    android:onClick="cast7" />
+                    android:scaleType="fitXY"/>
             </android.support.v7.widget.CardView>
 
             <TextView
@@ -491,8 +486,7 @@
                     android:layout_height="match_parent"
                     card_view:srcCompat="@mipmap/ic_launcher"
                     android:id="@+id/cast_actor_8_img"
-                    android:scaleType="fitXY"
-                    android:onClick="cast8" />
+                    android:scaleType="fitXY"/>
             </android.support.v7.widget.CardView>
 
             <TextView
@@ -536,8 +530,7 @@
                     android:layout_height="match_parent"
                     card_view:srcCompat="@mipmap/ic_launcher"
                     android:id="@+id/cast_actor_9_img"
-                    android:scaleType="fitXY"
-                    android:onClick="cast9" />
+                    android:scaleType="fitXY"/>
             </android.support.v7.widget.CardView>
 
             <TextView
@@ -581,8 +574,7 @@
                     android:layout_height="match_parent"
                     card_view:srcCompat="@mipmap/ic_launcher"
                     android:id="@+id/cast_actor_10_img"
-                    android:scaleType="fitXY"
-                    android:onClick="cast10" />
+                    android:scaleType="fitXY"/>
             </android.support.v7.widget.CardView>
 
             <TextView
@@ -651,8 +643,7 @@
                     android:layout_height="match_parent"
                     card_view:srcCompat="@mipmap/ic_launcher"
                     android:id="@+id/crew_1_img"
-                    android:scaleType="fitXY"
-                    android:onClick="crew1" />
+                    android:scaleType="fitXY" />
             </android.support.v7.widget.CardView>
 
             <TextView
@@ -696,8 +687,7 @@
                     android:layout_height="match_parent"
                     card_view:srcCompat="@mipmap/ic_launcher"
                     android:id="@+id/crew_2_img"
-                    android:scaleType="fitXY"
-                    android:onClick="crew1" />
+                    android:scaleType="fitXY" />
             </android.support.v7.widget.CardView>
 
             <TextView
@@ -742,7 +732,7 @@
                     card_view:srcCompat="@mipmap/ic_launcher"
                     android:id="@+id/crew_3_img"
                     android:scaleType="fitXY"
-                    android:onClick="crew1" />
+                     />
             </android.support.v7.widget.CardView>
 
             <TextView
@@ -787,7 +777,7 @@
                     card_view:srcCompat="@mipmap/ic_launcher"
                     android:id="@+id/crew_4_img"
                     android:scaleType="fitXY"
-                    android:onClick="crew1" />
+                     />
             </android.support.v7.widget.CardView>
 
             <TextView
@@ -832,7 +822,7 @@
                     card_view:srcCompat="@mipmap/ic_launcher"
                     android:id="@+id/crew_5_img"
                     android:scaleType="fitXY"
-                    android:onClick="crew1" />
+                     />
             </android.support.v7.widget.CardView>
 
             <TextView
@@ -877,7 +867,7 @@
                     card_view:srcCompat="@mipmap/ic_launcher"
                     android:id="@+id/crew_6_img"
                     android:scaleType="fitXY"
-                    android:onClick="crew1" />
+                     />
             </android.support.v7.widget.CardView>
 
             <TextView
@@ -922,7 +912,7 @@
                     card_view:srcCompat="@mipmap/ic_launcher"
                     android:id="@+id/crew_7_img"
                     android:scaleType="fitXY"
-                    android:onClick="crew1" />
+                     />
             </android.support.v7.widget.CardView>
 
             <TextView
@@ -967,7 +957,7 @@
                     card_view:srcCompat="@mipmap/ic_launcher"
                     android:id="@+id/crew_8_img"
                     android:scaleType="fitXY"
-                    android:onClick="crew1" />
+                     />
             </android.support.v7.widget.CardView>
 
             <TextView
@@ -1012,7 +1002,7 @@
                     card_view:srcCompat="@mipmap/ic_launcher"
                     android:id="@+id/crew_9_img"
                     android:scaleType="fitXY"
-                    android:onClick="crew1" />
+                     />
             </android.support.v7.widget.CardView>
 
             <TextView
@@ -1057,7 +1047,7 @@
                     card_view:srcCompat="@mipmap/ic_launcher"
                     android:id="@+id/crew_10_img"
                     android:scaleType="fitXY"
-                    android:onClick="crew1" />
+                     />
             </android.support.v7.widget.CardView>
 
             <TextView
@@ -1089,136 +1079,237 @@
             </LinearLayout>
         </HorizontalScrollView>
 
+                <TextView
+                    android:text="See it in Cinemas"
+                    android:textSize="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/cinemas_title"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:visibility="gone"/>
 
+                <HorizontalScrollView
+                    android:scrollbars="none"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/cinemas_scroller"
+                    android:visibility="gone">
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="260dp"
+                    android:orientation="horizontal" >
 
+                    <android.support.v7.widget.CardView
+                        android:id="@+id/cinema_card_1"
+                        android:layout_gravity="center"
+                        android:layout_width="200dp"
+                        android:layout_height="250dp"
+                        card_view:cardCornerRadius="4dp"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="10dp"
+                        android:visibility="gone">
 
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:id="@+id/cinema_1_image"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/odeon_a"
+                            android:paddingBottom="100dp"/>
 
-        <TextView
-            android:text="Technical Specifications"
-            android:layout_gravity="center"
-            android:textAlignment="center"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/technical_specs_title"
-            android:layout_marginTop="75dp"
-            android:textSize="15sp" />
+                        <TextView
+                            android:text="Cinema Name"
+                            android:textSize="20dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/cinema_1_name"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="50dp"
+                            android:layout_marginLeft="0dp"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center">
+                        <TextView
+                            android:text="Location"
+                            android:textSize="15dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/cinema_1_location"
+                            android:textAlignment="center"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="85dp"
+                            android:layout_marginLeft="0dp"/>
 
-            <ImageView
-                android:layout_width="48dp"
-                android:layout_height="match_parent"
-                card_view:srcCompat="@drawable/details_runtime"
-                android:layout_alignParentStart="true"
-                android:id="@+id/movie_runtime_icon"
-                android:layout_alignParentEnd="true"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:adjustViewBounds="true"
-                android:layout_gravity="left"/>
+                    </android.support.v7.widget.CardView>
 
-            <ImageView
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                card_view:srcCompat="@drawable/details_language"
-                android:layout_alignParentStart="true"
-                android:id="@+id/movie_language_icon"
-                android:layout_alignParentEnd="true"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:adjustViewBounds="true"
-                android:layout_gravity="left"/>
+                    <android.support.v7.widget.CardView
+                        android:id="@+id/cinema_card_2"
+                        android:layout_gravity="center"
+                        android:layout_width="200dp"
+                        android:layout_height="250dp"
+                        card_view:cardCornerRadius="4dp"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginRight="10dp"
+                        android:visibility="gone">
 
-            <ImageView
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                card_view:srcCompat="@drawable/details_budget"
-                android:layout_alignParentStart="true"
-                android:id="@+id/movie_budget_icon"
-                android:layout_alignParentEnd="true"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:adjustViewBounds="true"
-                android:layout_gravity="left"/>
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:id="@+id/cinema_2_image"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/odeon_a"
+                            android:paddingBottom="100dp"/>
 
-            <ImageView
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                card_view:srcCompat="@drawable/details_revenue"
-                android:layout_alignParentStart="true"
-                android:id="@+id/movie_revenue_icon"
-                android:layout_alignParentEnd="true"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:adjustViewBounds="true"
-                android:layout_gravity="left"/>
+                        <TextView
+                            android:text="Cinema Name"
+                            android:textSize="20dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/cinema_2_name"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="50dp"
+                            android:layout_marginLeft="0dp"/>
 
-            <ImageView
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                card_view:srcCompat="@drawable/details_voters"
-                android:layout_alignParentStart="true"
-                android:id="@+id/movie_voters_icon"
-                android:layout_alignParentEnd="true"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:adjustViewBounds="true"
-                android:layout_gravity="left"/>
+                        <TextView
+                            android:text="Location"
+                            android:textSize="15dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/cinema_2_location"
+                            android:textAlignment="center"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="85dp"
+                            android:layout_marginLeft="0dp"/>
 
-            </LinearLayout>
+                    </android.support.v7.widget.CardView>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center">
+                    <android.support.v7.widget.CardView
+                        android:id="@+id/cinema_card_3"
+                        android:layout_gravity="center"
+                        android:layout_width="200dp"
+                        android:layout_height="250dp"
+                        card_view:cardCornerRadius="4dp"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginRight="10dp"
+                        android:visibility="gone">
 
-            <TextView
-                android:text="000m"
-                android:layout_gravity="center"
-                android:textAlignment="center"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:id="@+id/movie_budget"
-                android:textSize="15sp" />
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:id="@+id/cinema_3_image"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/odeon_a"
+                            android:paddingBottom="100dp"/>
 
-            <TextView
-                android:text="000m"
-                android:layout_gravity="center"
-                android:textAlignment="center"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:id="@+id/movie_revenue"
-                android:textSize="15sp" />
+                        <TextView
+                            android:text="Cinema Name"
+                            android:textSize="20dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/cinema_3_name"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="50dp"
+                            android:layout_marginLeft="0dp"/>
 
-            <TextView
-                android:text="000m"
-                android:layout_gravity="center"
-                android:textAlignment="center"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:id="@+id/movie_voters"
-                android:textSize="15sp" />
-            </LinearLayout>
+                        <TextView
+                            android:text="Location"
+                            android:textSize="15dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/cinema_3_location"
+                            android:textAlignment="center"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="85dp"
+                            android:layout_marginLeft="0dp"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center">
+                    </android.support.v7.widget.CardView>
 
-        </LinearLayout>
+                    <android.support.v7.widget.CardView
+                        android:id="@+id/cinema_card_4"
+                        android:layout_gravity="center"
+                        android:layout_width="200dp"
+                        android:layout_height="250dp"
+                        card_view:cardCornerRadius="4dp"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginRight="10dp"
+                        android:visibility="gone">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:id="@+id/cinema_4_image"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/odeon_a"
+                            android:paddingBottom="100dp"/>
+
+                        <TextView
+                            android:text="Cinema Name"
+                            android:textSize="20dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/cinema_4_name"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="50dp"
+                            android:layout_marginLeft="0dp"/>
+
+                        <TextView
+                            android:text="Location"
+                            android:textSize="15dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/cinema_4_location"
+                            android:textAlignment="center"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="85dp"
+                            android:layout_marginLeft="0dp"/>
+
+                    </android.support.v7.widget.CardView>
+
+                    <android.support.v7.widget.CardView
+                        android:id="@+id/cinema_card_5"
+                        android:layout_gravity="center"
+                        android:layout_width="200dp"
+                        android:layout_height="250dp"
+                        card_view:cardCornerRadius="4dp"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="20dp"
+                        android:visibility="gone">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:id="@+id/cinema_5_image"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/odeon_a"
+                            android:paddingBottom="100dp"/>
+
+                        <TextView
+                            android:text="Cinema Name"
+                            android:textSize="20dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/cinema_5_name"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="50dp"
+                            android:layout_marginLeft="0dp"/>
+
+                        <TextView
+                            android:text="Location"
+                            android:textSize="15dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/cinema_5_location"
+                            android:textAlignment="center"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="85dp"
+                            android:layout_marginLeft="0dp"/>
+
+                    </android.support.v7.widget.CardView>
+
+                    </LinearLayout>
+                    </HorizontalScrollView>
 
                 </LinearLayout>
             </ScrollView>

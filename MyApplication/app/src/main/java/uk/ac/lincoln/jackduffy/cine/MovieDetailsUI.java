@@ -1,66 +1,53 @@
 package uk.ac.lincoln.jackduffy.cine;
 
+import android.app.Activity;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Movie;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.text.TextUtils;
-import android.util.Base64;
+import android.util.Log;
 import android.view.View;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-//import android.support.v7.app.ActionBarDrawerToggle;
-//import android.support.v7.app.AppCompatActivity;
-//import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.content.Intent;
-
-//rest stuff
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 import android.os.AsyncTask;
-
 import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.util.Arrays;
-import java.util.Locale;
-import android.net.Uri;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-
-import android.view.ViewGroup;
 import android.widget.*;
-import java.util.Date;
 import java.util.List;
 
-import android.util.Log;
+//places api
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
+import com.google.android.gms.location.places.Places;
+import com.google.android.gms.location.places.ui.PlacePicker;
 
-public class MovieDetailsUI extends FragmentActivity {
+import android.support.v4.app.FragmentActivity;
+
+import se.walkercrou.places.GooglePlaces;
+import se.walkercrou.places.Place;
+
+public class MovieDetailsUI extends FragmentActivity
+{
+    GooglePlaces client = new GooglePlaces("AIzaSyD843heTIXouL7yIZ6O1DQZP-WDC23e9f0");
+
     String apiKey = "?api_key=822b6a3af922b0c70d5455e2d2e0f782";
     String ID; //holds the url of the movie
     String inCinemas;
@@ -289,6 +276,39 @@ public class MovieDetailsUI extends FragmentActivity {
     TextView voters;
     //endregion
 
+    double lat;
+    double longi;
+
+    String location_postcode;
+
+    String cinema_1_name; String cinema_1_location;
+    String cinema_2_name; String cinema_2_location;
+    String cinema_3_name; String cinema_3_location;
+    String cinema_4_name; String cinema_4_location;
+    String cinema_5_name; String cinema_5_location;
+    String cinema_1_id;
+    String cinema_2_id;
+    String cinema_3_id;
+    String cinema_4_id;
+    String cinema_5_id;
+    String cinema_1_distance;
+    String cinema_2_distance;
+    String cinema_3_distance;
+    String cinema_4_distance;
+    String cinema_5_distance;
+
+    TextView cinema1name;
+    TextView cinema2name;
+    TextView cinema3name;
+    TextView cinema4name;
+    TextView cinema5name;
+    TextView cinema1location;
+    TextView cinema2location;
+    TextView cinema3location;
+    TextView cinema4location;
+    TextView cinema5location;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -309,15 +329,661 @@ public class MovieDetailsUI extends FragmentActivity {
 
         else
         {
+            // Acquire a reference to the system Location Manager
+            LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 
+            // Use network provider to get last known location
+            String locationProvider = LocationManager.GPS_PROVIDER;
+            Location lastKnownLocation = locationManager.getLastKnownLocation(locationProvider);
+
+            // create a few new variable to get and store the lat/long coordinates of last known location
+
+
+            // check if a last known location exists
+            if (lastKnownLocation == null) {
+                // if no last location is available set lat/long to zero
+                lat = 0;  // lat of Lincoln is 53.228029;
+                longi = 0; // longi of Lincoln is -0.546055;
+            } else {
+                // if last location exists then get/set the lat/long
+                lat = lastKnownLocation.getLatitude();
+                longi = lastKnownLocation.getLongitude();
+            }
+
+            // bind the lat long coordinates to the programmatically created TextView for displaying
+            new get_cinema().execute();
         }
 
-        System.out.println("Is movie in cinemas? - " + inCinemas);
         new get_movie_data().execute();
         TextView tv;
         tv = (TextView) this.findViewById(R.id.movie_name);
         tv.setSelected(true);
+    }
 
+    public class get_cinema extends AsyncTask<String, String, String>
+    {
+        @Override
+        protected void onPreExecute() {}
+
+        @Override
+        protected String doInBackground(String... arg0)
+        {
+            String url;
+            httpConnect jParser;
+            String json;
+            JSONObject jsonObject;
+
+            try
+            {
+                url = "https://api.cinelist.co.uk/search/cinemas/coordinates/" +  lat + "/" + longi;
+                System.out.println(url);
+                jParser = new httpConnect();
+                json = jParser.getJSONFromUrl(url);
+                jsonObject = new JSONObject(json);
+
+                JSONObject cinemasJSON = new JSONObject(jParser.getJSONFromUrl(url));
+                JSONArray cinemasARRAY = cinemasJSON.getJSONArray("cinemas");
+
+                try
+                {
+                    //region Retrieve cinema data
+                    location_postcode = jsonObject.getString("postcode");
+
+                    List<String> cinemaNames = new ArrayList<String>(cinemasARRAY.length());
+                    List<String> cinemaIDs = new ArrayList<String>(cinemasARRAY.length());
+                    List<String> cinemaDistances = new ArrayList<String>(cinemasARRAY.length());
+
+                    for (int i = 0; i < cinemasARRAY.length(); i++)
+                    {
+                        JSONObject ithObject = cinemasARRAY.getJSONObject(i);
+                        if ((ithObject.has("name")) && (ithObject.has("id")) && (ithObject.has("distance")))
+                        {
+                            cinemaNames.add(ithObject.getString("name"));
+                            cinemaIDs.add(ithObject.getString("id"));
+                            cinemaDistances.add(ithObject.getString("distance"));
+                            System.out.println("Cinema " + i + " located");
+                        }
+
+                        else
+                        {
+                            //do nothing
+                            System.out.println("Warning! A cinema entry has been skipped");
+                        }
+                    }
+
+                    int counter = 0;
+                    for (String cinema : cinemaNames)
+                    {
+                        if(counter >= cinemasARRAY.length() || counter > 5)
+                        {
+                            break;
+                        }
+
+                        else
+                        {
+                            String[] cinemaParts;
+                            switch(counter)
+                            {
+                                case 0:
+                                    cinemaParts = cinema.split(", ", 2);
+                                    cinema_1_name = cinemaParts[0];
+                                    cinema_1_location = cinemaParts[1];
+                                    break;
+                                case 1:
+                                    cinemaParts = cinema.split(", ", 2);
+                                    cinema_2_name = cinemaParts[0];
+                                    cinema_2_location = cinemaParts[1];
+                                    break;
+                                case 2:
+                                    cinemaParts = cinema.split(", ", 2);
+                                    cinema_3_name = cinemaParts[0];
+                                    cinema_3_location = cinemaParts[1];
+                                    break;
+                                case 3:
+                                    cinemaParts = cinema.split(", ", 2);
+                                    cinema_4_name = cinemaParts[0];
+                                    cinema_4_location = cinemaParts[1];
+                                    break;
+                                case 4:
+                                    cinemaParts = cinema.split(", ", 2);
+                                    cinema_5_name = cinemaParts[0];
+                                    cinema_5_location = cinemaParts[1];
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        counter++;
+                    }
+
+                    counter = 0;
+                    for (String ID : cinemaIDs) {
+                        if (counter >= cinemasARRAY.length())
+                        {
+                            break;
+                        }
+
+                        else
+                        {
+                            switch (counter)
+                            {
+                                case 0:
+                                    cinema_1_id = ID;
+                                    break;
+                                case 1:
+                                    cinema_2_id = ID;
+                                    break;
+                                case 2:
+                                    cinema_3_id = ID;
+                                    break;
+                                case 3:
+                                    cinema_4_id = ID;
+                                    break;
+                                case 4:
+                                    cinema_5_id = ID;
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        counter++;
+                    }
+
+                    counter = 0;
+                    for (String distance : cinemaDistances) {
+                        if (counter >= cinemasARRAY.length())
+                        {
+                            break;
+                        }
+
+                        else
+                        {
+                            switch (counter)
+                            {
+                                case 0:
+                                    cinema_1_distance = distance;
+                                    break;
+                                case 1:
+                                    cinema_2_distance = distance;
+                                    break;
+                                case 2:
+                                    cinema_3_distance = distance;
+                                    break;
+                                case 3:
+                                    cinema_4_distance = distance;
+                                    break;
+                                case 4:
+                                    cinema_5_distance = distance;
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        counter++;
+                    }
+                    //endregion
+                }
+
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+
+            catch (Exception e)
+            {
+
+            }
+
+            return null;
+        }
+
+        protected void onPostExecute(String strFromDoInBg)
+        {
+            try
+            {
+                cinema1name = (TextView) findViewById(R.id.cinema_1_name);
+                cinema2name = (TextView) findViewById(R.id.cinema_2_name);
+                cinema3name = (TextView) findViewById(R.id.cinema_3_name);
+                cinema4name = (TextView) findViewById(R.id.cinema_4_name);
+                cinema5name = (TextView) findViewById(R.id.cinema_5_name);
+                cinema1location = (TextView) findViewById(R.id.cinema_1_location);
+                cinema2location = (TextView) findViewById(R.id.cinema_2_location);
+                cinema3location = (TextView) findViewById(R.id.cinema_3_location);
+                cinema4location = (TextView) findViewById(R.id.cinema_4_location);
+                cinema5location = (TextView) findViewById(R.id.cinema_5_location);
+                View cardView;
+
+
+                cinema1name.setText(cinema_1_name);
+                cinema1location.setText(cinema_1_location + "\n" + cinema_1_distance + "m away");
+                cinema2name.setText(cinema_2_name);
+                cinema2location.setText(cinema_2_location + "\n" + cinema_2_distance + "m away");
+                cinema3name.setText(cinema_3_name);
+                cinema3location.setText(cinema_3_location + "\n" + cinema_3_distance + "m away");
+                cinema4name.setText(cinema_4_name);
+                cinema4location.setText(cinema_4_location + "\n" + cinema_4_distance + "m away");
+                cinema5name.setText(cinema_5_name);
+                cinema5location.setText(cinema_5_location + "\n" + cinema_5_distance + "m away");
+
+                if(cinema_1_name != null)
+                {
+                    cardView = MovieDetailsUI.this.findViewById(R.id.cinemas_scroller);
+                    cardView.setVisibility(View.VISIBLE);
+                    cardView = MovieDetailsUI.this.findViewById(R.id.cinemas_title);
+                    cardView.setVisibility(View.VISIBLE);
+                    cardView = MovieDetailsUI.this.findViewById(R.id.cinema_card_1);
+                    cardView.setVisibility(View.VISIBLE);
+                    setCinemaImage(1);
+                }
+
+                if(cinema_2_name != null)
+                {
+                    cardView = MovieDetailsUI.this.findViewById(R.id.cinema_card_2);
+                    cardView.setVisibility(View.VISIBLE);
+                    setCinemaImage(2);
+                }
+
+                if(cinema_3_name != null)
+                {
+                    cardView = MovieDetailsUI.this.findViewById(R.id.cinema_card_3);
+                    cardView.setVisibility(View.VISIBLE);
+                    setCinemaImage(3);
+                }
+
+                if(cinema_4_name != null)
+                {
+                    cardView = MovieDetailsUI.this.findViewById(R.id.cinema_card_4);
+                    cardView.setVisibility(View.VISIBLE);
+                    setCinemaImage(4);
+                }
+
+                if(cinema_5_name != null)
+                {
+                    cardView = MovieDetailsUI.this.findViewById(R.id.cinema_card_5);
+                    cardView.setVisibility(View.VISIBLE);
+                    setCinemaImage(5);
+                }
+
+                if(cinema_1_name == null && cinema_2_name == null && cinema_3_name == null && cinema_4_name == null && cinema_5_name == null)
+                {
+                    Context context = getApplicationContext();
+                    CharSequence text = "Something's wrong... There may not be any cinemas nearby.";
+                    int duration = Toast.LENGTH_SHORT;
+
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
+
+                    cardView = MovieDetailsUI.this.findViewById(R.id.cinemas_scroller);
+                    cardView.setVisibility(View.GONE);
+                }
+            }
+
+            catch (Exception e)
+            {
+
+            }
+
+        }
+
+        public void setCinemaImage(int cardSelector)
+        {
+            Boolean detector;
+            ImageView cinemaImage;
+            switch(cardSelector)
+            {
+                case 1:
+                    cinemaImage = (ImageView) findViewById(R.id.cinema_1_image);
+                    cinemaImage.setImageResource(R.drawable.default_cinema);
+
+                    if((cinema_1_name.contains("Cineworld")) || (cinema_1_name.contains("cineworld")))
+                    {
+                        cinemaImage.setImageResource(R.drawable.cineworld_a);
+                    }
+
+                    if((cinema_1_name.contains("Curzon")) || (cinema_1_name.contains("curzon")))
+                    {
+                        cinemaImage.setImageResource(R.drawable.curzon_a);
+                    }
+
+                    if((cinema_1_name.contains("Empire")) || (cinema_1_name.contains("empire")))
+                    {
+                        cinemaImage.setImageResource(R.drawable.empire_a);
+                    }
+
+                    if((cinema_1_name.contains("Everyman")) || (cinema_1_name.contains("everyman")))
+                    {
+                        cinemaImage.setImageResource(R.drawable.everyman_a);
+                    }
+
+                    if((cinema_1_name.contains("Gaumont")) || (cinema_1_name.contains("gaumont")))
+                    {
+                        cinemaImage.setImageResource(R.drawable.gaumont_a);
+                    }
+
+                    if((cinema_1_name.contains("Moviehouse")) || (cinema_1_name.contains("moviehouse")) || (cinema_1_name.contains("Movie house")) || (cinema_1_name.contains("Movie House"))|| (cinema_1_name.contains("movie house")))
+                    {
+                        cinemaImage.setImageResource(R.drawable.moviehouse_a);
+                    }
+
+                    if((cinema_1_name.contains("Odeon")) || (cinema_1_name.contains("odeon")))
+                    {
+                        cinemaImage.setImageResource(R.drawable.odeon_a);
+                    }
+
+                    if((cinema_1_name.contains("Picturehouse")) || (cinema_1_name.contains("picturehouse")) || (cinema_1_name.contains("Picture house")) || (cinema_1_name.contains("Picture House")) || (cinema_1_name.contains("picture house")))
+                    {
+                        cinemaImage.setImageResource(R.drawable.picturehouse_a);
+                    }
+
+                    if((cinema_1_name.contains("Reel")) || (cinema_1_name.contains("reel")))
+                    {
+                        cinemaImage.setImageResource(R.drawable.reel_a);
+                    }
+
+                    if((cinema_1_name.contains("Regal")) || (cinema_1_name.contains("regal")))
+                    {
+                        cinemaImage.setImageResource(R.drawable.regal_a);
+                    }
+
+                    if((cinema_1_name.contains("Showcase")) || (cinema_1_name.contains("showcase")))
+                    {
+                        cinemaImage.setImageResource(R.drawable.showcase_a);
+                    }
+
+                    if((cinema_1_name.contains("Light")) || (cinema_1_name.contains("light")))
+                    {
+                        cinemaImage.setImageResource(R.drawable.thelight_a);
+                    }
+
+                    if((cinema_1_name.contains("Vue")) || (cinema_1_name.contains("vue")))
+                    {
+                        cinemaImage.setImageResource(R.drawable.vue_a);
+                    }
+
+                    break;
+                case 2:
+                    cinemaImage = (ImageView) findViewById(R.id.cinema_2_image);
+                    cinemaImage.setImageResource(R.drawable.default_cinema);
+
+                    if((cinema_2_name.contains("Cineworld")) || (cinema_2_name.contains("cineworld")))
+                    {
+                        cinemaImage.setImageResource(R.drawable.cineworld_a);
+                    }
+
+                    if((cinema_2_name.contains("Curzon")) || (cinema_2_name.contains("curzon")))
+                    {
+                        cinemaImage.setImageResource(R.drawable.curzon_a);
+                    }
+
+                    if((cinema_2_name.contains("Empire")) || (cinema_2_name.contains("empire")))
+                    {
+                        cinemaImage.setImageResource(R.drawable.empire_a);
+                    }
+
+                    if((cinema_2_name.contains("Everyman")) || (cinema_2_name.contains("everyman")))
+                    {
+                        cinemaImage.setImageResource(R.drawable.everyman_a);
+                    }
+
+                    if((cinema_2_name.contains("Gaumont")) || (cinema_2_name.contains("gaumont")))
+                    {
+                        cinemaImage.setImageResource(R.drawable.gaumont_a);
+                    }
+
+                    if((cinema_2_name.contains("Moviehouse")) || (cinema_2_name.contains("moviehouse")) || (cinema_2_name.contains("Movie house")) || (cinema_2_name.contains("Movie House"))|| (cinema_2_name.contains("movie house")))
+                    {
+                        cinemaImage.setImageResource(R.drawable.moviehouse_a);
+                    }
+
+                    if((cinema_2_name.contains("Odeon")) || (cinema_2_name.contains("odeon")))
+                    {
+                        cinemaImage.setImageResource(R.drawable.odeon_a);
+                    }
+
+                    if((cinema_2_name.contains("Picturehouse")) || (cinema_2_name.contains("picturehouse")) || (cinema_2_name.contains("Picture house")) || (cinema_2_name.contains("Picture House")) || (cinema_2_name.contains("picture house")))
+                    {
+                        cinemaImage.setImageResource(R.drawable.picturehouse_a);
+                    }
+
+                    if((cinema_2_name.contains("Reel")) || (cinema_2_name.contains("reel")))
+                    {
+                        cinemaImage.setImageResource(R.drawable.reel_a);
+                    }
+
+                    if((cinema_2_name.contains("Regal")) || (cinema_2_name.contains("regal")))
+                    {
+                        cinemaImage.setImageResource(R.drawable.regal_a);
+                    }
+
+                    if((cinema_2_name.contains("Showcase")) || (cinema_2_name.contains("showcase")))
+                    {
+                        cinemaImage.setImageResource(R.drawable.showcase_a);
+                    }
+
+                    if((cinema_2_name.contains("Light")) || (cinema_2_name.contains("light")))
+                    {
+                        cinemaImage.setImageResource(R.drawable.thelight_a);
+                    }
+
+                    if((cinema_2_name.contains("Vue")) || (cinema_2_name.contains("vue")))
+                    {
+                        cinemaImage.setImageResource(R.drawable.vue_a);
+                    }
+
+                    break;
+                case 3:
+                    cinemaImage = (ImageView) findViewById(R.id.cinema_3_image);
+                    cinemaImage.setImageResource(R.drawable.default_cinema);
+
+                    if((cinema_3_name.contains("Cineworld")) || (cinema_3_name.contains("cineworld")))
+                    {
+                        cinemaImage.setImageResource(R.drawable.cineworld_a);
+                    }
+
+                    if((cinema_3_name.contains("Curzon")) || (cinema_3_name.contains("curzon")))
+                    {
+                        cinemaImage.setImageResource(R.drawable.curzon_a);
+                    }
+
+                    if((cinema_3_name.contains("Empire")) || (cinema_3_name.contains("empire")))
+                    {
+                        cinemaImage.setImageResource(R.drawable.empire_a);
+                    }
+
+                    if((cinema_3_name.contains("Everyman")) || (cinema_3_name.contains("everyman")))
+                    {
+                        cinemaImage.setImageResource(R.drawable.everyman_a);
+                    }
+
+                    if((cinema_3_name.contains("Gaumont")) || (cinema_3_name.contains("gaumont")))
+                    {
+                        cinemaImage.setImageResource(R.drawable.gaumont_a);
+                    }
+
+                    if((cinema_3_name.contains("Moviehouse")) || (cinema_3_name.contains("moviehouse")) || (cinema_3_name.contains("Movie house")) || (cinema_3_name.contains("Movie House"))|| (cinema_3_name.contains("movie house")))
+                    {
+                        cinemaImage.setImageResource(R.drawable.moviehouse_a);
+                    }
+
+                    if((cinema_3_name.contains("Odeon")) || (cinema_3_name.contains("odeon")))
+                    {
+                        cinemaImage.setImageResource(R.drawable.odeon_a);
+                    }
+
+                    if((cinema_3_name.contains("Picturehouse")) || (cinema_3_name.contains("picturehouse")) || (cinema_3_name.contains("Picture house")) || (cinema_3_name.contains("Picture House")) || (cinema_3_name.contains("picture house")))
+                    {
+                        cinemaImage.setImageResource(R.drawable.picturehouse_a);
+                    }
+
+                    if((cinema_3_name.contains("Reel")) || (cinema_3_name.contains("reel")))
+                    {
+                        cinemaImage.setImageResource(R.drawable.reel_a);
+                    }
+
+                    if((cinema_3_name.contains("Regal")) || (cinema_3_name.contains("regal")))
+                    {
+                        cinemaImage.setImageResource(R.drawable.regal_a);
+                    }
+
+                    if((cinema_3_name.contains("Showcase")) || (cinema_3_name.contains("showcase")))
+                    {
+                        cinemaImage.setImageResource(R.drawable.showcase_a);
+                    }
+
+                    if((cinema_3_name.contains("Light")) || (cinema_3_name.contains("light")))
+                    {
+                        cinemaImage.setImageResource(R.drawable.thelight_a);
+                    }
+
+                    if((cinema_3_name.contains("Vue")) || (cinema_3_name.contains("vue")))
+                    {
+                        cinemaImage.setImageResource(R.drawable.vue_a);
+                    }
+
+                    break;
+                case 4:
+                    cinemaImage = (ImageView) findViewById(R.id.cinema_4_image);
+                    cinemaImage.setImageResource(R.drawable.default_cinema);
+
+                    if((cinema_4_name.contains("Cineworld")) || (cinema_4_name.contains("cineworld")))
+                    {
+                        cinemaImage.setImageResource(R.drawable.cineworld_a);
+                    }
+
+                    if((cinema_4_name.contains("Curzon")) || (cinema_4_name.contains("curzon")))
+                    {
+                        cinemaImage.setImageResource(R.drawable.curzon_a);
+                    }
+
+                    if((cinema_4_name.contains("Empire")) || (cinema_4_name.contains("empire")))
+                    {
+                        cinemaImage.setImageResource(R.drawable.empire_a);
+                    }
+
+                    if((cinema_4_name.contains("Everyman")) || (cinema_4_name.contains("everyman")))
+                    {
+                        cinemaImage.setImageResource(R.drawable.everyman_a);
+                    }
+
+                    if((cinema_4_name.contains("Gaumont")) || (cinema_4_name.contains("gaumont")))
+                    {
+                        cinemaImage.setImageResource(R.drawable.gaumont_a);
+                    }
+
+                    if((cinema_4_name.contains("Moviehouse")) || (cinema_4_name.contains("moviehouse")) || (cinema_4_name.contains("Movie house")) || (cinema_4_name.contains("Movie House"))|| (cinema_4_name.contains("movie house")))
+                    {
+                        cinemaImage.setImageResource(R.drawable.moviehouse_a);
+                    }
+
+                    if((cinema_4_name.contains("Odeon")) || (cinema_4_name.contains("odeon")))
+                    {
+                        cinemaImage.setImageResource(R.drawable.odeon_a);
+                    }
+
+                    if((cinema_4_name.contains("Picturehouse")) || (cinema_4_name.contains("picturehouse")) || (cinema_4_name.contains("Picture house")) || (cinema_4_name.contains("Picture House")) || (cinema_4_name.contains("picture house")))
+                    {
+                        cinemaImage.setImageResource(R.drawable.picturehouse_a);
+                    }
+
+                    if((cinema_4_name.contains("Reel")) || (cinema_4_name.contains("reel")))
+                    {
+                        cinemaImage.setImageResource(R.drawable.reel_a);
+                    }
+
+                    if((cinema_4_name.contains("Regal")) || (cinema_4_name.contains("regal")))
+                    {
+                        cinemaImage.setImageResource(R.drawable.regal_a);
+                    }
+
+                    if((cinema_4_name.contains("Showcase")) || (cinema_4_name.contains("showcase")))
+                    {
+                        cinemaImage.setImageResource(R.drawable.showcase_a);
+                    }
+
+                    if((cinema_4_name.contains("Light")) || (cinema_4_name.contains("light")))
+                    {
+                        cinemaImage.setImageResource(R.drawable.thelight_a);
+                    }
+
+                    if((cinema_4_name.contains("Vue")) || (cinema_4_name.contains("vue")))
+                    {
+                        cinemaImage.setImageResource(R.drawable.vue_a);
+                    }
+
+                    break;
+                case 5:
+                    cinemaImage = (ImageView) findViewById(R.id.cinema_5_image);
+                    cinemaImage.setImageResource(R.drawable.default_cinema);
+
+                    if((cinema_5_name.contains("Cineworld")) || (cinema_5_name.contains("cineworld")))
+                    {
+                        cinemaImage.setImageResource(R.drawable.cineworld_a);
+                    }
+
+                    if((cinema_5_name.contains("Curzon")) || (cinema_5_name.contains("curzon")))
+                    {
+                        cinemaImage.setImageResource(R.drawable.curzon_a);
+                    }
+
+                    if((cinema_5_name.contains("Empire")) || (cinema_5_name.contains("empire")))
+                    {
+                        cinemaImage.setImageResource(R.drawable.empire_a);
+                    }
+
+                    if((cinema_5_name.contains("Everyman")) || (cinema_5_name.contains("everyman")))
+                    {
+                        cinemaImage.setImageResource(R.drawable.everyman_a);
+                    }
+
+                    if((cinema_5_name.contains("Gaumont")) || (cinema_5_name.contains("gaumont")))
+                    {
+                        cinemaImage.setImageResource(R.drawable.gaumont_a);
+                    }
+
+                    if((cinema_5_name.contains("Moviehouse")) || (cinema_5_name.contains("moviehouse")) || (cinema_5_name.contains("Movie house")) || (cinema_5_name.contains("Movie House"))|| (cinema_5_name.contains("movie house")))
+                    {
+                        cinemaImage.setImageResource(R.drawable.moviehouse_a);
+                    }
+
+                    if((cinema_5_name.contains("Odeon")) || (cinema_5_name.contains("odeon")))
+                    {
+                        cinemaImage.setImageResource(R.drawable.odeon_a);
+                    }
+
+                    if((cinema_5_name.contains("Picturehouse")) || (cinema_5_name.contains("picturehouse")) || (cinema_5_name.contains("Picture house")) || (cinema_5_name.contains("Picture House")) || (cinema_5_name.contains("picture house")))
+                    {
+                        cinemaImage.setImageResource(R.drawable.picturehouse_a);
+                    }
+
+                    if((cinema_5_name.contains("Reel")) || (cinema_5_name.contains("reel")))
+                    {
+                        cinemaImage.setImageResource(R.drawable.reel_a);
+                    }
+
+                    if((cinema_5_name.contains("Regal")) || (cinema_5_name.contains("regal")))
+                    {
+                        cinemaImage.setImageResource(R.drawable.regal_a);
+                    }
+
+                    if((cinema_5_name.contains("Showcase")) || (cinema_5_name.contains("showcase")))
+                    {
+                        cinemaImage.setImageResource(R.drawable.showcase_a);
+                    }
+
+                    if((cinema_5_name.contains("Light")) || (cinema_5_name.contains("light")))
+                    {
+                        cinemaImage.setImageResource(R.drawable.thelight_a);
+                    }
+
+                    if((cinema_5_name.contains("Vue")) || (cinema_5_name.contains("vue")))
+                    {
+                        cinemaImage.setImageResource(R.drawable.vue_a);
+                    }
+
+                    break;
+            }
+        }
     }
 
     public class get_movie_data extends AsyncTask<String, String, String> {
@@ -381,11 +1047,12 @@ public class MovieDetailsUI extends FragmentActivity {
                     rating = (ImageView) findViewById(R.id.movie_rating);
                     runtime = (TextView) findViewById(R.id.movie_runtime);
                     language = (TextView) findViewById(R.id.movie_language);
-                    budget = (TextView) findViewById(R.id.movie_budget);
-                    revenue = (TextView) findViewById(R.id.movie_revenue);
-                    voters = (TextView) findViewById(R.id.movie_voters);
+//                    budget = (TextView) findViewById(R.id.movie_budget);
+//                    revenue = (TextView) findViewById(R.id.movie_revenue);
+//                    voters = (TextView) findViewById(R.id.movie_voters);
                     //endregion
 
+                    System.out.println("You're seeing data that was saved to the phone");
                     isr.close ( ) ;
                 }
                 //endregion
@@ -454,9 +1121,9 @@ public class MovieDetailsUI extends FragmentActivity {
                         rating = (ImageView) findViewById(R.id.movie_rating);
                         runtime = (TextView) findViewById(R.id.movie_runtime);
                         language = (TextView) findViewById(R.id.movie_language);
-                        budget = (TextView) findViewById(R.id.movie_budget);
-                        revenue = (TextView) findViewById(R.id.movie_revenue);
-                        voters = (TextView) findViewById(R.id.movie_voters);
+//                        budget = (TextView) findViewById(R.id.movie_budget);
+//                        revenue = (TextView) findViewById(R.id.movie_revenue);
+//                        voters = (TextView) findViewById(R.id.movie_voters);
                         //endregion
                     }
 
@@ -999,7 +1666,6 @@ public class MovieDetailsUI extends FragmentActivity {
             name.setText(movie_title);
             release_date.setText(movie_release_date);
 
-            System.out.println(movie_tagline);
             if(TextUtils.isEmpty(movie_tagline))
             {
                 missingTagline = MovieDetailsUI.this.findViewById(R.id.movie_tagline);
@@ -1019,7 +1685,7 @@ public class MovieDetailsUI extends FragmentActivity {
             runtime.setText(movie_runtime);
             generateLanguageLabel();
             calculateBudgetRevenue();
-            voters.setText(movie_voters);
+            //voters.setText(movie_voters);
             //endregion
 
             //region Apply castmember details
@@ -1478,39 +2144,39 @@ public class MovieDetailsUI extends FragmentActivity {
         //region Calculate Budget
         if (budget_length == 9) {
             movie_budget = "$" + (movie_budget.substring(0, 3)) + "m";
-            budget.setText(movie_budget);
+            //budget.setText(movie_budget);
         } else {
             if (budget_length == 8) {
                 movie_budget = "$" + (movie_budget.substring(0, 2)) + "m";
-                budget.setText(movie_budget);
+                //budget.setText(movie_budget);
             } else {
                 if (budget_length == 7) {
                     movie_budget = "$" + (movie_budget.substring(0, 1)) + "m";
-                    budget.setText(movie_budget);
+                    //budget.setText(movie_budget);
                 } else {
                     if (budget_length == 6) {
                         movie_budget = "$" + (movie_budget.substring(0, 3)) + "k";
-                        budget.setText(movie_budget);
+                        //budget.setText(movie_budget);
                     } else {
                         if (budget_length == 5) {
                             movie_budget = "$" + (movie_budget.substring(0, 2)) + "k";
-                            budget.setText(movie_budget);
+                            //budget.setText(movie_budget);
                         } else {
                             if (budget_length == 4) {
                                 movie_budget = "$" + (movie_budget.substring(0, 1)) + "k";
-                                budget.setText(movie_budget);
+                                //budget.setText(movie_budget);
                             } else {
                                 if (budget_length == 3) {
                                     movie_budget = "$" + (movie_budget.substring(0, 3));
-                                    budget.setText(movie_budget);
+                                    //budget.setText(movie_budget);
                                 } else {
                                     if (budget_length == 2) {
                                         movie_budget = "$" + (movie_budget.substring(0, 2));
-                                        budget.setText(movie_budget);
+                                        //budget.setText(movie_budget);
                                     } else {
                                         if (budget_length == 1) {
                                             movie_budget = "$" + (movie_budget.substring(0, 1));
-                                            budget.setText(movie_budget);
+                                            //budget.setText(movie_budget);
                                         }
                                     }
                                 }
@@ -1525,39 +2191,39 @@ public class MovieDetailsUI extends FragmentActivity {
         //region Calculate Revenue
         if (revenue_length == 10) {
             movie_revenue = "$" + (movie_revenue.substring(0, 1)) + "." + (movie_revenue.substring(1, 2)) + "b";
-            revenue.setText(movie_revenue);
+            //revenue.setText(movie_revenue);
         } else {
             if (revenue_length == 9) {
                 movie_revenue = "$" + (movie_revenue.substring(0, 3)) + "m";
-                revenue.setText(movie_revenue);
+                //revenue.setText(movie_revenue);
             } else {
                 if (revenue_length == 8) {
                     movie_revenue = "$" + (movie_revenue.substring(0, 2)) + "m";
-                    revenue.setText(movie_revenue);
+                    //revenue.setText(movie_revenue);
                 } else {
                     if (revenue_length == 7) {
                         movie_revenue = "$" + (movie_revenue.substring(0, 1)) + "m";
-                        revenue.setText(movie_revenue);
+                        ////revenue.setText(movie_revenue);
                     } else {
                         if (revenue_length == 6) {
                             movie_revenue = "$" + (movie_revenue.substring(0, 3)) + "k";
-                            revenue.setText(movie_revenue);
+                            //revenue.setText(movie_revenue);
                         } else {
                             if (revenue_length == 5) {
                                 movie_revenue = "$" + (movie_revenue.substring(0, 2)) + "k";
-                                revenue.setText(movie_revenue);
+                                //revenue.setText(movie_revenue);
                             } else {
                                 if (revenue_length == 4) {
                                     movie_revenue = "$" + (movie_revenue.substring(0, 1)) + "k";
-                                    revenue.setText(movie_revenue);
+                                    //revenue.setText(movie_revenue);
                                 } else {
                                     if (revenue_length == 3) {
                                         movie_revenue = "$" + (movie_revenue.substring(0, 3));
-                                        revenue.setText(movie_revenue);
+                                        //revenue.setText(movie_revenue);
                                     } else {
                                         if (revenue_length == 2) {
                                             movie_revenue = "$" + (movie_revenue.substring(0, 2));
-                                            revenue.setText(movie_revenue);
+                                            //revenue.setText(movie_revenue);
                                         } else {
                                             if (revenue_length == 1) {
                                                 if (movie_revenue == "0") {
@@ -1565,7 +2231,7 @@ public class MovieDetailsUI extends FragmentActivity {
                                                     revenue.setText("movie_revenue");
                                                 } else {
                                                     movie_revenue = "$" + (movie_revenue.substring(0, 1));
-                                                    revenue.setText(movie_revenue);
+                                                    //revenue.setText(movie_revenue);
                                                 }
                                             }
                                         }
