@@ -278,8 +278,9 @@ public class MovieDetailsUI extends FragmentActivity
 
     double lat;
     double longi;
-
+    String location_fallback;
     String location_postcode;
+    EditText fallbackField;
 
     String cinema_1_name; String cinema_1_location;
     String cinema_2_name; String cinema_2_location;
@@ -351,6 +352,7 @@ public class MovieDetailsUI extends FragmentActivity
             }
 
             // bind the lat long coordinates to the programmatically created TextView for displaying
+            fallbackField =  (EditText) findViewById(R.id.locationFallbackField);
             new get_cinema().execute();
         }
 
@@ -358,6 +360,13 @@ public class MovieDetailsUI extends FragmentActivity
         TextView tv;
         tv = (TextView) this.findViewById(R.id.movie_name);
         tv.setSelected(true);
+    }
+
+    public void locationFallback(View view)
+    {
+        location_fallback = fallbackField.getText().toString();
+        location_fallback = location_fallback.replaceAll("\\s+","");
+        new get_cinema().execute();
     }
 
     public class get_cinema extends AsyncTask<String, String, String>
@@ -375,14 +384,27 @@ public class MovieDetailsUI extends FragmentActivity
 
             try
             {
-                url = "https://api.cinelist.co.uk/search/cinemas/coordinates/" +  lat + "/" + longi;
+                if(location_fallback == null)
+                {
+                    url = "https://api.cinelist.co.uk/search/cinemas/coordinates/" +  lat + "/" + longi;
+                }
+
+                else
+                {
+                    url = "http://api.cinelist.co.uk/search/cinemas/postcode/" + location_fallback;
+                }
+
                 System.out.println(url);
                 jParser = new httpConnect();
                 json = jParser.getJSONFromUrl(url);
                 jsonObject = new JSONObject(json);
+                System.out.println("connected");
+
 
                 JSONObject cinemasJSON = new JSONObject(jParser.getJSONFromUrl(url));
+                System.out.println("making cinema object");
                 JSONArray cinemasARRAY = cinemasJSON.getJSONArray("cinemas");
+                System.out.println("made cinema object");
 
                 try
                 {
@@ -410,6 +432,7 @@ public class MovieDetailsUI extends FragmentActivity
                             System.out.println("Warning! A cinema entry has been skipped");
                         }
                     }
+
 
                     int counter = 0;
                     for (String cinema : cinemaNames)
