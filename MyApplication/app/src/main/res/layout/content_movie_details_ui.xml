@@ -1098,7 +1098,7 @@
                         android:id="@+id/location_fallback_title"
                         android:layout_marginTop="20dp"
                         android:layout_marginLeft="20dp"
-                        android:visibility="visible"/>
+                        android:visibility="gone"/>
 
                     <android.support.v7.widget.CardView
                         android:id="@+id/locationFallbackCard"
@@ -1109,7 +1109,7 @@
                         android:layout_marginTop="10dp"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
-                        android:visibility="visible">
+                        android:visibility="gone">
 
                         <EditText
                             android:layout_width="match_parent"
@@ -1128,7 +1128,8 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:id="@+id/searchLocation"
-                        android:onClick="locationFallback"/>
+                        android:onClick="locationFallback"
+                        android:visibility="gone"/>
 
                 <HorizontalScrollView
                     android:scrollbars="none"

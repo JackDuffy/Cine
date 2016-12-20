@@ -381,6 +381,8 @@ public class MovieDetailsUI extends FragmentActivity
             httpConnect jParser;
             String json;
             JSONObject jsonObject;
+            JSONObject cinemasJSON;
+            JSONArray cinemasARRAY;
 
             try
             {
@@ -391,7 +393,7 @@ public class MovieDetailsUI extends FragmentActivity
 
                 else
                 {
-                    url = "http://api.cinelist.co.uk/search/cinemas/postcode/" + location_fallback;
+                    url = "https://api.cinelist.co.uk/search/cinemas/postcode/" + location_fallback;
                 }
 
                 System.out.println(url);
@@ -400,10 +402,9 @@ public class MovieDetailsUI extends FragmentActivity
                 jsonObject = new JSONObject(json);
                 System.out.println("connected");
 
-
-                JSONObject cinemasJSON = new JSONObject(jParser.getJSONFromUrl(url));
+                cinemasJSON = new JSONObject(jParser.getJSONFromUrl(url));
                 System.out.println("making cinema object");
-                JSONArray cinemasARRAY = cinemasJSON.getJSONArray("cinemas");
+                cinemasARRAY = cinemasJSON.getJSONArray("cinemas");
                 System.out.println("made cinema object");
 
                 try
@@ -628,6 +629,13 @@ public class MovieDetailsUI extends FragmentActivity
                     setCinemaImage(5);
                 }
 
+                cardView = MovieDetailsUI.this.findViewById(R.id.locationFallbackCard);
+                cardView.setVisibility(View.GONE);
+                cardView = MovieDetailsUI.this.findViewById(R.id.searchLocation);
+                cardView.setVisibility(View.GONE);
+                cardView = MovieDetailsUI.this.findViewById(R.id.location_fallback_title);
+                cardView.setVisibility(View.GONE);
+
                 if(cinema_1_name == null && cinema_2_name == null && cinema_3_name == null && cinema_4_name == null && cinema_5_name == null)
                 {
                     Context context = getApplicationContext();
@@ -636,6 +644,14 @@ public class MovieDetailsUI extends FragmentActivity
 
                     Toast toast = Toast.makeText(context, text, duration);
                     toast.show();
+
+                    cardView = MovieDetailsUI.this.findViewById(R.id.locationFallbackCard);
+                    cardView.setVisibility(View.VISIBLE);
+                    cardView = MovieDetailsUI.this.findViewById(R.id.searchLocation);
+                    cardView.setVisibility(View.VISIBLE);
+                    cardView = MovieDetailsUI.this.findViewById(R.id.location_fallback_title);
+                    cardView.setVisibility(View.VISIBLE);
+
 
                     cardView = MovieDetailsUI.this.findViewById(R.id.cinemas_scroller);
                     cardView.setVisibility(View.GONE);
