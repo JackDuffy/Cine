@@ -608,7 +608,7 @@ public class MovieDetailsUI extends FragmentActivity
                 if(cinema_1_name == null && cinema_2_name == null && cinema_3_name == null && cinema_4_name == null && cinema_5_name == null)
                 {
                     Context context = getApplicationContext();
-                    CharSequence text = "Something's wrong... There may not be any cinemas nearby.";
+                    CharSequence text = "Something's wrong... There may not be any cinemas nearby or your location is not working.";
                     int duration = Toast.LENGTH_SHORT;
 
                     Toast toast = Toast.makeText(context, text, duration);
@@ -1684,7 +1684,7 @@ public class MovieDetailsUI extends FragmentActivity
             calculateRating();
             runtime.setText(movie_runtime);
             generateLanguageLabel();
-            calculateBudgetRevenue();
+            //calculateBudgetRevenue();
             //voters.setText(movie_voters);
             //endregion
 
@@ -2228,6 +2228,7 @@ public class MovieDetailsUI extends FragmentActivity
                                             if (revenue_length == 1) {
                                                 if (movie_revenue == "0") {
                                                     movie_revenue = "TBD";
+
                                                     revenue.setText("movie_revenue");
                                                 } else {
                                                     movie_revenue = "$" + (movie_revenue.substring(0, 1));
