@@ -11,6 +11,10 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v8.renderscript.Allocation;
+import android.support.v8.renderscript.Element;
+import android.support.v8.renderscript.RenderScript;
+import android.support.v8.renderscript.ScriptIntrinsicBlur;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -45,9 +49,15 @@ import java.util.List;
 
 import android.util.Log;
 
+import com.jakewharton.processphoenix.ProcessPhoenix;
+import com.squareup.picasso.Picasso;
 import com.wonderkiln.blurkit.BlurKit;
 
+import jp.wasabeef.picasso.transformations.BlurTransformation;
+import jp.wasabeef.picasso.transformations.GrayscaleTransformation;
+
 import static android.R.attr.path;
+import static android.R.id.input;
 
 public class MainUI extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener
 {
@@ -408,7 +418,14 @@ public class MainUI extends AppCompatActivity implements NavigationView.OnNaviga
 
                 catch (Exception e)
                 {
+                    Context context = getApplicationContext();
+                    CharSequence text = "Whoops... Looks like your internet connection was lost. This application will now restart and try again.";
+                    int duration = Toast.LENGTH_SHORT;
 
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
+
+                    ProcessPhoenix.triggerRebirth(context);
                 }
 
                     break;
@@ -788,7 +805,14 @@ public class MainUI extends AppCompatActivity implements NavigationView.OnNaviga
 
                     catch (Exception e)
                     {
+                        Context context = getApplicationContext();
+                        CharSequence text = "Whoops... Looks like your internet connection was lost. This application will now restart and try again.";
+                        int duration = Toast.LENGTH_SHORT;
 
+                        Toast toast = Toast.makeText(context, text, duration);
+                        toast.show();
+
+                        ProcessPhoenix.triggerRebirth(context);
                     }
                     //endregion
 

@@ -330,28 +330,19 @@ public class MovieDetailsUI extends FragmentActivity
 
         else
         {
-            // Acquire a reference to the system Location Manager
             LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-
-            // Use network provider to get last known location
             String locationProvider = LocationManager.GPS_PROVIDER;
             Location lastKnownLocation = locationManager.getLastKnownLocation(locationProvider);
 
-            // create a few new variable to get and store the lat/long coordinates of last known location
-
-
-            // check if a last known location exists
-            if (lastKnownLocation == null) {
-                // if no last location is available set lat/long to zero
-                lat = 0;  // lat of Lincoln is 53.228029;
-                longi = 0; // longi of Lincoln is -0.546055;
+            if (lastKnownLocation == null)
+            {
+                lat = 0;
+                longi = 0;
             } else {
-                // if last location exists then get/set the lat/long
                 lat = lastKnownLocation.getLatitude();
                 longi = lastKnownLocation.getLongitude();
             }
 
-            // bind the lat long coordinates to the programmatically created TextView for displaying
             fallbackField =  (EditText) findViewById(R.id.locationFallbackField);
             new get_cinema().execute();
         }
@@ -1688,7 +1679,12 @@ public class MovieDetailsUI extends FragmentActivity
 
             catch (Exception e)
             {
-                e.printStackTrace();
+                Context context = getApplicationContext();
+                CharSequence text = "Whoops... Looks like your internet connection was lost. Please go back and try again.";
+                int duration = Toast.LENGTH_SHORT;
+
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
             }
 
             return null;
